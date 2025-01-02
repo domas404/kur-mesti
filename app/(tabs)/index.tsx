@@ -1,74 +1,121 @@
 import { Image, StyleSheet, Platform } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { View, Text, ScrollView } from 'react-native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import { Pressable } from 'react-native';
+import { Link } from 'expo-router';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+	return (
+		<SafeAreaProvider>
+			<SafeAreaView>
+				<ScrollView>
+					{/* <View style={styles.funFactContainer}>
+						<View style={styles.funFactHeader}>
+							<Text style={styles.funFactHeaderText}>Ar žinojote?</Text>
+							<View style={styles.funFactIconContainer}>
+								<Ionicons name="close" size={24} color={'#fff'} />
+							</View>
+						</View>
+						<Text style={styles.funFact}>Vienas lietuvis per metus išrūšiuoja 10 kg atliekų.</Text>
+					</View> */}
+					<View style={styles.shortcutContainer}>
+						<Link href="./tips" style={styles.shortcutLink} asChild>
+							<Pressable style={styles.shortcut}>
+								<Ionicons name="book-outline" size={36} color={'#000'} />
+								<Text style={styles.shortcutText}>Rūšiavimo atmintinė</Text>
+							</Pressable>
+						</Link>
+						<Link href="./search" style={styles.shortcutLink} asChild>
+							<Pressable style={styles.shortcut}>
+								<Ionicons name="search-outline" size={36} color={'#000'} />
+								<Text style={styles.shortcutText}>Rasti kur mesti atlieką</Text>
+							</Pressable>
+						</Link>
+					</View>
+					{/* <Link href="../settings" style={styles.shortcutLink} asChild>
+						<Pressable style={styles.settingsButton}>
+							<Ionicons style={styles.settingsIcon} name="settings-outline" size={36} color={'#000'} />
+							<Text style={styles.shortcutText}>Nustatymai</Text>
+						</Pressable>
+					</Link> */}
+				</ScrollView>
+			</SafeAreaView>
+		</SafeAreaProvider>
+	);
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+	shortcutContainer: {
+		flexDirection: 'row',
+		gap: 10,
+		boxSizing: 'border-box',
+		width: '100%',
+		paddingHorizontal: 10,
+		paddingVertical: 20,
+	},
+	shortcutLink: {
+		flex: 1,
+	},
+	shortcut: {
+		width: '100%',
+		backgroundColor: '#fff',
+		boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)',
+		// height: 160,
+		justifyContent: 'flex-end',
+		aspectRatio: '1/1',
+		borderRadius: 20,
+		padding: 20,
+	},
+	shortcutIcon: {
+		// width: 50,
+	},
+	shortcutText: {
+		fontSize: 18,
+	},
+	funFactContainer: {
+		marginHorizontal: 10,
+		backgroundColor: '#4c4c4c',
+		borderRadius: 20,
+		padding: 20,
+		boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)',
+		flexDirection: 'column',
+		gap: 10,
+		// boxSizing: 'border-box'
+	},
+	funFactHeader: {
+		flexDirection: 'row',
+		width: '100%',
+		justifyContent: 'space-between',
+		alignItems: 'center'
+	},
+	funFactHeaderText: {
+		// width: '50%',
+		// width: 100,
+		// flex: 1,
+		color: 'white',
+		fontSize: 18,
+	},
+	funFact: {
+		color: 'white',
+		fontSize: 14,
+	},
+	funFactIconContainer: {
+		// flex: 1,
+		alignSelf: 'flex-end',
+	},
+	settingsButton: {
+		backgroundColor: 'white',
+		borderRadius: 20,
+		padding: 20,
+		margin: 10,
+		boxShadow: '0 5 12 rgba(0,0,0,0.1)',
+		flexDirection: 'row',
+		gap: 16,
+		alignItems: 'center',
+	},
+	settingsIcon: {
+		width: 36,
+	}
 });
