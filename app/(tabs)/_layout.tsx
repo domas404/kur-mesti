@@ -28,9 +28,9 @@ export default function TabLayout() {
 					headerTitleAlign: 'center',
 					headerTitle: 'Kur mesti?',
 					tabBarIcon: ({ color, focused }) => <Ionicons name={focused ? "home" : "home-outline"} size={24} color={color} />,
-					// headerLeft: () => (
-					// 	<SettingsButton />
-					// ),
+					headerLeft: () => (
+						<SettingsButton />
+					),
 				}}
 			/>
 			<Tabs.Screen
@@ -49,9 +49,9 @@ export default function TabLayout() {
 					headerShown: true,
 					headerTitleAlign: 'center',
 					tabBarIcon: ({ color, focused }) => <Ionicons name={focused ? "book" : "book-outline"} size={24} color={color} />,
-					// headerLeft: () => (
-					// 	<SettingsButton />
-					// ),
+					headerLeft: () => (
+						<SettingsButton />
+					),
 				}}
 			/>
 		</Tabs>
