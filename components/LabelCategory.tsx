@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { useState } from 'react';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 type LabelCategory = {
     name: string,
@@ -14,54 +15,34 @@ type LabelCategoryProps = {
 
 export default function LabelCategory({ item }: LabelCategoryProps) {
 
-    // const [showMoreInfo, setShowMoreInfo] = useState<boolean>(false);
-
-    // const toggleShowMoreButton = () => {
-    //     setShowMoreInfo(!showMoreInfo);
-    // }
+    const backgroundColor = useThemeColor({}, 'container');
+    const color = useThemeColor({}, 'text');
 
     return (
-        // <Link style={styles.container} href={`./category/${name}`} asChild>
-        <Link href={`./labeling/${item.id}`} asChild>
-            <Pressable style={styles.container}>
+        <Link style={styles.container} href={`./labeling/${item.id}`} asChild>
+            <Pressable style={{ backgroundColor }}>
                 {/* <Text style={styles.nameContainer}>{item.name}</Text> */}
                 <View style={styles.wasteDisposalContainer}>
                     <View style={styles.headerContainer}>
-                        <Ionicons name={'cube-outline'} size={36} color={'black'} />
-                        <Text style={styles.wasteDisposalText}>{item.name}</Text>
+                        <Ionicons name={'cube-outline'} size={36} color={color} />
+                        <Text style={[styles.wasteDisposalText, {color}]}>{item.name}</Text>
                     </View>
-                    <Ionicons name={'arrow-forward'} size={28} color={'black'} />
+                    <Ionicons name={'arrow-forward'} size={28} color={color} />
                 </View>
-                {/* <View style={styles.showMoreContainer}>
-                    <Pressable style={styles.showMoreButton} onPress={toggleShowMoreButton}>
-                        <Ionicons style={styles.showMoreIcon} name={showMoreInfo ? 'chevron-up' : 'chevron-down'} size={18} color={'black'} />
-                        <Text>Rodyti { showMoreInfo ? "mažiau": "daugiau" }</Text>
-                    </Pressable>
-                </View> */}
             </Pressable>
         </Link>
-        // </Link>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'white',
         borderRadius: 20,
         padding: 20,
-        // paddingTop: 20,
-        // paddingBottom: 10,
-        // flex: 1,
-        // height: 100,
-        // flexDirection: 'row',
-        // alignItems: 'center',
         width: '100%',
         marginVertical: 4,
-        // gap: 16,
         boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
     },
     headerContainer: {
-        // width: 36,
         flexDirection: 'row',
         alignItems: 'center',
         gap: 16
@@ -76,10 +57,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 8,
         width: '100%',
-        // backgroundColor: 'yellow',
-        // gap: 10,
         justifyContent: 'space-between'
-        // justifyContent: 'flex-start'
     },
     wasteDisposalText: {
         fontSize: 18,
@@ -88,7 +66,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4,
-        // backgroundColor: 'pink',
         padding: 8,
         alignSelf: 'flex-end'
     },

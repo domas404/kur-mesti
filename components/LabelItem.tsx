@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import { Image } from 'expo-image';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 type LabelItem = {
     name: string,
@@ -24,9 +25,12 @@ export default function LabelItem({ item, image }: LabelItemProps) {
         setShowMoreInfo(!showMoreInfo);
     }
 
+    const backgroundColor = useThemeColor({}, 'container');
+    const color = useThemeColor({}, 'text');
+
     return (
         // <Link style={styles.container} href={`./category/${name}`} asChild>
-            <Pressable style={styles.container}>
+            <Pressable style={[styles.container, { backgroundColor }]}>
                 {/* <Text style={styles.nameContainer}>{item.name}</Text> */}
                 <View style={styles.wasteDisposalContainer}>
                     <View style={styles.iconContainer}>
@@ -34,22 +38,23 @@ export default function LabelItem({ item, image }: LabelItemProps) {
                             source={image}
                             style={styles.icon}
                             contentFit="cover"
+                            tintColor={color}
                             // transition={100}
                         />
                         {/* <Ionicons name={item.icon} size={36} color={'black'} /> */}
                     </View>
-                    <Text style={styles.wasteDisposalText}>{item.name}</Text>
+                    <Text style={[styles.wasteDisposalText, {color}]}>{item.name}</Text>
                 </View>
                 {
                     showMoreInfo &&
                     <View>
-                        <Text>{item.info}</Text>
+                        <Text style={{color}}>{item.info}</Text>
                     </View>
                 }
                 <View style={styles.showMoreContainer}>
                     <Pressable style={styles.showMoreButton} onPress={toggleShowMoreButton}>
-                        <Ionicons style={styles.showMoreIcon} name={showMoreInfo ? 'chevron-up' : 'chevron-down'} size={18} color={'black'} />
-                        <Text>Rodyti { showMoreInfo ? "mažiau": "daugiau" }</Text>
+                        <Ionicons style={styles.showMoreIcon} name={showMoreInfo ? 'chevron-up' : 'chevron-down'} size={18} color={color} />
+                        <Text style={{color}}>Rodyti { showMoreInfo ? "mažiau": "daugiau" }</Text>
                     </Pressable>
                 </View>
             </Pressable>

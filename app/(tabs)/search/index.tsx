@@ -7,8 +7,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 
 import { wasteCategoryList } from '@/data/waste-categories';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function Search() {
+
+	const backgroundColor = useThemeColor({}, 'container');
+	const color = useThemeColor({}, 'text');
 
 	const mappedCategories = wasteCategoryList.map((item, index) => {
 		return (
@@ -23,13 +27,13 @@ export default function Search() {
 					<View style={styles.searchContainer}>
 						<SearchBar />
 					</View>
-					<Link href={'./search/labeling'} style={styles.labelingContainer} asChild>
+					<Link href={'./search/labeling'} style={[styles.labelingContainer, {backgroundColor}]} asChild>
 						<Pressable>
 							<View style={styles.labelingHeader}>
-								<Ionicons name={'newspaper-outline'} size={36} color={'black'} />
-								<Text style={styles.labelingTitle}>Pakuočių ženklinimas</Text>
+								<Ionicons name={'newspaper-outline'} size={36} color={color} />
+								<Text style={[styles.labelingTitle, {color}]}>Pakuočių ženklinimas</Text>
 							</View>
-							<Ionicons name={'arrow-forward'} size={28} color={'black'} />
+							<Ionicons name={'arrow-forward'} size={28} color={color} />
 						</Pressable>
 					</Link>
 					<View style={styles.categoryContainer}>

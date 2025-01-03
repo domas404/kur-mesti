@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 type WasteCategoryProps = {
     name: string,
@@ -9,13 +10,17 @@ type WasteCategoryProps = {
 }
 
 export default function WasteCategory({ name, icon, id }: WasteCategoryProps) {
+
+    const backgroundColor = useThemeColor({}, 'container');
+    const color = useThemeColor({}, 'text');
+
     return (
-        <Link style={styles.container} href={`./search/category/${id}`} asChild>
+        <Link style={[styles.container, {backgroundColor}]} href={`./search/category/${id}`} asChild>
             <Pressable>
                 <View style={styles.iconContainer}>
-                    <Ionicons name={icon} size={36} color={'black'} />
+                    <Ionicons name={icon} size={36} color={color} />
                 </View>
-                <Text style={styles.nameContainer}>{name}</Text>
+                <Text style={[styles.nameContainer, {color}]}>{name}</Text>
             </Pressable>
         </Link>
     );

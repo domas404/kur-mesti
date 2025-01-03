@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { useState } from 'react';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 type WasteItem = {
     name: string,
@@ -24,26 +25,29 @@ export default function WasteItem({ item }: WasteItemProps) {
         setShowMoreInfo(!showMoreInfo);
     }
 
+    const backgroundColor = useThemeColor({}, 'container');
+    const color = useThemeColor({}, 'text');
+
     return (
         // <Link style={styles.container} href={`./category/${name}`} asChild>
-            <Pressable style={styles.container}>
-                <Text style={styles.nameContainer}>{item.name}</Text>
+            <Pressable style={[styles.container, {backgroundColor}]}>
+                <Text style={[styles.nameContainer, {color}]}>{item.name}</Text>
                 <View style={styles.wasteDisposalContainer}>
                     <View style={styles.iconContainer}>
-                        <Ionicons name={item.wasteDisposalSiteIcon} size={36} color={'black'} />
+                        <Ionicons name={item.wasteDisposalSiteIcon} size={36} color={color} />
                     </View>
-                    <Text style={styles.wasteDisposalText}>{item.wasteDisposalSiteName}</Text>
+                    <Text style={[styles.wasteDisposalText, {color}]}>{item.wasteDisposalSiteName}</Text>
                 </View>
                 {
                     showMoreInfo &&
                     <View>
-                        <Text>{item.info}</Text>
+                        <Text style={{color}}>{item.info}</Text>
                     </View>
                 }
                 <View style={styles.showMoreContainer}>
                     <Pressable style={styles.showMoreButton} onPress={toggleShowMoreButton}>
-                        <Ionicons style={styles.showMoreIcon} name={showMoreInfo ? 'chevron-up' : 'chevron-down'} size={18} color={'black'} />
-                        <Text>Rodyti { showMoreInfo ? "mažiau": "daugiau" }</Text>
+                        <Ionicons style={styles.showMoreIcon} name={showMoreInfo ? 'chevron-up' : 'chevron-down'} size={18} color={color} />
+                        <Text style={{color}}>Rodyti { showMoreInfo ? "mažiau": "daugiau" }</Text>
                     </Pressable>
                 </View>
             </Pressable>

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { useThemeColor } from "@/hooks/useThemeColor";
 // import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 type SettingsItemProps = {
@@ -10,15 +11,19 @@ type SettingsItemProps = {
 }
 
 export default function SettingsItem({ icon, title, id }: SettingsItemProps) {
+
+    const backgroundColor = useThemeColor({}, 'container');
+    const color = useThemeColor({}, 'text');
+
     return (
-        <Link href={`./settings/${id}`} style={styles.container} asChild>
+        <Link href={`./settings/${id}`} style={[styles.container, {backgroundColor}]} asChild>
             <Pressable>
                 <View style={styles.header}>
-                    <Ionicons name={icon} size={28} color={'black'} />
+                    <Ionicons name={icon} size={28} color={color} />
                     {/* <MaterialIcons name={icon} size={24} color={'black'} /> */}
-                    <Text style={styles.settingTitle}>{title}</Text>
+                    <Text style={[styles.settingTitle, {color}]}>{title}</Text>
                 </View>
-                <Ionicons name={'chevron-forward'} size={18} color={'black'} />
+                <Ionicons name={'chevron-forward'} size={18} color={color} />
             </Pressable>
         </Link>
     );

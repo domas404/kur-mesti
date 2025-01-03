@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
 import SettingsItem from "@/components/SettingsItem";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 const settings = [
     { title: 'Tema', icon: 'sunny-outline', id: 'theme' },
@@ -18,6 +19,8 @@ export default function Settings() {
         return <SettingsItem key={`${item.id}-${index}`} icon={item.icon} title={item.title} id={item.id} />
     });
 
+    const backgroundColor = useThemeColor({}, 'container');
+
     return (
         <>
             <Stack.Screen
@@ -25,7 +28,7 @@ export default function Settings() {
                     title: 'Nustatymai'
                 }}
             />
-            <View style={styles.container}>
+            <View style={[styles.container, {backgroundColor}]}>
                 {mappedSettings}
             </View>
         </>
@@ -35,9 +38,10 @@ export default function Settings() {
 const styles = StyleSheet.create({
     container: {
         // padding: 10,
-        backgroundColor: 'white',
+        // backgroundColor: 'white',
         borderRadius: 20,
         margin: 10,
+        // height: '100%',
         boxShadow: '0 5 12 rgba(0,0,0,0.1)'
     }
 });

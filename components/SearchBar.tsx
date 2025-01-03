@@ -1,3 +1,4 @@
+import { useThemeColor } from '@/hooks/useThemeColor';
 import { Ionicons } from '@expo/vector-icons';
 import { View, StyleSheet, TextInput } from 'react-native';
 
@@ -7,10 +8,14 @@ import { View, StyleSheet, TextInput } from 'react-native';
 // }
 
 export default function SearchBar() {
+
+    const backgroundColor = useThemeColor({}, 'container');
+    const color = useThemeColor({}, 'text');
+    
     return (
-        <View style={styles.container}>
-            <Ionicons name={'search'} size={24} color={'black'} />
-            <TextInput style={styles.input} placeholder='Ieškoti...' />
+        <View style={[styles.container, {backgroundColor}]}>
+            <Ionicons name={'search'} size={24} color={color} />
+            <TextInput style={[styles.input, {color}]} placeholder='Ieškoti...' placeholderTextColor={color} />
         </View>
     );
 }

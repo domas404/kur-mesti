@@ -1,12 +1,16 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function SettingsButton() {
+
+    const color = useThemeColor({}, 'text');
+
     return (
         <Link style={styles.container} href="./settings" asChild>
             <Pressable>
-                <Ionicons name={'settings-outline'} size={28} color={'black'} />
+                <Ionicons name={'settings-outline'} size={28} color={color} />
             </Pressable>
         </Link>
     );

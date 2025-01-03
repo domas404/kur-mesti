@@ -5,8 +5,13 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 import { Link } from 'expo-router';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function HomeScreen() {
+
+	const backgroundColor = useThemeColor({}, 'container');
+	const color = useThemeColor({}, 'text');
+
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView>
@@ -21,25 +26,19 @@ export default function HomeScreen() {
 						<Text style={styles.funFact}>Vienas lietuvis per metus išrūšiuoja 10 kg atliekų.</Text>
 					</View> */}
 					<View style={styles.shortcutContainer}>
-						<Link href="./tips" style={styles.shortcutLink} asChild>
+						<Link href="./tips" style={[styles.shortcutLink, {backgroundColor}]} asChild>
 							<Pressable style={styles.shortcut}>
-								<Ionicons name="book-outline" size={36} color={'#000'} />
-								<Text style={styles.shortcutText}>Rūšiavimo atmintinė</Text>
+								<Ionicons name="book-outline" size={36} color={color} />
+								<Text style={[styles.shortcutText, {color}]}>Rūšiavimo atmintinė</Text>
 							</Pressable>
 						</Link>
-						<Link href="./search" style={styles.shortcutLink} asChild>
+						<Link href="./search" style={[styles.shortcutLink, {backgroundColor}]} asChild>
 							<Pressable style={styles.shortcut}>
-								<Ionicons name="search-outline" size={36} color={'#000'} />
-								<Text style={styles.shortcutText}>Rasti kur mesti atlieką</Text>
+								<Ionicons name="search-outline" size={36} color={color} />
+								<Text style={[styles.shortcutText, {color}]}>Rasti kur mesti atlieką</Text>
 							</Pressable>
 						</Link>
 					</View>
-					{/* <Link href="../settings" style={styles.shortcutLink} asChild>
-						<Pressable style={styles.settingsButton}>
-							<Ionicons style={styles.settingsIcon} name="settings-outline" size={36} color={'#000'} />
-							<Text style={styles.shortcutText}>Nustatymai</Text>
-						</Pressable>
-					</Link> */}
 				</ScrollView>
 			</SafeAreaView>
 		</SafeAreaProvider>
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
 	},
 	shortcut: {
 		width: '100%',
-		backgroundColor: '#fff',
+		// backgroundColor: '#fff',
 		boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)',
 		// height: 160,
 		justifyContent: 'flex-end',
@@ -105,17 +104,4 @@ const styles = StyleSheet.create({
 		// flex: 1,
 		alignSelf: 'flex-end',
 	},
-	settingsButton: {
-		backgroundColor: 'white',
-		borderRadius: 20,
-		padding: 20,
-		margin: 10,
-		boxShadow: '0 5 12 rgba(0,0,0,0.1)',
-		flexDirection: 'row',
-		gap: 16,
-		alignItems: 'center',
-	},
-	settingsIcon: {
-		width: 36,
-	}
 });
