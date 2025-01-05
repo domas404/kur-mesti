@@ -1,13 +1,19 @@
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Ionicons } from '@expo/vector-icons';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, NativeSyntheticEvent, TextInputChangeEventData, TouchableOpacity } from 'react-native';
 
 // type WasteCategoryProps = {
 //     name: string,
 //     icon: any
 // }
 
-export default function SearchBar() {
+type Props = {
+    searchInput: string,
+    updateSearchInput: (text: string) => void,
+    clearSearchInput: () => void
+}
+
+export default function SearchBar({ searchInput, updateSearchInput, clearSearchInput }: Props) {
 
     const backgroundColor = useThemeColor({}, 'container');
     const color = useThemeColor({}, 'text');
@@ -15,7 +21,19 @@ export default function SearchBar() {
     return (
         <View style={[styles.container, {backgroundColor}]}>
             <Ionicons name={'search'} size={24} color={color} />
-            <TextInput style={[styles.input, {color}]} placeholder='Ieškoti...' placeholderTextColor={color} />
+            <TextInput
+                style={[styles.input, {color}]}
+                placeholder='Ieškoti...'
+                placeholderTextColor={color}
+                value={searchInput}
+                onChangeText={updateSearchInput}
+            />
+            {
+                searchInput !== '' &&
+                <TouchableOpacity onPress={clearSearchInput} activeOpacity={0.7}>
+                    <Ionicons name={'close-outline'} size={24} color={color} />
+                </TouchableOpacity>
+            }
         </View>
     );
 }
@@ -23,7 +41,6 @@ export default function SearchBar() {
 const styles = StyleSheet.create({
     container: {
         height: 60,
-        backgroundColor: 'white',
         borderRadius: 30,
         flexDirection: 'row',
         alignItems: 'center',

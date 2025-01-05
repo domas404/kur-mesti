@@ -1,4 +1,4 @@
-import { Image, StyleSheet, ScrollView, SafeAreaView, View, Text, Pressable } from 'react-native';
+import { Image, StyleSheet, ScrollView, SafeAreaView, View, Text, Pressable, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import WasteCategory from '@/components/WasteCategory'
@@ -8,11 +8,24 @@ import { Link } from 'expo-router';
 
 import { wasteCategoryList } from '@/data/waste-categories';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { useState } from 'react';
+import SearchResults from '@/components/SearchResults';
 
 export default function Search() {
 
+	const [searchInput, setSearchInput] = useState<string>('');
+
+	const updateSearchInput = (text: string) => {
+		setSearchInput(text);
+	}
+
+	const clearSearchInput = () => {
+		setSearchInput('');
+	}
+
 	const backgroundColor = useThemeColor({}, 'container');
 	const color = useThemeColor({}, 'text');
+	const background = useThemeColor({}, 'background');
 
 	const mappedCategories = wasteCategoryList.map((item, index) => {
 		return (
@@ -23,22 +36,35 @@ export default function Search() {
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView>
-				<ScrollView stickyHeaderIndices={[0]}>
-					<View style={styles.searchContainer}>
-						<SearchBar />
+				<ScrollView stickyHeaderIndices={[0]} keyboardShouldPersistTaps={'handled'} >
+					<View style={[styles.searchContainer, {backgroundColor: background}]}>
+						<SearchBar
+							searchInput={searchInput}
+							updateSearchInput={updateSearchInput}
+							clearSearchInput={clearSearchInput}
+						/>
+						{/* <Text style={{ color: 'white' }}>{searchInput}</Text> */}
 					</View>
-					<Link href={'./search/labeling'} style={[styles.labelingContainer, {backgroundColor}]} asChild>
-						<Pressable>
-							<View style={styles.labelingHeader}>
-								<Ionicons name={'newspaper-outline'} size={36} color={color} />
-								<Text style={[styles.labelingTitle, {color}]}>Pakuočių ženklinimas</Text>
+					{
+						searchInput === '' ?
+						<>
+							<Link href={'./search/labeling'} style={[styles.labelingContainer, {backgroundColor}]} asChild>
+								<Pressable>
+									<View style={styles.labelingHeader}>
+										<Ionicons name={'newspaper-outline'} size={36} color={color} />
+										<Text style={[styles.labelingTitle, {color}]}>Pakuočių ženklinimas</Text>
+									</View>
+									<Ionicons name={'arrow-forward'} size={28} color={color} />
+								</Pressable>
+							</Link>
+							{/* <Text style={{color, paddingHorizontal: 30}}>Ieškoti pagal kategoriją</Text> */}
+							<View style={styles.categoryContainer}>
+								{mappedCategories}
 							</View>
-							<Ionicons name={'arrow-forward'} size={28} color={color} />
-						</Pressable>
-					</Link>
-					<View style={styles.categoryContainer}>
-						{mappedCategories}
-					</View>
+						</>
+						:
+						<SearchResults searchInput={searchInput} color={color} />
+					}
 				</ScrollView>
 			</SafeAreaView>
 		</SafeAreaProvider>
@@ -52,13 +78,13 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		zIndex: 2,
 		width: '100%',
-
+		paddingBottom: 10,
 	},
 	labelingContainer: {
 		height: 100,
 		backgroundColor: 'white',
 		marginHorizontal: 10,
-		marginTop: 30,
+		marginVertical: 20,
 		borderRadius: 20,
 		boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)',
 		flexDirection: 'row',
