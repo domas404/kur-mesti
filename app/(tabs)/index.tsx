@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import ScheduleWidget from '@/components/schedule/ScheduleWidget';
 
 export default function HomeScreen() {
 
@@ -16,6 +17,7 @@ export default function HomeScreen() {
 		<SafeAreaProvider>
 			<SafeAreaView>
 				<ScrollView>
+					<ScheduleWidget />
 					{/* <View style={styles.funFactContainer}>
 						<View style={styles.funFactHeader}>
 							<Text style={styles.funFactHeaderText}>Ar žinojote?</Text>

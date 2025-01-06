@@ -10,7 +10,7 @@ export default function SettingsLayout() {
                 name={'theme'}
             />
             <Stack.Screen
-                name={'calendar'}
+                name={'schedule'}
             />
             <Stack.Screen
                 name={'mode'}

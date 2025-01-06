@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { Stack } from "expo-router";
 
-export default function Calendar() {
+export default function Schedule() {
     return (
         <>
             <Stack.Screen
