@@ -6,11 +6,11 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 const settings = [
     { title: 'Tema', icon: 'sunny-outline', id: 'theme' },
     { title: 'Atliekų išvežimo grafikas', icon: 'calendar-outline', id: 'schedule' },
-    { title: 'Programos režimas', icon: 'options-outline', id: 'mode' },
-    { title: 'Pranešti apie klaidą', icon: 'flag-outline', id: 'report' },
+    // { title: 'Programos režimas', icon: 'options-outline', id: 'mode' },
+    // { title: 'Pranešti apie klaidą', icon: 'flag-outline', id: 'report' },
     { title: 'Informacijos šaltiniai', icon: 'book-outline', id: 'sources' },
-    { title: 'Paremti', icon: 'cafe-outline', id: 'donate' },
-    { title: 'Apie programą', icon: 'information-circle-outline', id: 'about' }
+    // { title: 'Paremti', icon: 'cafe-outline', id: 'donate' },
+    // { title: 'Apie programą', icon: 'information-circle-outline', id: 'about' }
 ]
 
 export default function Settings() {
