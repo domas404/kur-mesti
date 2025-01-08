@@ -1,50 +1,46 @@
-# Welcome to your Expo app 👋
+# Recycling app "Kur mesti?" 🌱
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Find all relevant information about recycling in Lithuania in one place.
 
-## Get started
+## About
 
-1. Install dependencies
+"Kur mesti?" is a mobile app designed to help users dispose of waste responsibly. Built with React Native, the app provides an easy-to-use interface for finding recycling instructions, locating nearby waste collection points, and setting personalized waste pick-up reminders.
+
+### Features
+- **Search for Waste Items**: Quickly find the correct way to dispose of various items by browsing categories or entering keywords.
+- **Recycling Best Practices**: View *do's* and *don'ts* of recycling and other important tips.
+- **Nearby Collection Points**: Find the locations of the nearest waste disposal sites.
+- **Waste Pick-Up Reminders**: Set periodic reminders for your local waste collection days.
+
+## Getting started
+
+1. Clone and open the repository
+
+   ```bash
+   git clone https://github.com/domas404/kur-mesti.git
+   cd kur-mesti
+   ```
+
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Start the app
 
    ```bash
     npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Tech stack
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+<img src="https://img.shields.io/badge/Expo-1B1F23?style=for-the-badge&logo=expo&logoColor=white" />
+<img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
+<img src="https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
+<img src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white" />
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Status and upcoming features
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+✨ *Coming soon to your nearest Google Play store.* ✨
