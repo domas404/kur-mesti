@@ -11,11 +11,14 @@ export default function TabLayout() {
 	return (
 		<Tabs
 			screenOptions={{
-				tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+				tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabIconSelected,
 				headerShown: false,
 				tabBarStyle: {
-					height: 70,
-					paddingTop: 8,
+					height: 64,
+					paddingTop: 5,
+					borderRadius: 20,
+					margin: 10,
+					position: 'absolute',
 				},
 				tabBarHideOnKeyboard: true,
 			}}
@@ -37,8 +40,6 @@ export default function TabLayout() {
 				name="search"
 				options={{
 					title: 'Paieška',
-					// headerShown: true,
-					// headerTitleAlign: 'center',
 					tabBarIcon: ({ color, focused }) => <Ionicons name={focused ? "search" : "search-outline"} size={24} color={color} />,
 				}}
 			/>
@@ -49,9 +50,6 @@ export default function TabLayout() {
 					headerShown: true,
 					headerTitleAlign: 'center',
 					tabBarIcon: ({ color, focused }) => <Ionicons name={focused ? "book" : "book-outline"} size={24} color={color} />,
-					// headerLeft: () => (
-					// 	<SettingsButton />
-					// ),
 				}}
 			/>
 		</Tabs>
