@@ -1,6 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Touchable } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import WeeklySchedule from "./WeeklySchedule";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { useTheme } from "@react-navigation/native";
+import BiWeeklySchedule from "./BiWeeklySchedule";
 
 type RepeatPatternMap = {
     [key: string]: string
@@ -23,8 +27,11 @@ const repeatPatternList = [
 export default function ScheduleRepeat() {
 
     const [repeatPattern, setRepeatPattern] = useState<string>('');
-
     const [selectListVisible, setSelectListVisible] = useState<boolean>(false);
+
+    const backgroundColor = useThemeColor({}, 'container');
+    const color = useThemeColor({}, 'text');
+    const border = useThemeColor({}, 'border');
 
     const changeRepeatPattern = (id: string) => {
         setRepeatPattern(id);
@@ -38,7 +45,7 @@ export default function ScheduleRepeat() {
                 style={styles.listItem}
                 onPress={() => changeRepeatPattern(item.id)}
             >
-                <Text style={styles.listItemText}>{item.title}</Text>
+                <Text style={[styles.listItemText, {color}]}>{item.title}</Text>
             </TouchableOpacity>
         );
     })
@@ -46,31 +53,33 @@ export default function ScheduleRepeat() {
     return (
         <>
             <View style={styles.container}>
-                <Text style={styles.containerLabel}>Periodiškumas</Text>
+                <Text style={[styles.containerLabel, {color}]}>Periodiškumas</Text>
                 <TouchableOpacity
-                    style={styles.selectContainer}
+                    style={[styles.selectContainer, {backgroundColor, borderColor: border}]}
                     onPress={() => setSelectListVisible(!selectListVisible)}
                     activeOpacity={0.7}
                 >
-                    <Text style={styles.selectedRepeatPatternText} numberOfLines={1}>
+                    <Text style={[styles.selectedRepeatPatternText, {color}]} numberOfLines={1}>
                         {repeatPattern === '' ? 'Pasirinkti': repeatPatternMap[repeatPattern]}
                     </Text>
                     <Ionicons
                         style={styles.selectContainerIcon}
                         name={selectListVisible ? 'chevron-up-outline' : 'chevron-down-outline'}
                         size={24}
-                        color={'black'}
+                        color={color}
                     />
                 </TouchableOpacity>
-                    {
-                        selectListVisible &&
-                        <TouchableOpacity style={styles.selectContainerList}>
-                            <TouchableOpacity>
-                                {mappedRepeatPatterns}
-                            </TouchableOpacity>
+                {
+                    selectListVisible &&
+                    <TouchableOpacity style={[styles.selectContainerList, {backgroundColor, borderColor: border}]}>
+                        <TouchableOpacity>
+                            {mappedRepeatPatterns}
                         </TouchableOpacity>
-                    }
+                    </TouchableOpacity>
+                }
             </View>
+            { repeatPattern === 'weekly' && <WeeklySchedule />}
+            { repeatPattern === 'bi-weekly' && <BiWeeklySchedule /> }
         </>
     );
 }
@@ -100,7 +109,8 @@ const styles = StyleSheet.create({
         borderColor: '#ddd',
         borderRadius: 8,
         backgroundColor: 'white',
-        width: '100%'
+        width: '100%',
+        zIndex: 5,
     },
     listItem: {
         paddingHorizontal: 20,

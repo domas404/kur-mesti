@@ -12,6 +12,7 @@ export default function ScheduleWidget() {
 
     const color = useThemeColor({}, 'text');
     const backgroundColor = useThemeColor({}, 'container');
+    const border = useThemeColor({}, 'border');
 
     const [menuVisible, setMenuVisible] = useState<boolean>(false);
     // const menuRef = useRef(null);
@@ -26,7 +27,7 @@ export default function ScheduleWidget() {
 
     return (
         <>
-            <View style={[styles.container, {backgroundColor}]}>
+            <View style={[styles.container, {backgroundColor, borderColor: border}]}>
                 <View style={styles.header}>
                     <Text style={[styles.headerText, {color}]}>Atliekų išvežimas po:</Text>
                     <TouchableOpacity
@@ -38,8 +39,10 @@ export default function ScheduleWidget() {
                     </TouchableOpacity>
                     <WidgetMenu visible={menuVisible} closeMenu={closeMenu} color={color} backgroundColor={backgroundColor} />
                 </View>
-                <Text style={[styles.countdownText, {color}]}>9 dienų</Text>
-                <Text style={[styles.scheduleDate, {color}]}>01-15 TREČIADIENIS</Text>
+                <Text style={[styles.countdownText, {color}]}>6 dienų</Text>
+                <View style={styles.scheduleDateContainer}>
+                    <Text style={[styles.scheduleDate]}>01-15 Trečiadienis</Text>
+                </View>
             </View>
         </>
     )
@@ -48,7 +51,9 @@ export default function ScheduleWidget() {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        boxShadow: '0 5 12 rgba(0,0,0,0.1)',
+        // boxShadow: '0 5 12 rgba(0,0,0,0.1)',
+        borderWidth: 1,
+		borderColor: '#dadada',
         margin: 10,
         borderRadius: 20,
         padding: 20,
@@ -65,8 +70,16 @@ const styles = StyleSheet.create({
         fontSize: 42,
         fontWeight: 500
     },
+    scheduleDateContainer: {
+        backgroundColor: '#3B5E47',
+        alignSelf: 'flex-start',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 8
+    },
     scheduleDate: {
         fontSize: 16,
+        color: '#E4FFE6',
     },
     menuButton: {
         // backgroundColor: 'gray',

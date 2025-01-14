@@ -47,7 +47,7 @@ export default function Schedule() {
 
 const styles = StyleSheet.create({
     container: {
-
+        
     },
     header: {
         flexDirection: 'row',
