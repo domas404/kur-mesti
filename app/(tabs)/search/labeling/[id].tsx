@@ -69,7 +69,7 @@ export default function Page() {
             />
             <SafeAreaProvider>
                 <SafeAreaView>
-                    <ScrollView>
+                    <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
                         <View style={styles.itemsContainer}>
                             {mappedItems}
                         </View>

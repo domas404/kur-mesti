@@ -13,12 +13,13 @@ export default function WasteCategory({ name, icon, id }: WasteCategoryProps) {
 
     const backgroundColor = useThemeColor({}, 'container');
     const color = useThemeColor({}, 'text');
+    const border = useThemeColor({}, 'border');
 
     return (
-        <Link style={[styles.container, {backgroundColor}]} href={`./search/category/${id}`} asChild>
+        <Link style={[styles.container, {backgroundColor, borderColor: border}]} href={`./search/category/${id}`} asChild>
             <Pressable>
                 <View style={styles.iconContainer}>
-                    <Ionicons name={icon} size={36} color={color} />
+                    <Ionicons name={icon} size={24} color={'#E4FFE6'} />
                 </View>
                 <Text style={[styles.nameContainer, {color}]}>{name}</Text>
             </Pressable>
@@ -30,20 +31,29 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         borderRadius: 20,
-        paddingHorizontal: 20,
+        paddingHorizontal: 16,
         height: 100,
         flexDirection: 'row',
         alignItems: 'center',
         width: '49%',
         marginVertical: 4,
-        gap: 16,
-        boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
+        gap: 12,
+        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
+        borderWidth: 1,
+        // borderColor: '#e1e1e1',
     },
     iconContainer: {
-
+        backgroundColor: '#86B38A',
+		width: 36,
+		height: 36,
+		borderRadius: 18,
+		padding: 6,
     },
     nameContainer: {
-        fontSize: 18,
-        width: '70%',
+        fontSize: 16,
+        flexWrap: 'wrap',
+        flex: 1,
+        
+        // width: '70%',
     }
 });

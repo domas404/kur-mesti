@@ -27,10 +27,11 @@ export default function LabelItem({ item, image }: LabelItemProps) {
 
     const backgroundColor = useThemeColor({}, 'container');
     const color = useThemeColor({}, 'text');
+    const border = useThemeColor({}, 'border');
 
     return (
         // <Link style={styles.container} href={`./category/${name}`} asChild>
-            <Pressable style={[styles.container, { backgroundColor }]}>
+            <Pressable style={[styles.container, { backgroundColor, borderColor: border }]}>
                 {/* <Text style={styles.nameContainer}>{item.name}</Text> */}
                 <View style={styles.wasteDisposalContainer}>
                     <View style={styles.iconContainer}>
@@ -76,7 +77,8 @@ const styles = StyleSheet.create({
         width: '100%',
         marginVertical: 4,
         // gap: 16,
-        boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
+        borderWidth: 1
+        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
     },
     iconContainer: {
         width: 36,

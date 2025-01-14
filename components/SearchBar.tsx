@@ -17,9 +17,10 @@ export default function SearchBar({ searchInput, updateSearchInput, clearSearchI
 
     const backgroundColor = useThemeColor({}, 'container');
     const color = useThemeColor({}, 'text');
+    const border = useThemeColor({}, 'border');
     
     return (
-        <View style={[styles.container, {backgroundColor}]}>
+        <View style={[styles.container, {backgroundColor, borderColor: border}]}>
             <Ionicons name={'search'} size={24} color={color} />
             <TextInput
                 style={[styles.input, {color}]}
@@ -40,13 +41,15 @@ export default function SearchBar({ searchInput, updateSearchInput, clearSearchI
 
 const styles = StyleSheet.create({
     container: {
-        height: 60,
-        borderRadius: 30,
+        height: 52,
+        borderRadius: 26,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: 16,
         gap: 10,
-        boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
+        borderWidth: 1,
+        // borderColor: '#e1e1e1',
+        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
     },
     input: {
         flex: 1,

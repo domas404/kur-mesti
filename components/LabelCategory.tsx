@@ -17,14 +17,17 @@ export default function LabelCategory({ item }: LabelCategoryProps) {
 
     const backgroundColor = useThemeColor({}, 'container');
     const color = useThemeColor({}, 'text');
+    const border = useThemeColor({}, 'border');
 
     return (
-        <Link style={styles.container} href={`./labeling/${item.id}`} asChild>
+        <Link style={[styles.container, {borderColor: border}]} href={`./labeling/${item.id}`} asChild>
             <Pressable style={{ backgroundColor }}>
                 {/* <Text style={styles.nameContainer}>{item.name}</Text> */}
                 <View style={styles.wasteDisposalContainer}>
                     <View style={styles.headerContainer}>
-                        <Ionicons name={'cube-outline'} size={36} color={color} />
+                        <View style={styles.iconContainer}>
+                            <Ionicons name={'cube-outline'} size={24} color={'#E4FFE6'} />
+                        </View>
                         <Text style={[styles.wasteDisposalText, {color}]}>{item.name}</Text>
                     </View>
                     <Ionicons name={'arrow-forward'} size={28} color={color} />
@@ -40,7 +43,8 @@ const styles = StyleSheet.create({
         padding: 20,
         width: '100%',
         marginVertical: 4,
-        boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
+        borderWidth: 1,
+        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
     },
     headerContainer: {
         flexDirection: 'row',
@@ -74,5 +78,12 @@ const styles = StyleSheet.create({
     },
     showMoreContainer: {
         width: '100%',
+    },
+    iconContainer: {
+        backgroundColor: '#86B38A',
+		width: 36,
+		height: 36,
+		borderRadius: 18,
+		padding: 6,
     }
 });

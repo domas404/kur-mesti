@@ -4,10 +4,24 @@ import { Link } from 'expo-router';
 import { useState } from 'react';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
+type WasteSiteColorMap = {
+    [id: string]: string
+}
+
+const wasteSiteColorMap: WasteSiteColorMap = {
+    hazardous: '#db3030',
+    fabric: '#4d5473',
+    glass: '#46995a',
+    plastic: '#cca516',
+    paper: '#214fc2',
+    compost: '#523a20'
+}
+
 type WasteItem = {
+    categoryId: string,
     name: string,
     icon: any,
-    wasteDisposalSiteIcon: any,
+    // wasteDisposalSiteIcon: any,
     wasteDisposalSiteName: string,
     info: string,
     source: string
@@ -27,14 +41,15 @@ export default function WasteItem({ item }: WasteItemProps) {
 
     const backgroundColor = useThemeColor({}, 'container');
     const color = useThemeColor({}, 'text');
+    const border = useThemeColor({}, 'border');
 
     return (
         // <Link style={styles.container} href={`./category/${name}`} asChild>
-            <Pressable style={[styles.container, {backgroundColor}]}>
+            <Pressable style={[styles.container, {backgroundColor, borderColor: border}]}>
                 <Text style={[styles.nameContainer, {color}]}>{item.name}</Text>
                 <View style={styles.wasteDisposalContainer}>
-                    <View style={styles.iconContainer}>
-                        <Ionicons name={item.wasteDisposalSiteIcon} size={36} color={color} />
+                    <View style={[styles.iconContainer, { backgroundColor: wasteSiteColorMap[item.categoryId] }]}>
+                        <Ionicons name={'trash'} size={20} color={'white'} />
                     </View>
                     <Text style={[styles.wasteDisposalText, {color}]}>{item.wasteDisposalSiteName}</Text>
                 </View>
@@ -69,15 +84,21 @@ const styles = StyleSheet.create({
         width: '100%',
         marginVertical: 4,
         // gap: 16,
-        boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
+        borderWidth: 1
+        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
     },
     iconContainer: {
-        width: 36,
+        // width: 20,
+        // height: 20,
+        padding: 4,
+        // backgroundColor: 'red',
+        borderRadius: 14,
     },
     nameContainer: {
         fontSize: 18,
-        width: '70%',
-        fontWeight: 500
+        width: '100%',
+        fontWeight: 500,
+        paddingBottom: 6,
     },
     wasteDisposalContainer: {
         flexDirection: 'row',
@@ -90,6 +111,7 @@ const styles = StyleSheet.create({
     },
     wasteDisposalText: {
         fontSize: 18,
+        opacity: 0.7
     },
     showMoreButton: {
         flexDirection: 'row',
