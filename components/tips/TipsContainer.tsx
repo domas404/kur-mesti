@@ -35,6 +35,10 @@ export default function TipsContainer({ selectedWasteSite }: TipsContainerProps)
     const color = useThemeColor({}, 'text');
     const tabColor = useThemeColor({}, 'tab');
     const tabActiveColor = useThemeColor({}, 'tabActive');
+    const tint = useThemeColor({}, 'tint');
+    const tintLight = useThemeColor({}, 'tintLight');
+    const tintText = useThemeColor({}, 'tintText');
+    const border = useThemeColor({}, 'border');
 
     const [tab, setTab] = useState<string>('do');
 
@@ -46,24 +50,24 @@ export default function TipsContainer({ selectedWasteSite }: TipsContainerProps)
         return (
             <TouchableOpacity
                 key={`${item}-${index}`}
-                style={[styles.tab, {backgroundColor: tabColor}, tab === item.id && {backgroundColor: tabActiveColor}]}
+                style={[styles.tab, {backgroundColor: tabColor}, tab === item.id && {backgroundColor: tint}]}
                 onPress={() => changeTab(item.id)}
                 activeOpacity={0.7}
             >
-                <Text style={[styles.tabText, {color}]}>{item.text}</Text>
+                <Text style={[styles.tabText, {color: tab === item.id ? tintText : color}]}>{item.text}</Text>
             </TouchableOpacity>
         );
     })
 
     return (
-        <View style={[styles.container, {backgroundColor}]}>
+        <View style={[styles.container, {backgroundColor, borderColor: border}]}>
             <View style={styles.header}>
-                <Image
+                {/* <Image
                     source={image}
                     tintColor={color}
                     contentFit="cover"
                     style={styles.image}
-                />
+                /> */}
                 <Text style={[styles.headerText, {color}]}>{wasteSiteMap[selectedWasteSite]}</Text>
             </View>
             <View>
@@ -81,7 +85,8 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 20,
         margin: 10,
-        boxShadow: '0 5 12 rgba(0,0,0,0.1)',
+        borderWidth: 1,
+        // boxShadow: '0 5 12 rgba(0,0,0,0.1)',
         gap: 16
     },
     header: {
@@ -95,10 +100,13 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: 18,
+        fontWeight: 500,
+        // textTransform: 'uppercase',
+        // backgroundColor: 'red',
     },
     tabContainer: {
         flexDirection: 'row',
-        gap: 10
+        gap: 6
     },
     tab: {
         height: 40,

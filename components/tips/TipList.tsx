@@ -61,6 +61,9 @@ export default function TipList({ color, tab, selectedWasteSite }: TipListProps)
 const styles = StyleSheet.create({
     listContainer: {
         paddingVertical: 10,
-        gap: 8,
+        // gap: 4,
+        // flexDirection: 'column',
+        // boxSizing: 'border-box',
+        // alignItems: 'flex-start'
     },
 });

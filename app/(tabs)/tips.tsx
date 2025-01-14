@@ -22,8 +22,8 @@ export default function Tips() {
 
 	return (
 		<GestureHandlerRootView>
-			<ScrollView>
-				<WasteSiteList selectedWasteSite={wasteSite} changeWasteSite={changeWasteSite} wasteSiteList={wasteSiteList} />
+			<ScrollView contentContainerStyle={{paddingBottom: 100}}>
+				<WasteSiteList selectedWasteSite={wasteSite} changeWasteSite={changeWasteSite} wasteSiteList={wasteSiteList}  />
 				<TipsContainer selectedWasteSite={wasteSite} />
 			</ScrollView>
 		</GestureHandlerRootView>

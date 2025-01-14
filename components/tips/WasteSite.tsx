@@ -2,7 +2,19 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
-const image = require('@/assets/images/icons/bin.png');
+type WasteSiteImages = {
+    [key: string]: (id: string) => any;
+}
+
+const wasteSiteImages: WasteSiteImages = {
+    paper: require('@/assets/images/paper-bin.png'),
+    plastic: require('@/assets/images/plastic-bin.png'),
+    glass: require('@/assets/images/glass-bin.png'),
+    compost: require('@/assets/images/compost-bin.png'),
+    fabric: require('@/assets/images/fabric-bin.png'),
+}
+
+// const image = require('@/assets/images/compost-bin.png');
 
 type WasteSiteProps = {
     title: string,
@@ -24,12 +36,12 @@ export default function WasteSite({ title, changeWasteSite, selected, id }: Wast
             activeOpacity={0.7}
         >
             <Image
-                source={image}
-                style={styles.icon}
-                contentFit="cover"
-                tintColor={color}
+                source={wasteSiteImages[id as string]}
+                style={[styles.icon, {opacity: selected ? 1 : 0.6}]}
+                contentFit="contain"
+                // tintColor={color}
             />
-            <Text style={[styles.text, {color}]}>{title}</Text>
+            <Text style={[styles.text, {color}, {opacity: selected ? 1 : 0.7}]}>{title}</Text>
         </TouchableOpacity>
     );
 }
@@ -51,7 +63,8 @@ const styles = StyleSheet.create({
     },
     icon: {
         height: 70,
-        width: 70
+        width: 70,
+
     },
     text: {
         textAlign: 'center',

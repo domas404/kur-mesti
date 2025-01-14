@@ -26,8 +26,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 10,
         alignItems:'center',
+        // flex: 1,
     },
     listItemText: {
         fontSize: 16,
+        flex: 1,
+        flexWrap: 'wrap'
     }
 });
