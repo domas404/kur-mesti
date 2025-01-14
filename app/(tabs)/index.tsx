@@ -12,35 +12,42 @@ export default function HomeScreen() {
 
 	const backgroundColor = useThemeColor({}, 'container');
 	const color = useThemeColor({}, 'text');
+	const border = useThemeColor({}, 'border');
 
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView>
 				<ScrollView>
 					<ScheduleWidget />
-					{/* <View style={styles.funFactContainer}>
-						<View style={styles.funFactHeader}>
-							<Text style={styles.funFactHeaderText}>Ar žinojote?</Text>
-							<View style={styles.funFactIconContainer}>
-								<Ionicons name="close" size={24} color={'#fff'} />
-							</View>
-						</View>
-						<Text style={styles.funFact}>Vienas lietuvis per metus išrūšiuoja 10 kg atliekų.</Text>
-					</View> */}
 					<View style={styles.shortcutContainer}>
-						<Link href="./tips" style={[styles.shortcutLink, {backgroundColor}]} asChild>
+						<Link href="./tips" style={[styles.shortcutLink, {backgroundColor, borderColor: border}]} asChild>
 							<Pressable style={styles.shortcut}>
-								<Ionicons name="book-outline" size={36} color={color} />
+								<View style={styles.shortcutIconContainer}>
+									<View style={styles.shortcutIconBackground}></View>
+									<Ionicons name="book-outline" size={28} color={'#E4FFE6'} />
+								</View>
 								<Text style={[styles.shortcutText, {color}]}>Rūšiavimo atmintinė</Text>
 							</Pressable>
 						</Link>
-						<Link href="./search" style={[styles.shortcutLink, {backgroundColor}]} asChild>
+						<Link href="./search" style={[styles.shortcutLink, {backgroundColor, borderColor: border}]} asChild>
 							<Pressable style={styles.shortcut}>
-								<Ionicons name="search-outline" size={36} color={color} />
+								<View style={styles.shortcutIconContainer}>
+									<View style={styles.shortcutIconBackground}></View>
+									<Ionicons name="search-outline" size={28} color={'#E4FFE6'} />
+								</View>
 								<Text style={[styles.shortcutText, {color}]}>Rasti kur mesti atlieką</Text>
 							</Pressable>
 						</Link>
 					</View>
+					{/* <View style={[styles.funFactContainer, {backgroundColor, borderColor: border}]}>
+						<View style={styles.funFactHeader}>
+							<Text style={styles.funFactHeaderText}>Ar žinojote?</Text>
+							<View style={styles.funFactIconContainer}>
+								<Ionicons name={'ellipsis-vertical'} size={24} color={'#fff'} />
+							</View>
+						</View>
+						<Text style={styles.funFact}>Vienas lietuvis per metus vidutiniškai išrūšiuoja 10 kg atliekų.</Text>
+					</View> */}
 				</ScrollView>
 			</SafeAreaView>
 		</SafeAreaProvider>
@@ -54,33 +61,57 @@ const styles = StyleSheet.create({
 		boxSizing: 'border-box',
 		width: '100%',
 		paddingHorizontal: 10,
-		paddingVertical: 20,
+		paddingBottom: 10,
 	},
 	shortcutLink: {
 		flex: 1,
 	},
 	shortcut: {
 		width: '100%',
-		// backgroundColor: '#fff',
-		boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)',
-		// height: 160,
+		borderWidth: 1,
 		justifyContent: 'flex-end',
 		aspectRatio: '1/1',
 		borderRadius: 20,
 		padding: 20,
+		gap: 10,
 	},
 	shortcutIcon: {
 		// width: 50,
+	},
+	shortcutIconContainer: {
+		backgroundColor: '#3B5E47',
+		borderRadius: 8,
+		height: 60,
+		width: 72,
+		borderTopLeftRadius: 60,
+		borderBottomRightRadius: 60,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	shortcutIconBackground: {
+		backgroundColor: '#76B27E',
+		borderRadius: 8,
+		position: 'absolute',
+		height: 60,
+		width: 72,
+		borderTopLeftRadius: 60,
+		borderBottomRightRadius: 60,
+		
+		left: -16,
+		top: -12,
+		transform: 'rotate(-30deg)',
+		zIndex: -1
 	},
 	shortcutText: {
 		fontSize: 18,
 	},
 	funFactContainer: {
 		marginHorizontal: 10,
-		backgroundColor: '#4c4c4c',
+		// backgroundColor: '#4c4c4c',
 		borderRadius: 20,
 		padding: 20,
-		boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)',
+		// boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)',
+		borderWidth: 1,
 		flexDirection: 'column',
 		gap: 10,
 		// boxSizing: 'border-box'
@@ -100,7 +131,7 @@ const styles = StyleSheet.create({
 	},
 	funFact: {
 		color: 'white',
-		fontSize: 14,
+		fontSize: 16,
 	},
 	funFactIconContainer: {
 		// flex: 1,
