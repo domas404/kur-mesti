@@ -5,7 +5,7 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function SettingsButton() {
 
-    const color = useThemeColor({}, 'text');
+    const [color] = useThemeColor(['text']);
 
     return (
         <Link style={styles.container} href="./settings" asChild>

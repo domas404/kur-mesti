@@ -10,9 +10,7 @@ import ScheduleWidget from '@/components/schedule/ScheduleWidget';
 
 export default function HomeScreen() {
 
-	const backgroundColor = useThemeColor({}, 'container');
-	const color = useThemeColor({}, 'text');
-	const border = useThemeColor({}, 'border');
+	const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
 
 	return (
 		<SafeAreaProvider>

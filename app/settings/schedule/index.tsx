@@ -7,8 +7,7 @@ import { useId } from "react";
 
 export default function Schedule() {
 
-    const color = useThemeColor({}, 'text');
-    const backgroundColor = useThemeColor({}, 'container');
+    const [backgroundColor, color] = useThemeColor(['container', 'text']);
 
     const createNewSchedule = () => {
         // const id = useId();

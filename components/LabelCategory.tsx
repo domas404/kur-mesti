@@ -15,9 +15,7 @@ type LabelCategoryProps = {
 
 export default function LabelCategory({ item }: LabelCategoryProps) {
 
-    const backgroundColor = useThemeColor({}, 'container');
-    const color = useThemeColor({}, 'text');
-    const border = useThemeColor({}, 'border');
+    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
 
     return (
         <Link style={[styles.container, {borderColor: border}]} href={`./labeling/${item.id}`} asChild>

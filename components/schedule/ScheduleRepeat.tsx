@@ -29,9 +29,7 @@ export default function ScheduleRepeat() {
     const [repeatPattern, setRepeatPattern] = useState<string>('');
     const [selectListVisible, setSelectListVisible] = useState<boolean>(false);
 
-    const backgroundColor = useThemeColor({}, 'container');
-    const color = useThemeColor({}, 'text');
-    const border = useThemeColor({}, 'border');
+    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
 
     const changeRepeatPattern = (id: string) => {
         setRepeatPattern(id);

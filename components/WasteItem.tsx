@@ -39,9 +39,7 @@ export default function WasteItem({ item }: WasteItemProps) {
         setShowMoreInfo(!showMoreInfo);
     }
 
-    const backgroundColor = useThemeColor({}, 'container');
-    const color = useThemeColor({}, 'text');
-    const border = useThemeColor({}, 'border');
+    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
 
     return (
         // <Link style={styles.container} href={`./category/${name}`} asChild>

@@ -30,15 +30,15 @@ interface TipsContainerProps {
 }
 
 export default function TipsContainer({ selectedWasteSite }: TipsContainerProps) {
-
-    const backgroundColor = useThemeColor({}, 'container');
-    const color = useThemeColor({}, 'text');
-    const tabColor = useThemeColor({}, 'tab');
-    const tabActiveColor = useThemeColor({}, 'tabActive');
-    const tint = useThemeColor({}, 'tint');
-    const tintLight = useThemeColor({}, 'tintLight');
-    const tintText = useThemeColor({}, 'tintText');
-    const border = useThemeColor({}, 'border');
+    
+    const [
+        backgroundColor,
+        color,
+        tabColor,
+        tint,
+        tintText,
+        border,
+    ] = useThemeColor(['container', 'text', 'tab', 'tint', 'tintText', 'border']);
 
     const [tab, setTab] = useState<string>('do');
 

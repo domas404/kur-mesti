@@ -10,9 +10,7 @@ type Props = {
 
 export default function ScheduleWidget() {
 
-    const color = useThemeColor({}, 'text');
-    const backgroundColor = useThemeColor({}, 'container');
-    const border = useThemeColor({}, 'border');
+    const [color, backgroundColor, border] = useThemeColor(['text', 'container', 'border']);
 
     const [menuVisible, setMenuVisible] = useState<boolean>(false);
     // const menuRef = useRef(null);

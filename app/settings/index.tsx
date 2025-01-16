@@ -19,7 +19,7 @@ export default function Settings() {
         return <SettingsItem key={`${item.id}-${index}`} icon={item.icon} title={item.title} id={item.id} />
     });
 
-    const backgroundColor = useThemeColor({}, 'container');
+    const [backgroundColor] = useThemeColor(['container']);
 
     return (
         <>

@@ -7,10 +7,7 @@ import { useEffect, useState } from "react";
 
 export default function Theme() {
 
-    const color = useThemeColor({}, 'text');
-    const backgroundColor = useThemeColor({}, 'container');
-    const tabColor = useThemeColor({}, 'tab');
-    const tabActiveColor = useThemeColor({}, 'tabActive');
+    const [color, backgroundColor, tabColor, tabActiveColor] = useThemeColor(['text', 'container', 'tab', 'tabActive']);
 
     const [nativeColorScheme, setNativeColorScheme] = useState<ColorSchemeName | null>(null);
     const [colorSchemeChanged, setColorSchemeChanged] = useState<boolean>(false);

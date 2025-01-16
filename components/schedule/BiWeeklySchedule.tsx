@@ -13,12 +13,14 @@ export default function BiWeeklySchedule() {
 
     const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
 
-    const backgroundColor = useThemeColor({}, 'container');
-    const color = useThemeColor({}, 'text');
-    const border = useThemeColor({}, 'border');
-    const tint = useThemeColor({}, 'tint');
-    const tintLight = useThemeColor({}, 'tintLight');
-    const tintText = useThemeColor({}, 'tintText');
+    const [
+        backgroundColor,
+        color,
+        border,
+        tint,
+        tintLight,
+        tintText
+    ] = useThemeColor(['container', 'text', 'border', 'tint', 'tintLight', 'tintText']);
 
     // const [mappedWeekdays, setMappedWeekdays] = useState();
 

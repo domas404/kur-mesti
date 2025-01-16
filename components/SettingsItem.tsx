@@ -12,8 +12,7 @@ type SettingsItemProps = {
 
 export default function SettingsItem({ icon, title, id }: SettingsItemProps) {
 
-    const backgroundColor = useThemeColor({}, 'container');
-    const color = useThemeColor({}, 'text');
+    const [backgroundColor, color] = useThemeColor(['container', 'text']);
 
     return (
         <Link href={`./settings/${id}`} style={[styles.container, {backgroundColor}]} asChild>

@@ -14,8 +14,6 @@ const wasteSiteImages: WasteSiteImages = {
     fabric: require('@/assets/images/fabric-bin.png'),
 }
 
-// const image = require('@/assets/images/compost-bin.png');
-
 type WasteSiteProps = {
     title: string,
     selected: boolean,
@@ -26,8 +24,7 @@ type WasteSiteProps = {
 
 export default function WasteSite({ title, changeWasteSite, selected, id }: WasteSiteProps) {
 
-    const backgroundColor = useThemeColor({}, "tabActive");
-    const color = useThemeColor({}, "text");
+    const [backgroundColor, color] = useThemeColor(['tabActive', 'text']);
 
     return (
         <TouchableOpacity

@@ -11,10 +11,7 @@ export default function Item() {
 
     const [repeat, setRepeat] = useState<boolean>(false);
 
-    const color = useThemeColor({}, 'text');
-    const tabColor = useThemeColor({}, 'tab');
-    const tabActiveColor = useThemeColor({}, 'tabActive');
-    const containerColor = useThemeColor({}, 'container');
+    const [containerColor, color, tabColor, tabActiveColor] = useThemeColor(['container', 'text', 'tab', 'tabActive']);
 
     return (
         <>

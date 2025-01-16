@@ -13,7 +13,7 @@ interface WasteSiteListProps {
 
 export default function WasteSiteList({ selectedWasteSite, changeWasteSite, wasteSiteList }: WasteSiteListProps) {
 
-    const backgroundColor = useThemeColor({}, 'container');
+    const [backgroundColor] = useThemeColor(['container']);
 
     const mappedWasteSites = wasteSiteList.map((item, index) => {
         return (
