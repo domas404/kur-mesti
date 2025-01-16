@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Stack } from "expo-router";
-import SettingsItem from "@/components/SettingsItem";
+import SettingsItem from "@/components/settings/SettingsItem";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 const settings = [

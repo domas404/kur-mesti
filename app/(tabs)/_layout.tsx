@@ -4,7 +4,7 @@ import React from 'react';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import SettingsButton from '@/components/SettingsButton';
+import SettingsButton from '@/components/settings/SettingsButton';
 
 export default function TabLayout() {
 	const colorScheme = useColorScheme();

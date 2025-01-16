@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import LabelItem from '@/components/LabelItem';
+import LabelItem from '@/components/search/LabelItem';
 
 import { labelItemList } from '@/data/label-items';
 import { wasteCategoryMap } from "@/data/label-categories";

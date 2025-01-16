@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import WasteItem from '@/components/WasteItem';
+import WasteItem from '@/components/search/WasteItem';
 
 import { wasteItemList } from '@/data/waste-items';
 import { wasteCategoryMap } from '@/data/waste-categories';

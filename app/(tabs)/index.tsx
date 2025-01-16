@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import ScheduleWidget from '@/components/schedule/ScheduleWidget';
+import ScheduleWidget from '@/components/settings/schedule/ScheduleWidget';
 
 export default function HomeScreen() {
 

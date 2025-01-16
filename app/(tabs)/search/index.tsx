@@ -1,15 +1,15 @@
 import { Image, StyleSheet, ScrollView, SafeAreaView, View, Text, Pressable, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import WasteCategory from '@/components/WasteCategory'
-import SearchBar from '@/components/SearchBar';
+import WasteCategory from '@/components/search/WasteCategory'
+import SearchBar from '@/components/search/SearchBar';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 
 import { wasteCategoryList } from '@/data/waste-categories';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { useState } from 'react';
-import SearchResults from '@/components/SearchResults';
+import SearchResults from '@/components/search/SearchResults';
 
 export default function Search() {
 

@@ -1,17 +1,99 @@
-import ScheduleOneTime from "@/components/schedule/ScheduleOneTime";
-import ScheduleRepeat from "@/components/schedule/ScheduleRepeat";
+import RepeatNav from "@/components/settings/schedule/RepeatNav";
+import ScheduleOneTime from "@/components/settings/schedule/ScheduleOneTime";
+import ScheduleRepeat from "@/components/settings/schedule/ScheduleRepeat";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Stack } from "expo-router";
-import { useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { GestureHandlerRootView, TextInput } from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+type ScheduleItem = {
+    id: string;
+    visible: boolean;
+    repeat: boolean;
+    closestDate: string | undefined;
+
+    period?: 'weekly' | 'bi-weekly' | 'monthly' | 'monthly-by-weekdays';
+    weekdays?: number[];
+    interval?: number;
+    startDate?: string;
+    days?: number[];
+    weekPatern?: {
+        week: number;
+        weekdays: string[];
+    }[];
+}
 
 
 export default function Item() {
 
-    const [repeat, setRepeat] = useState<boolean>(false);
+    const [containerColor, color, tabActiveColor] = useThemeColor(['container', 'text', 'tabActive']);
 
-    const [containerColor, color, tabColor, tabActiveColor] = useThemeColor(['container', 'text', 'tab', 'tabActive']);
+    const [schedule, setSchedule] = useState<ScheduleItem>({ id: useId(), visible: true, repeat: false, closestDate: undefined });
+
+    const changeRepeat = (repeat: boolean) => {
+        setSchedule({
+            ...schedule,
+            repeat: repeat
+        })
+    }
+
+    const findClosestDay = (selectedWeekdays: number[], startDate: Date) => {
+        const selectedWeekdaysAdjusted = selectedWeekdays.map((weekday) => {
+            return (weekday+1)%7;
+        });
+
+        const closestWeekdays = selectedWeekdaysAdjusted.map((weekday) => {
+            return ((weekday+7)-startDate.getDay())%7;
+        });
+
+        const closestDay = Math.min(...closestWeekdays);
+
+        return closestDay;
+    }
+
+    const calculateClosestDate = (date: Date, days: number) => {
+        const newDate = new Date(date);
+        newDate.setDate(date.getDate() + days);
+        return newDate;
+    }
+
+    const setWeeklySchedule = (selectedWeekdays: number[]) => {
+
+        if (selectedWeekdays.length > 0) {
+            const today = new Date();
+            const closestDay = findClosestDay(selectedWeekdays, today);
+            const closestDate = calculateClosestDate(today, closestDay);
+    
+            setSchedule({
+                ...schedule,
+                period: 'weekly',
+                weekdays: selectedWeekdays,
+                closestDate: closestDate.toString()
+            });
+        }
+    }
+
+    const setBiWeeklySchedule = (selectedWeekdays: number[], interval: number, startDate: Date) => {
+
+        if (selectedWeekdays.length > 0) {
+            const closestDay = findClosestDay(selectedWeekdays, startDate);
+            const closestDate = calculateClosestDate(startDate, closestDay);
+    
+            setSchedule({
+                ...schedule,
+                interval: interval,
+                period: 'bi-weekly',
+                weekdays: selectedWeekdays,
+                closestDate: closestDate.toString(),
+                startDate: startDate.toString()
+            });
+        }
+    }
+
+    useEffect(() => {
+        console.log(schedule);
+    }, [schedule]);
 
     return (
         <>
@@ -21,46 +103,23 @@ export default function Item() {
                 }}
             />
             <GestureHandlerRootView>
-                {/* <ScrollView> */}
+                <ScrollView>
                     <View style={[styles.container, {backgroundColor: containerColor}]}>
-                        {/* <TextInput
-                            // style={{color: 'white'}}
-                            value={'Atliekų išvežimas'}
-                        /> */}
-                        <View style={[styles.typeContainer]}>
-                            <TouchableOpacity
-                                style={[
-                                    styles.typeTab,
-                                    {borderTopLeftRadius: 12, borderBottomLeftRadius: 12},
-                                    {backgroundColor: tabColor},
-                                    !repeat && { backgroundColor: tabActiveColor}
-                                ]}
-                                activeOpacity={0.7}
-                                onPress={() => setRepeat(false)}
-                            >
-                                <Text style={[styles.typeTabText, {color}]}>Vienkartinis</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[
-                                    styles.typeTab,
-                                    {borderTopRightRadius: 12, borderBottomRightRadius: 12},
-                                    {backgroundColor: tabColor},
-                                    repeat && { backgroundColor: tabActiveColor}
-                                ]}
-                                activeOpacity={0.7}
-                                onPress={() => setRepeat(true)}
-                            >
-                                <Text style={[styles.typeTabText, {color}]}>Periodinis</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <RepeatNav repeat={schedule.repeat} setRepeat={changeRepeat} />
                         {
-                            repeat ?
-                            <ScheduleRepeat />
+                            schedule.repeat ?
+                            <ScheduleRepeat
+                                setWeeklySchedule={setWeeklySchedule}
+                                setBiWeeklySchedule={setBiWeeklySchedule}
+                            />
                             :
                             <ScheduleOneTime />
                         }
+                        <TouchableOpacity style={[styles.saveButton, {backgroundColor: tabActiveColor}]} activeOpacity={0.7}>
+                            <Text style={[styles.saveButtonText, {color}]}>Išsaugoti</Text>
+                        </TouchableOpacity>
                     </View>
-                {/* </ScrollView> */}
+                </ScrollView>
             </GestureHandlerRootView>
         </>
     );
@@ -75,21 +134,14 @@ const styles = StyleSheet.create({
         gap: 20,
         height: '100%',
     },
-    typeContainer: {
-        flexDirection: 'row',
+    saveButton: {
+        flex: 1,
         borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 8,
     },
-    typeTab: {
-        // backgroundColor: '#fff',
-        // borderWidth: 1,
-        // borderColor: '#ddd',
-        paddingVertical: 12,
-        paddingHorizontal: 16,
-    },
-    typeTabText: {
-        fontSize: 16
-    },
-    // selectedTypeTab: {
-    //     backgroundColor: '#ddd',
-    // }
+    saveButtonText: {
+        fontSize: 16,
+    }
 });

@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 type Props = {
-
+    setWeeklySchedule: (value: number[]) => void;
 }
 
 const initialWeekSetting: boolean[] = [false, false, false, false, false, false, false];
 
-export default function WeeklySchedule() {
+export default function WeeklySchedule({ setWeeklySchedule }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
 
@@ -37,6 +37,17 @@ export default function WeeklySchedule() {
             </TouchableOpacity>
         );
     });
+
+    useEffect(() => {
+        const weekdays: number[] = [];
+        weekSetting.forEach((item, index) => {
+            if (item)
+                weekdays.push(index);
+        });
+        // console.log(weekdays);
+        setWeeklySchedule(weekdays);
+
+    }, [weekSetting]);
 
     return (
         <View>

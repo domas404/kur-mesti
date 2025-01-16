@@ -3,8 +3,9 @@ import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import WeeklySchedule from "./WeeklySchedule";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useTheme } from "@react-navigation/native";
 import BiWeeklySchedule from "./BiWeeklySchedule";
+import MonthlySchedule from "./MonthlySchedule";
+import MonthlyScheduleByWeekdays from "./MonthlyScheduleByWeekdays";
 
 type RepeatPatternMap = {
     [key: string]: string
@@ -22,9 +23,14 @@ const repeatPatternList = [
     { id: 'bi-weekly', title: 'Kas n-tąją savaitę' },
     { id: 'month-day', title: 'Kiekvieną mėnesį (pagal mėnesio dienas)' },
     { id: 'month-weekday', title: 'Kiekvieną mėnesį (pagal savaitės dienas)' },
-]
+];
 
-export default function ScheduleRepeat() {
+type Props = {
+    setWeeklySchedule: (value: number[]) => void;
+    setBiWeeklySchedule: (selectedWeekdays: number[], interval: number, startDate: Date) => void;
+}
+
+export default function ScheduleRepeat({ setWeeklySchedule, setBiWeeklySchedule }: Props) {
 
     const [repeatPattern, setRepeatPattern] = useState<string>('');
     const [selectListVisible, setSelectListVisible] = useState<boolean>(false);
@@ -76,8 +82,10 @@ export default function ScheduleRepeat() {
                     </TouchableOpacity>
                 }
             </View>
-            { repeatPattern === 'weekly' && <WeeklySchedule />}
-            { repeatPattern === 'bi-weekly' && <BiWeeklySchedule /> }
+            { repeatPattern === 'weekly' && <WeeklySchedule setWeeklySchedule={setWeeklySchedule} />}
+            { repeatPattern === 'bi-weekly' && <BiWeeklySchedule setBiWeeklySchedule={setBiWeeklySchedule} /> }
+            { repeatPattern === 'month-day' && <MonthlySchedule /> }
+            { repeatPattern === 'month-weekday' && <MonthlyScheduleByWeekdays /> }
         </>
     );
 }

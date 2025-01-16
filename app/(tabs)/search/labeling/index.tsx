@@ -3,7 +3,7 @@ import { Stack } from "expo-router";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 
-import LabelCategory from '@/components/LabelCategory';
+import LabelCategory from '@/components/search/LabelCategory';
 
 import { labelCategoryList } from '@/data/label-categories';
 
