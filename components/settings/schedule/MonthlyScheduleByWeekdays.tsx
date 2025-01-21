@@ -1,14 +1,15 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useState } from "react";
+import { WeekPattern } from "@/types/schedule";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 type Props = {
-
+    setMonthlyScheduleByWeekday: (weekPattern: WeekPattern[]) => void;
 }
 
-const initialWeekSetting: boolean[][] = Array(5).fill(null).map(()=>Array(7).fill(false));
+const initialWeekSetting: boolean[][] = Array(4).fill(null).map(()=>Array(7).fill(false));
 
-export default function MonthlyScheduleByWeekdays() {
+export default function MonthlyScheduleByWeekdays({ setMonthlyScheduleByWeekday }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[][]>(initialWeekSetting);
 
@@ -28,6 +29,23 @@ export default function MonthlyScheduleByWeekdays() {
             return newValue;
         })
     }
+
+    useEffect(() => {
+        const weekPatterns: WeekPattern[] = [];
+        weekSetting.forEach((week, i) => {
+            const newPattern: WeekPattern = { week: i, weekdays: [] }
+            week.forEach((day, j) => {
+                if (day) {
+                    newPattern.weekdays.push((j+1)%7);
+                }
+            });
+            if (newPattern.weekdays.length > 0) {
+                weekPatterns.push(newPattern);
+            }
+        });
+        // console.log(weekPatterns);
+        setMonthlyScheduleByWeekday(weekPatterns);
+    }, [weekSetting]);
 
     const mappedWeekdays = weekSetting.map((item, i) => {
         const mappedWeek = item.map((day, j) => {
@@ -62,7 +80,7 @@ export default function MonthlyScheduleByWeekdays() {
                     weekSetting.map((item, i) => {
                         const week = item.map((day, j) => {
                             const weekdays = ['Pirmadienis', 'Antradienis', 'Trečiadienis', 'Ketvirtadienis', 'Penktadienis', 'Šeštadienis', 'Sekmadienis'];
-                            const weeks = ['Pirmas', 'Antras', 'Trečias', 'Ketvirtas', 'Penktas'];
+                            const weeks = ['Pirmas', 'Antras', 'Trečias', 'Ketvirtas'];
                             if (day) {
                                 return (
                                     <Text key={`${i}-${j}`} style={[styles.weekdayListItem, {backgroundColor: tint, color: tintText}]}>

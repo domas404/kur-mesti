@@ -6,6 +6,7 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import BiWeeklySchedule from "./BiWeeklySchedule";
 import MonthlySchedule from "./MonthlySchedule";
 import MonthlyScheduleByWeekdays from "./MonthlyScheduleByWeekdays";
+import { WeekPattern } from "@/types/schedule";
 
 type RepeatPatternMap = {
     [key: string]: string
@@ -28,9 +29,11 @@ const repeatPatternList = [
 type Props = {
     setWeeklySchedule: (value: number[]) => void;
     setBiWeeklySchedule: (selectedWeekdays: number[], interval: number, startDate: Date) => void;
+    setMonthlySchedule: (selectedDays: number[]) => void;
+    setMonthlyScheduleByWeekday: (weekPattern: WeekPattern[]) => void;
 }
 
-export default function ScheduleRepeat({ setWeeklySchedule, setBiWeeklySchedule }: Props) {
+export default function ScheduleRepeat({ setWeeklySchedule, setBiWeeklySchedule, setMonthlySchedule,setMonthlyScheduleByWeekday }: Props) {
 
     const [repeatPattern, setRepeatPattern] = useState<string>('');
     const [selectListVisible, setSelectListVisible] = useState<boolean>(false);
@@ -84,8 +87,8 @@ export default function ScheduleRepeat({ setWeeklySchedule, setBiWeeklySchedule 
             </View>
             { repeatPattern === 'weekly' && <WeeklySchedule setWeeklySchedule={setWeeklySchedule} />}
             { repeatPattern === 'bi-weekly' && <BiWeeklySchedule setBiWeeklySchedule={setBiWeeklySchedule} /> }
-            { repeatPattern === 'month-day' && <MonthlySchedule /> }
-            { repeatPattern === 'month-weekday' && <MonthlyScheduleByWeekdays /> }
+            { repeatPattern === 'month-day' && <MonthlySchedule setMonthlySchedule={setMonthlySchedule} /> }
+            { repeatPattern === 'month-weekday' && <MonthlyScheduleByWeekdays setMonthlyScheduleByWeekday={setMonthlyScheduleByWeekday} /> }
         </>
     );
 }

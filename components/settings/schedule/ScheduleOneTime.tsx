@@ -1,11 +1,19 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import DatePicker from "./DatePicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function ScheduleOneTime() {
+type Props = {
+    setOneTimeSchedule: (date: Date) => void;
+}
+
+export default function ScheduleOneTime({ setOneTimeSchedule }: Props) {
     const [color] = useThemeColor(['text']);
     const [date, setDate] = useState<Date>(new Date());
+
+    useEffect(() => {
+        setOneTimeSchedule(date);
+    }, [date]);
     
     return (
         <View>

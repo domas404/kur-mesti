@@ -2,15 +2,14 @@ import { useThemeColor } from "@/hooks/useThemeColor";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import {Picker} from '@react-native-picker/picker';
 
 type Props = {
-
+    setMonthlySchedule: (selectedDays: number[]) => void;
 }
 
 const initialWeekSetting: boolean[] = Array(31).fill(false);
 
-export default function MonthlySchedule() {
+export default function MonthlySchedule({ setMonthlySchedule }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
 
@@ -42,6 +41,16 @@ export default function MonthlySchedule() {
             </View>
         );
     });
+
+    useEffect(() => {
+        const days: number[] = [];
+        weekSetting.forEach((item, index) => {
+            if (item)
+                days.push(index);
+        });
+        // console.log(weekdays);
+        setMonthlySchedule(days);
+    }, [weekSetting]);
 
     return (
         <View>
