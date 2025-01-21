@@ -5,11 +5,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 type Props = {
     setMonthlySchedule: (selectedDays: number[]) => void;
+    initialMonthSetting: number[];
 }
 
 const initialWeekSetting: boolean[] = Array(31).fill(false);
 
-export default function MonthlySchedule({ setMonthlySchedule }: Props) {
+export default function MonthlySchedule({ setMonthlySchedule, initialMonthSetting }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
 
@@ -27,6 +28,16 @@ export default function MonthlySchedule({ setMonthlySchedule }: Props) {
             return newValue;
         })
     }
+
+    useEffect(() => {
+        if (initialMonthSetting) {
+            const weekSettingCopy = [...weekSetting];
+            initialMonthSetting.forEach((day) => {
+                weekSettingCopy[day-1] = true;
+            });
+            setWeekSetting(weekSettingCopy);
+        }
+    }, []);
 
     const mappedWeekdays = weekSetting.map((item, index) => {
         return (

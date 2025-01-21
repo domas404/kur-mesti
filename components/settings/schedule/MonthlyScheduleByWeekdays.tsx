@@ -5,13 +5,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 type Props = {
     setMonthlyScheduleByWeekday: (weekPattern: WeekPattern[]) => void;
+    initialWeekPattern: WeekPattern[];
 }
 
-const initialWeekSetting: boolean[][] = Array(4).fill(null).map(()=>Array(7).fill(false));
+export default function MonthlyScheduleByWeekdays({ setMonthlyScheduleByWeekday, initialWeekPattern }: Props) {
 
-export default function MonthlyScheduleByWeekdays({ setMonthlyScheduleByWeekday }: Props) {
-
-    const [weekSetting, setWeekSetting] = useState<boolean[][]>(initialWeekSetting);
+    const [weekSetting, setWeekSetting] = useState<boolean[][]>(Array(4).fill(null).map(()=>Array(7).fill(false)));
 
     const [
         backgroundColor,
@@ -29,6 +28,19 @@ export default function MonthlyScheduleByWeekdays({ setMonthlyScheduleByWeekday 
             return newValue;
         })
     }
+
+    useEffect(() => {
+        console.log(weekSetting);
+        if (initialWeekPattern) {
+            const weekSettingCopy = [...weekSetting];
+            initialWeekPattern.forEach((item, i) => {
+                for (let j=0; j<item.weekdays.length; j++) {
+                    weekSettingCopy[item.week][(item.weekdays[j]+7-1)%7] = true;
+                }
+            })
+            setWeekSetting([...weekSettingCopy]);
+        }
+    }, []);
 
     useEffect(() => {
         const weekPatterns: WeekPattern[] = [];

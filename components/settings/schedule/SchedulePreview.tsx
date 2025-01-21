@@ -10,9 +10,10 @@ type Props = {
     item: ScheduleItem;
     id: string;
     deleteSchedule: (id: string) => void;
+    editSchedule: (id: string) => void;
 }
 
-export default function SchedulePreview({ item, id, deleteSchedule }: Props) {
+export default function SchedulePreview({ item, id, deleteSchedule, editSchedule }: Props) {
 
     const [backgroundColor, color, border, tabActiveColor] = useThemeColor(['container', 'text', 'border', 'tabActive']);
 
@@ -27,7 +28,7 @@ export default function SchedulePreview({ item, id, deleteSchedule }: Props) {
         text = 'Šiandien';
     } else if (daysUntil === 1) {
         text = 'Rytoj';
-    } else if (daysUntil % 10 === 1) {
+    } else if (daysUntil % 10 === 1 && daysUntil !== 11) {
         text = 'Po ' + daysUntil + ' dienos';
     } else if (daysUntil < 0) {
         if (daysUntil === -1)
@@ -83,7 +84,7 @@ export default function SchedulePreview({ item, id, deleteSchedule }: Props) {
             {
                 viewMore &&
                 <View style={[styles.actionsContainer]}>
-                    <TouchableOpacity style={[styles.actionsButton]}>
+                    <TouchableOpacity style={[styles.actionsButton]} onPress={() => editSchedule(id)}>
                         <MaterialIcons name={'edit'} size={20} color={color} />
                         <Text style={[styles.actionsButtonText, {color}]}>Redaguoti</Text>
                     </TouchableOpacity>

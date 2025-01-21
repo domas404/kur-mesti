@@ -1,15 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Link } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SchedulePreview from "@/components/settings/schedule/SchedulePreview";
 import { ScheduleItem } from "@/types/schedule";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ToogleSetting from "@/components/settings/schedule/ToggleSetting";
 import { calculateDaysUntil } from "@/utils/scheduleUtils";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Schedule() {
 
@@ -20,25 +21,26 @@ export default function Schedule() {
     const [visible, setVisible] = useState(true);
     const [reminderOn, setReminderOn] = useState(false);
 
-    useEffect(() => {
-        const setupScheduleList = async () => {
-            const storage = await AsyncStorage.getItem('schedule');
-            if (storage) {
-                const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
-                scheduleObjectList.sort((a, b) => {
-                    const closestDateA = new Date(a.closestDate!);
-                    const daysUntilA = calculateDaysUntil(closestDateA);
-                    const closestDateB = new Date(b.closestDate!);
-                    const daysUntilB = calculateDaysUntil(closestDateB);
-                    return daysUntilA - daysUntilB;
-
-                })
-                setScheduleList(scheduleObjectList);
+    useFocusEffect(
+        useCallback(() => {
+            const setupScheduleList = async () => {
+                const storage = await AsyncStorage.getItem('schedule');
+                if (storage) {
+                    const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
+                    scheduleObjectList.sort((a, b) => {
+                        const closestDateA = new Date(a.closestDate!);
+                        const daysUntilA = calculateDaysUntil(closestDateA);
+                        const closestDateB = new Date(b.closestDate!);
+                        const daysUntilB = calculateDaysUntil(closestDateB);
+                        return daysUntilA - daysUntilB;
+                    });
+                    setScheduleList(scheduleObjectList);
+                }
+                // await AsyncStorage.clear();
             }
-            // await AsyncStorage.clear();
-        }
-        setupScheduleList();
-    }, []);
+            setupScheduleList();
+        }, [])
+    );
 
     const deleteSchedule = async (id: string) => {
         const schedule = scheduleList.find((item) => item.id === id);
@@ -49,12 +51,15 @@ export default function Schedule() {
         setScheduleList(newScheduleList);
         // console.log(id, index);
     }
+    
+    const editSchedule = (id: string) => {
+        router.navigate(`./schedule/item/${id}`);
+    }
 
     const mappedScheduleList = scheduleList.map((item, index) => {
-        return <SchedulePreview key={index} item={item} id={item.id} deleteSchedule={deleteSchedule} />
+        return <SchedulePreview key={index} item={item} id={item.id} deleteSchedule={deleteSchedule} editSchedule={editSchedule} />
     });
 
-    const editSchedule = () => {}
 
 
     return (
@@ -72,7 +77,7 @@ export default function Schedule() {
                             <ToogleSetting name={'Priminimas'} setting={reminderOn} setSetting={setReminderOn} />
                         </View>
                         {/* <View style={[styles.scheduleListContainer, {backgroundColor}]}> */}
-                            <Link style={[styles.addNew]} href={'./schedule/item'} asChild>
+                            <Link style={[styles.addNew]} href={`./schedule/item/new`} asChild>
                                 <TouchableOpacity activeOpacity={0.7} >
                                     <Ionicons name={'add-circle-outline'} size={24} color={color} />
                                     <Text style={[styles.addNewText, {color}]}>Pridėti naują grafiką</Text>
@@ -118,7 +123,7 @@ const styles = StyleSheet.create({
         margin: 10,
         gap: 16,
         borderRadius: 20,
-        borderWidth: 1
+        // borderWidth: 1
     },
     addNewText: {
         fontSize: 16

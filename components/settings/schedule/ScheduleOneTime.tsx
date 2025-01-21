@@ -5,11 +5,20 @@ import { useEffect, useState } from "react";
 
 type Props = {
     setOneTimeSchedule: (date: Date) => void;
+    initialDate: string;
 }
 
-export default function ScheduleOneTime({ setOneTimeSchedule }: Props) {
+export default function ScheduleOneTime({ setOneTimeSchedule, initialDate }: Props) {
     const [color] = useThemeColor(['text']);
     const [date, setDate] = useState<Date>(new Date());
+    
+    useEffect(() => {
+        console.log(initialDate);
+        if (initialDate) {
+            const dateToSet: Date = new Date(initialDate);
+            setDate(dateToSet);
+        }
+    }, []);
 
     useEffect(() => {
         setOneTimeSchedule(date);
