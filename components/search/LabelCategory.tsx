@@ -1,32 +1,29 @@
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
-import { useState } from 'react';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
-type LabelCategory = {
-    name: string,
-    id: string
+type Props = {
+    item: {
+        name: string,
+        id: string
+    },
 }
 
-type LabelCategoryProps = {
-    item: LabelCategory,
-}
-
-export default function LabelCategory({ item }: LabelCategoryProps) {
+export default function LabelCategory({ item }: Props) {
 
     const { container: backgroundColor, text: color, border } = useThemeColor();
+    const { name, id } = item;
 
     return (
-        <Link style={[styles.container, {borderColor: border}]} href={`./labeling/${item.id}`} asChild>
+        <Link style={[styles.container, {borderColor: border}]} href={`./labeling/${id}`} asChild>
             <Pressable style={{ backgroundColor }}>
-                {/* <Text style={styles.nameContainer}>{item.name}</Text> */}
                 <View style={styles.wasteDisposalContainer}>
                     <View style={styles.headerContainer}>
                         <View style={styles.iconContainer}>
                             <Ionicons name={'cube-outline'} size={24} color={'#E4FFE6'} />
                         </View>
-                        <Text style={[styles.wasteDisposalText, {color}]}>{item.name}</Text>
+                        <Text style={[styles.wasteDisposalText, {color}]}>{name}</Text>
                     </View>
                     <Ionicons name={'arrow-forward'} size={28} color={color} />
                 </View>
@@ -42,17 +39,11 @@ const styles = StyleSheet.create({
         width: '100%',
         marginVertical: 4,
         borderWidth: 1,
-        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
     },
     headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 16
-    },
-    nameContainer: {
-        fontSize: 18,
-        width: '70%',
-        fontWeight: 500
     },
     wasteDisposalContainer: {
         flexDirection: 'row',
@@ -63,19 +54,6 @@ const styles = StyleSheet.create({
     },
     wasteDisposalText: {
         fontSize: 18,
-    },
-    showMoreButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 4,
-        padding: 8,
-        alignSelf: 'flex-end'
-    },
-    showMoreIcon: {
-        width: 18
-    },
-    showMoreContainer: {
-        width: '100%',
     },
     iconContainer: {
         backgroundColor: '#86B38A',

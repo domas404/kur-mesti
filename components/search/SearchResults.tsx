@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { wasteItemList } from "@/data/waste-items";
 import WasteItem from "./WasteItem";
 

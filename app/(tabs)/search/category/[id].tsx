@@ -1,12 +1,10 @@
-import { useLocalSearchParams } from 'expo-router';
-import { Text, View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import { Stack } from "expo-router";
+import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import WasteItem from '@/components/search/WasteItem';
+import { useLocalSearchParams, Stack } from 'expo-router';
 
 import { wasteItemList } from '@/data/waste-items';
 import { wasteCategoryMap } from '@/data/waste-categories';
+import WasteItem from '@/components/search/WasteItem';
 
 export default function Page() {
 	const { id } = useLocalSearchParams();

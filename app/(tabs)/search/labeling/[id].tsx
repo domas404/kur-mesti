@@ -1,18 +1,16 @@
-import { useLocalSearchParams } from 'expo-router';
-import { Text, View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
-import { Stack } from "expo-router";
+import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import LabelItem from '@/components/search/LabelItem';
+import { useLocalSearchParams, Stack } from 'expo-router';
 
 import { labelItemList } from '@/data/label-items';
 import { wasteCategoryMap } from "@/data/label-categories";
+import LabelItem from '@/components/search/LabelItem';
 
-interface labelImages {
+type LabelImages = {
     [id: string]: string
 }
 
-const labelImages: labelImages = {
+const labelImages: LabelImages = {
     pet_1: require('@/assets/images/labels/pet_1.png'),
     hdpe_2: require('@/assets/images/labels/hdpe_2.png'),
     pvc_3: require('@/assets/images/labels/pvc_3.png'),

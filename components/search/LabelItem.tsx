@@ -1,25 +1,23 @@
-import { Ionicons } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Link } from 'expo-router';
 import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
-type LabelItem = {
-    name: string,
-    icon: any,
-    info: string,
-    source: string
-}
-
-type LabelItemProps = {
-    item: LabelItem,
+type Props = {
+    item: {
+        name: string,
+        icon: any,
+        info: string,
+        source: string
+    },
     image: any
 }
 
-export default function LabelItem({ item, image }: LabelItemProps) {
+export default function LabelItem({ item, image }: Props) {
 
     const [showMoreInfo, setShowMoreInfo] = useState<boolean>(false);
+    const { name, icon, info, source } = item;
 
     const toggleShowMoreButton = () => {
         setShowMoreInfo(!showMoreInfo);
@@ -28,36 +26,31 @@ export default function LabelItem({ item, image }: LabelItemProps) {
     const { container: backgroundColor, text: color, border } = useThemeColor();
 
     return (
-        // <Link style={styles.container} href={`./category/${name}`} asChild>
-            <Pressable style={[styles.container, { backgroundColor, borderColor: border }]}>
-                {/* <Text style={styles.nameContainer}>{item.name}</Text> */}
-                <View style={styles.wasteDisposalContainer}>
-                    <View style={styles.iconContainer}>
-                        <Image
-                            source={image}
-                            style={styles.icon}
-                            contentFit="cover"
-                            tintColor={color}
-                            // transition={100}
-                        />
-                        {/* <Ionicons name={item.icon} size={36} color={'black'} /> */}
-                    </View>
-                    <Text style={[styles.wasteDisposalText, {color}]}>{item.name}</Text>
+        <Pressable style={[styles.container, { backgroundColor, borderColor: border }]}>
+            <View style={styles.wasteDisposalContainer}>
+                <View style={styles.iconContainer}>
+                    <Image
+                        source={image}
+                        style={styles.icon}
+                        contentFit="cover"
+                        tintColor={color}
+                    />
                 </View>
-                {
-                    showMoreInfo &&
-                    <View>
-                        <Text style={{color}}>{item.info}</Text>
-                    </View>
-                }
-                <View style={styles.showMoreContainer}>
-                    <Pressable style={styles.showMoreButton} onPress={toggleShowMoreButton}>
-                        <Ionicons style={styles.showMoreIcon} name={showMoreInfo ? 'chevron-up' : 'chevron-down'} size={18} color={color} />
-                        <Text style={{color}}>Rodyti { showMoreInfo ? "mažiau": "daugiau" }</Text>
-                    </Pressable>
+                <Text style={[styles.wasteDisposalText, {color}]}>{name}</Text>
+            </View>
+            {
+                showMoreInfo &&
+                <View>
+                    <Text style={{color}}>{info}</Text>
                 </View>
-            </Pressable>
-        // </Link>
+            }
+            <View style={styles.showMoreContainer}>
+                <Pressable style={styles.showMoreButton} onPress={toggleShowMoreButton}>
+                    <Ionicons style={styles.showMoreIcon} name={showMoreInfo ? 'chevron-up' : 'chevron-down'} size={18} color={color} />
+                    <Text style={{color}}>Rodyti { showMoreInfo ? "mažiau": "daugiau" }</Text>
+                </Pressable>
+            </View>
+        </Pressable>
     );
 }
 
@@ -68,15 +61,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
         paddingBottom: 10,
-        // flex: 1,
-        // height: 100,
-        // flexDirection: 'row',
-        // alignItems: 'center',
         width: '100%',
         marginVertical: 4,
-        // gap: 16,
         borderWidth: 1
-        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
     },
     iconContainer: {
         width: 36,
@@ -91,9 +78,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 8,
         width: '100%',
-        // backgroundColor: 'yellow',
         gap: 20,
-        // justifyContent: 'flex-start'
     },
     wasteDisposalText: {
         fontSize: 18,
@@ -102,7 +87,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4,
-        // backgroundColor: 'pink',
         padding: 8,
         alignSelf: 'flex-end'
     },

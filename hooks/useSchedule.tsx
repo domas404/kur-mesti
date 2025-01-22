@@ -1,15 +1,14 @@
-import { RepeatPattern, ScheduleItem, WeekPattern } from "@/types/schedule";
-import { calculateClosestDate, findClosestDay, findClosestMonthDay } from "@/utils/scheduleUtils";
+import { useCallback, useEffect, useState } from "react";
+import { ToastAndroid } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import { useCallback, useEffect, useId, useState } from "react";
-import { ToastAndroid } from "react-native";
+
+import { RepeatPattern, ScheduleItem, WeekPattern } from "@/types/schedule";
+import { calculateClosestDate, findClosestDay, findClosestMonthDay } from "@/utils/scheduleUtils";
 
 export function useSchedule(initialSchedule: ScheduleItem) {
     const [schedule, setSchedule] = useState<ScheduleItem>(initialSchedule);
     const [loaded, setLoaded] = useState(false);
-
-    // const newId = ('s'+useId().slice(1, -1));
 
     const changeRepeat = useCallback((repeat: boolean) => {
         setSchedule(prevSchedule => ({
@@ -147,23 +146,9 @@ export function useSchedule(initialSchedule: ScheduleItem) {
                     setSchedule(scheduleToEdit);
                 }
             }
-            // setLoaded(true);
         }
-        // console.log(id);
         console.log('initiate new schedule:', schedule);
         setScheduleData();
-        // if (id === 'new') {
-        //     const newSchedule = {
-        //         id: newId,
-        //         repeat: false,
-        //         closestDate: undefined
-        //     }
-        //     setSchedule(newSchedule);
-        //     console.log('assigned new id:', newId);
-        //     setLoaded(true);
-        // } else {
-        //     setScheduleData();
-        // }
     }, []);
 
     useEffect(() => {
@@ -171,7 +156,6 @@ export function useSchedule(initialSchedule: ScheduleItem) {
     }, [schedule]);
 
     const saveSchedule = async () => {
-        // console.log(schedule);
         const scheduleList = await AsyncStorage.getItem('schedule');
         if (scheduleList) {
             const updatedSchedules: ScheduleItem[] = JSON.parse(scheduleList);
@@ -202,5 +186,4 @@ export function useSchedule(initialSchedule: ScheduleItem) {
         setRepeatPattern,
         saveSchedule
     }
-
 }

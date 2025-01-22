@@ -1,14 +1,13 @@
-import { Image, StyleSheet, ScrollView, SafeAreaView, View, Text, Pressable, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
+import { StyleSheet, ScrollView, SafeAreaView, View, Text, Pressable } from 'react-native';
+import { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import WasteCategory from '@/components/search/WasteCategory'
-import SearchBar from '@/components/search/SearchBar';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import { wasteCategoryList } from '@/data/waste-categories';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { useState } from 'react';
+import WasteCategory from '@/components/search/WasteCategory'
+import SearchBar from '@/components/search/SearchBar';
 import SearchResults from '@/components/search/SearchResults';
 
 export default function Search() {
@@ -41,7 +40,6 @@ export default function Search() {
 							updateSearchInput={updateSearchInput}
 							clearSearchInput={clearSearchInput}
 						/>
-						{/* <Text style={{ color: 'white' }}>{searchInput}</Text> */}
 					</View>
 					{
 						searchInput === '' ?
@@ -57,7 +55,6 @@ export default function Search() {
 									<Ionicons name={'arrow-forward'} size={28} color={color} />
 								</Pressable>
 							</Link>
-							{/* <Text style={{color, paddingHorizontal: 30}}>Ieškoti pagal kategoriją</Text> */}
 							<View style={styles.categoryContainer}>
 								{mappedCategories}
 							</View>
@@ -80,22 +77,17 @@ const styles = StyleSheet.create({
 		width: '100%',
 		paddingBottom: 6,
 		elevation: 4
-		// boxShadow: '0 4 8 #rgba(0,0,0,0.1)'
 	},
 	labelingContainer: {
 		height: 100,
-		backgroundColor: 'white',
-		marginHorizontal: 10,
-		marginVertical: 10,
+		margin: 10,
 		borderRadius: 20,
-		// boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)',
 		borderWidth: 1,
-		// borderColor: '#e1e1e1',
 		flexDirection: 'row',
 		alignItems: 'center',
 		padding: 20,
 		gap: 16,
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
 	},
 	categoryContainer: {
 		flexDirection: 'row',

@@ -1,14 +1,11 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
-import { Stack } from "expo-router";
+import { View, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useLocalSearchParams } from 'expo-router';
-
-import LabelCategory from '@/components/search/LabelCategory';
+import { Stack } from "expo-router";
 
 import { labelCategoryList } from '@/data/label-categories';
+import LabelCategory from '@/components/search/LabelCategory';
 
 export default function Labeling() {
-    const { id } = useLocalSearchParams();
     
     const mappedItems = labelCategoryList.map((item, index) => {
         return (

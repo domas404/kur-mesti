@@ -1,11 +1,6 @@
-import { useThemeColor } from '@/hooks/useThemeColor';
+import { View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { View, StyleSheet, TextInput, NativeSyntheticEvent, TextInputChangeEventData, TouchableOpacity } from 'react-native';
-
-// type WasteCategoryProps = {
-//     name: string,
-//     icon: any
-// }
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 type Props = {
     searchInput: string,
@@ -46,8 +41,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         gap: 10,
         borderWidth: 1,
-        // borderColor: '#e1e1e1',
-        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
     },
     input: {
         flex: 1,

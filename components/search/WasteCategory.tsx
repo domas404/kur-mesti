@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Link } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
 type WasteCategoryProps = {
@@ -36,9 +36,7 @@ const styles = StyleSheet.create({
         width: '49%',
         marginVertical: 4,
         gap: 12,
-        // boxShadow: '0 5 12 rgba(0, 0, 0, 0.1)'
         borderWidth: 1,
-        // borderColor: '#e1e1e1',
     },
     iconContainer: {
         backgroundColor: '#86B38A',
@@ -51,7 +49,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         flexWrap: 'wrap',
         flex: 1,
-        
-        // width: '70%',
     }
 });
