@@ -1,11 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Image } from "expo-image";
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { Ionicons } from "@expo/vector-icons";
-import TipList from "./TipList";
 import { useState } from "react";
-
-const image = require('@/assets/images/icons/poly-bag.png');
+import { useThemeColor } from "@/hooks/useThemeColor";
+import TipList from "./TipList";
 
 const tabInfo = [
     { id: 'do', text: 'Mesti' },
@@ -13,7 +9,7 @@ const tabInfo = [
     { id: 'tips', text: 'Patarimai', icon: 'remove-outline', tint: 'blue' },
 ];
 
-interface WasteSiteMap {
+type WasteSiteMap = {
     [key: string]: string,
 }
 
@@ -25,11 +21,11 @@ const wasteSiteMap: WasteSiteMap = {
     'fabric': 'Tekstilė'
 }
 
-interface TipsContainerProps {
+type Props = {
     selectedWasteSite: string
 }
 
-export default function TipsContainer({ selectedWasteSite }: TipsContainerProps) {
+export default function TipsContainer({ selectedWasteSite }: Props) {
     
     const {
         container: backgroundColor,
@@ -62,12 +58,6 @@ export default function TipsContainer({ selectedWasteSite }: TipsContainerProps)
     return (
         <View style={[styles.container, {backgroundColor, borderColor: border}]}>
             <View style={styles.header}>
-                {/* <Image
-                    source={image}
-                    tintColor={color}
-                    contentFit="cover"
-                    style={styles.image}
-                /> */}
                 <Text style={[styles.headerText, {color}]}>{wasteSiteMap[selectedWasteSite]}</Text>
             </View>
             <View>
@@ -86,7 +76,6 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         margin: 10,
         borderWidth: 1,
-        // boxShadow: '0 5 12 rgba(0,0,0,0.1)',
         gap: 16
     },
     header: {
@@ -94,15 +83,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 20
     },
-    image: {
-        height: 60,
-        width: 60
-    },
     headerText: {
         fontSize: 18,
         fontWeight: 500,
-        // textTransform: 'uppercase',
-        // backgroundColor: 'red',
     },
     tabContainer: {
         flexDirection: 'row',
@@ -110,22 +93,13 @@ const styles = StyleSheet.create({
     },
     tab: {
         height: 40,
-        // width: 100,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20,
         backgroundColor: '#ddd',
-        // width: 100,
         paddingHorizontal: 20,
-        // paddingVertical: 12,
     },
-    // selectedTab: {
-    //     backgroundColor: '#555',
-    // },
     tabText: {
         fontSize: 16,
     },
-    // selectedTabText: {
-    //     color: 'white'
-    // }
 })

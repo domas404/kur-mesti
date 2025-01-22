@@ -1,7 +1,7 @@
-import { Ionicons } from "@expo/vector-icons";
 import { View, Text, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-interface TipItemProps {
+type Props = {
     color: string,
     icon: any,
     text: string
@@ -9,7 +9,7 @@ interface TipItemProps {
     selectedWasteSite: string
 }
 
-export default function TipItem({ color, icon, text, tintColor, selectedWasteSite }: TipItemProps) {
+export default function TipItem({ color, icon, text, tintColor, selectedWasteSite }: Props) {
     return (
         <View style={styles.listItem}>
             <Ionicons style={styles.listIcon} name={icon} size={24} color={tintColor ?? color} />
@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 10,
         alignItems:'center',
-        // flex: 1,
     },
     listItemText: {
         fontSize: 16,

@@ -1,17 +1,15 @@
-import { View, Text, StyleSheet } from "react-native"
-import WasteSite from "./WasteSite"
+import { View, StyleSheet } from "react-native"
 import { ScrollView } from "react-native-gesture-handler";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import WasteSite from "./WasteSite"
 
-
-
-interface WasteSiteListProps {
+type Props = {
     selectedWasteSite: string;
     changeWasteSite: (item: string) => void;
     wasteSiteList: { id: string, title: string }[]
 }
 
-export default function WasteSiteList({ selectedWasteSite, changeWasteSite, wasteSiteList }: WasteSiteListProps) {
+export default function WasteSiteList({ selectedWasteSite, changeWasteSite, wasteSiteList }: Props) {
 
     const { container: backgroundColor } = useThemeColor();
 
@@ -41,7 +39,5 @@ export default function WasteSiteList({ selectedWasteSite, changeWasteSite, wast
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        // height: 100,
-        // backgroundColor
     }
 });

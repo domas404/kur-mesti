@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from 'expo-image';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
@@ -19,7 +19,6 @@ type WasteSiteProps = {
     selected: boolean,
     changeWasteSite: (item: string) => void,
     id: string
-    // icon: any
 }
 
 export default function WasteSite({ title, changeWasteSite, selected, id }: WasteSiteProps) {
@@ -36,7 +35,6 @@ export default function WasteSite({ title, changeWasteSite, selected, id }: Wast
                 source={wasteSiteImages[id as string]}
                 style={[styles.icon, {opacity: selected ? 1 : 0.6}]}
                 contentFit="contain"
-                // tintColor={color}
             />
             <Text style={[styles.text, {color}, {opacity: selected ? 1 : 0.7}]}>{title}</Text>
         </TouchableOpacity>
