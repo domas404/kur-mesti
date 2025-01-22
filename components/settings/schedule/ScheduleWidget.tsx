@@ -1,16 +1,30 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import WidgetMenu from "./WidgetMenu";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ScheduleItem } from "@/types/schedule";
+import { calculateDaysUntil, sortScheduleList } from "@/utils/scheduleUtils";
+import { useFocusEffect } from "@react-navigation/native";
 
 type Props = {
 
 }
 
+type ScheduleInfo = {
+    daysUntil: number;
+    date: string;
+    weekday: number;
+}
+
+const weekdays = ['Sekmadienis', 'Pirmadienis', 'Antradienis', 'Trečiadienis', 'Ketvirtadienis', 'Penktadienis', 'Šeštadienis'];
+
 export default function ScheduleWidget() {
 
     const [color, backgroundColor, border] = useThemeColor(['text', 'container', 'border']);
+
+    const [schedule, setSchedule] = useState<ScheduleInfo>({ daysUntil: -1, date: '', weekday: -1 });
 
     const [menuVisible, setMenuVisible] = useState<boolean>(false);
     // const menuRef = useRef(null);
@@ -23,11 +37,46 @@ export default function ScheduleWidget() {
         setMenuVisible(false);
     }
 
+    const getText = (daysUntil: number) => {
+        let text = daysUntil + ' dienų';
+
+        if (daysUntil === 0) {
+            text = 'Šiandien';
+        } else if (daysUntil === 1) {
+            text = 'Rytoj';
+        } else if (daysUntil % 10 === 1 && daysUntil !== 11) {
+            text = daysUntil + ' dienos';
+        }
+
+        return text;
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            const setupScheduleList = async () => {
+                const storage = await AsyncStorage.getItem('schedule');
+                if (storage) {
+                    const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
+                    sortScheduleList(scheduleObjectList);
+                    const closestDate = new Date(scheduleObjectList[0].closestDate!);
+                    setSchedule({
+                        ...schedule,
+                        daysUntil: calculateDaysUntil(closestDate),
+                        date: closestDate.toISOString().slice(5, 10),
+                        weekday: closestDate.getDay()
+                    })
+                }
+                // await AsyncStorage.clear();
+            }
+            setupScheduleList();
+        }, [])
+    );
+
     return (
         <>
             <View style={[styles.container, {backgroundColor, borderColor: border}]}>
                 <View style={styles.header}>
-                    <Text style={[styles.headerText, {color}]}>Atliekų išvežimas po:</Text>
+                    <Text style={[styles.headerText, {color}]}>Atliekų išvežimas{schedule.daysUntil !== 0 && ' po'}:</Text>
                     <TouchableOpacity
                         activeOpacity={0.5}
                         onPress={toggleMenuVisibility}
@@ -37,9 +86,9 @@ export default function ScheduleWidget() {
                     </TouchableOpacity>
                     <WidgetMenu visible={menuVisible} closeMenu={closeMenu} color={color} backgroundColor={backgroundColor} />
                 </View>
-                <Text style={[styles.countdownText, {color}]}>6 dienų</Text>
+                <Text style={[styles.countdownText, {color}]}>{schedule.daysUntil > -1 ? getText(schedule.daysUntil) : 'Nenustatyta'}</Text>
                 <View style={styles.scheduleDateContainer}>
-                    <Text style={[styles.scheduleDate]}>01-15 Trečiadienis</Text>
+                    <Text style={[styles.scheduleDate]}>{schedule.date !== '' ? schedule.date : '--/--'} {schedule.weekday > -1 ? weekdays[schedule.weekday] : ''}</Text>
                 </View>
             </View>
         </>
