@@ -42,7 +42,7 @@ export default function SchedulePreview({ item, id, deleteSchedule, editSchedule
     let sentence = '';
 
     if (item.repeat) {
-        switch(item.period) {
+        switch(item.repeatPattern) {
             case 'weekly':
                 sentence = getSentenceWeekly(item.weekdays!);
                 break;

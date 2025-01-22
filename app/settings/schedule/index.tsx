@@ -9,7 +9,7 @@ import SchedulePreview from "@/components/settings/schedule/SchedulePreview";
 import { ScheduleItem } from "@/types/schedule";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import ToogleSetting from "@/components/settings/schedule/ToggleSetting";
-import { calculateDaysUntil } from "@/utils/scheduleUtils";
+import { calculateDaysUntil, sortScheduleList } from "@/utils/scheduleUtils";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function Schedule() {
@@ -27,13 +27,7 @@ export default function Schedule() {
                 const storage = await AsyncStorage.getItem('schedule');
                 if (storage) {
                     const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
-                    scheduleObjectList.sort((a, b) => {
-                        const closestDateA = new Date(a.closestDate!);
-                        const daysUntilA = calculateDaysUntil(closestDateA);
-                        const closestDateB = new Date(b.closestDate!);
-                        const daysUntilB = calculateDaysUntil(closestDateB);
-                        return daysUntilA - daysUntilB;
-                    });
+                    sortScheduleList(scheduleObjectList);
                     setScheduleList(scheduleObjectList);
                 }
                 // await AsyncStorage.clear();

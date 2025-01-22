@@ -4,17 +4,29 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 type Props = {
     setWeeklySchedule: (value: number[]) => void;
+    initialWeekdays: number[];
 }
 
 const initialWeekSetting: boolean[] = [false, false, false, false, false, false, false];
 
-export default function WeeklySchedule({ setWeeklySchedule }: Props) {
+export default function WeeklySchedule({ setWeeklySchedule, initialWeekdays }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
 
     const [color, border, tint, tintLight, tintText] = useThemeColor(['text', 'border', 'tint', 'tintLight', 'tintText']);
 
     // const [mappedWeekdays, setMappedWeekdays] = useState();
+
+    useEffect(() => {
+        console.log(weekSetting);
+        if (initialWeekdays) {
+            const weekSettingCopy = [...weekSetting];
+            initialWeekdays.forEach((item, i) => {
+                weekSettingCopy[item] = true;
+            })
+            setWeekSetting([...weekSettingCopy]);
+        }
+    }, []);
 
     const updateWeekSetting = (index: number) => {
         setWeekSetting(() => {

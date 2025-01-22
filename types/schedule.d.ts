@@ -10,7 +10,7 @@ export type ScheduleItem = {
     repeat: boolean;
     closestDate: string | undefined;
 
-    period?: RepeatPattern;
+    repeatPattern?: RepeatPattern;
     weekdays?: number[];
     interval?: number;
     startDate?: string;

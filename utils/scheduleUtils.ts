@@ -1,4 +1,15 @@
-import { WeekPattern } from "@/types/schedule";
+import { ScheduleItem, WeekPattern } from "@/types/schedule";
+
+export const sortScheduleList = (scheduleList: ScheduleItem[]) => {
+    scheduleList.sort((a, b) => {
+        const closestDateA = new Date(a.closestDate!);
+        const daysUntilA = calculateDaysUntil(closestDateA);
+        const closestDateB = new Date(b.closestDate!);
+        const daysUntilB = calculateDaysUntil(closestDateB);
+        return daysUntilA - daysUntilB;
+    });
+    return scheduleList;
+}
 
 export const calculateDaysUntil = (targetDate: Date) => {
     const today = new Date();

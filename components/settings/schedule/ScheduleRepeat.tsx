@@ -35,9 +35,12 @@ type Props = {
     setRepeatPattern: (repeatPattern: RepeatPattern) => void;
     initialWeekPattern: WeekPattern[];
     initialMonthSetting: number[];
+    initialWeekdays: number[];
+    initialInterval: number;
+    initialDate: string;
 }
 
-export default function ScheduleRepeat({setWeeklySchedule, setBiWeeklySchedule, setMonthlySchedule, setMonthlyScheduleByWeekday, repeatPattern, setRepeatPattern, initialWeekPattern, initialMonthSetting }: Props) {
+export default function ScheduleRepeat({setWeeklySchedule, setBiWeeklySchedule, setMonthlySchedule, setMonthlyScheduleByWeekday, repeatPattern, setRepeatPattern, initialWeekPattern, initialMonthSetting, initialWeekdays, initialInterval, initialDate }: Props) {
 
     // const [repeatPattern, setRepeatPattern] = useState<string>('');
     const [selectListVisible, setSelectListVisible] = useState<boolean>(false);
@@ -49,9 +52,9 @@ export default function ScheduleRepeat({setWeeklySchedule, setBiWeeklySchedule, 
         setSelectListVisible(false);
     }
 
-    useEffect(() => {
-        console.log(repeatPattern);
-    }, []);
+    // useEffect(() => {
+    //     console.log(repeatPattern);
+    // }, []);
 
     const mappedRepeatPatterns = repeatPatternList.map((item, index) => {
         return (
@@ -93,8 +96,8 @@ export default function ScheduleRepeat({setWeeklySchedule, setBiWeeklySchedule, 
                     </TouchableOpacity>
                 }
             </View>
-            { repeatPattern === 'weekly' && <WeeklySchedule setWeeklySchedule={setWeeklySchedule} />}
-            { repeatPattern === 'bi-weekly' && <BiWeeklySchedule setBiWeeklySchedule={setBiWeeklySchedule} /> }
+            { repeatPattern === 'weekly' && <WeeklySchedule setWeeklySchedule={setWeeklySchedule} initialWeekdays={initialWeekdays} />}
+            { repeatPattern === 'bi-weekly' && <BiWeeklySchedule setBiWeeklySchedule={setBiWeeklySchedule} initialWeekdays={initialWeekdays} initialInterval={initialInterval} initialDate={initialDate} /> }
             { repeatPattern === 'monthly' && <MonthlySchedule setMonthlySchedule={setMonthlySchedule} initialMonthSetting={initialMonthSetting} /> }
             { repeatPattern === 'monthly-by-weekdays' && <MonthlyScheduleByWeekdays setMonthlyScheduleByWeekday={setMonthlyScheduleByWeekday} initialWeekPattern={initialWeekPattern} /> }
         </>

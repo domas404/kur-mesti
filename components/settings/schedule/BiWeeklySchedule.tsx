@@ -6,11 +6,14 @@ import DatePicker from "./DatePicker";
 
 type Props = {
     setBiWeeklySchedule: (selectedWeekdays: number[], interval: number, startDate: Date) => void;
+    initialWeekdays: number[];
+    initialInterval: number;
+    initialDate: string;
 }
 
 const initialWeekSetting: boolean[] = Array(7).fill(false);
 
-export default function BiWeeklySchedule({ setBiWeeklySchedule }: Props) {
+export default function BiWeeklySchedule({ setBiWeeklySchedule, initialWeekdays, initialInterval, initialDate }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
     const [weekInterval, setWeekInterval] = useState<number>(2);
@@ -38,6 +41,19 @@ export default function BiWeeklySchedule({ setBiWeeklySchedule }: Props) {
     ] = useThemeColor(['container', 'text', 'border', 'tint', 'tintLight', 'tintText']);
 
     // const [mappedWeekdays, setMappedWeekdays] = useState();
+
+    useEffect(() => {
+        console.log(weekSetting);
+        if (initialWeekdays && initialInterval && initialDate) {
+            const weekSettingCopy = [...weekSetting];
+            initialWeekdays.forEach((item, i) => {
+                weekSettingCopy[item] = true;
+            })
+            setWeekSetting([...weekSettingCopy]);
+            setWeekInterval(initialInterval);
+            setDate(new Date(initialDate));
+        }
+    }, []);
 
     const updateWeekSetting = (index: number) => {
         setWeekSetting(() => {
