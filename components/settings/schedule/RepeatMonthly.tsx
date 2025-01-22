@@ -1,17 +1,17 @@
-import { useThemeColor } from "@/hooks/useThemeColor";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type Props = {
     setMonthlySchedule: (selectedDays: number[]) => void;
     initialMonthSetting: number[];
 }
 
-const initialWeekSetting: boolean[] = Array(31).fill(false);
+const initialMonthDays: boolean[] = Array(31).fill(false);
 
 export default function RepeatMonthly({ setMonthlySchedule, initialMonthSetting }: Props) {
 
-    const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
+    const [monthDays, setMonthDays] = useState<boolean[]>(initialMonthDays);
 
     const {
         text: color,
@@ -20,9 +20,9 @@ export default function RepeatMonthly({ setMonthlySchedule, initialMonthSetting 
         tintText
     } = useThemeColor();
 
-    const updateWeekSetting = (index: number) => {
-        setWeekSetting(() => {
-            const newValue = [...weekSetting];
+    const updateMonthDays = (index: number) => {
+        setMonthDays(() => {
+            const newValue = [...monthDays];
             newValue[index] = !newValue[index];
             return newValue;
         })
@@ -30,21 +30,21 @@ export default function RepeatMonthly({ setMonthlySchedule, initialMonthSetting 
 
     useEffect(() => {
         if (initialMonthSetting) {
-            const weekSettingCopy = [...weekSetting];
+            const monthDaysCopy = [...monthDays];
             initialMonthSetting.forEach((day) => {
-                weekSettingCopy[day-1] = true;
+                monthDaysCopy[day-1] = true;
             });
-            setWeekSetting(weekSettingCopy);
+            setMonthDays(monthDaysCopy);
         }
     }, []);
 
-    const mappedWeekdays = weekSetting.map((item, index) => {
+    const mappedDays = monthDays.map((item, index) => {
         return (
             <View style={styles.dayButtonContainer} key={`${index}`}>
                 <TouchableOpacity
                     style={[styles.dayButton, item && {backgroundColor: tintLight}, {borderColor: border}]}
                     activeOpacity={0.7}
-                    onPress={() => updateWeekSetting(index)}
+                    onPress={() => updateMonthDays(index)}
                 >
                     <Text style={[styles.dayButtonText, item ? {color: tintText} : {color}]}>{index+1}</Text>
                 </TouchableOpacity>
@@ -54,19 +54,18 @@ export default function RepeatMonthly({ setMonthlySchedule, initialMonthSetting 
 
     useEffect(() => {
         const days: number[] = [];
-        weekSetting.forEach((item, index) => {
+        monthDays.forEach((item, index) => {
             if (item)
                 days.push(index);
         });
-        // console.log(weekdays);
         setMonthlySchedule(days);
-    }, [weekSetting]);
+    }, [monthDays]);
 
     return (
         <View>
             <Text style={[styles.containerLabel, {color}]}>Mėnesio diena(-os)</Text>
             <View style={styles.dayListContainer}>
-                {mappedWeekdays}
+                {mappedDays}
             </View>
         </View>
     );
@@ -94,7 +93,6 @@ const styles = StyleSheet.create({
         borderRadius: 18,
         borderWidth: 1,
         borderColor: '#ddd',
-        
     },
     dayButtonText: {
         fontSize: 16,

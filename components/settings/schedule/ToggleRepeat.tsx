@@ -1,6 +1,5 @@
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type Props = {
     repeat: boolean;
@@ -8,8 +7,6 @@ type Props = {
 }
 
 export default function RepeatNav({ repeat, setRepeat }: Props) {
-
-    // const [repeat, setRepeat] = useState<boolean>(false);
 
     const { text: color, tab: tabColor, tabActive: tabActiveColor } = useThemeColor();
 

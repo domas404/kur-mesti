@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { RepeatPattern, WeekPattern } from "@/types/schedule";
+import { RepeatPattern, ScheduleItem, WeekPattern } from "@/types/schedule";
 import RepeatWeekly from "./RepeatWeekly";
 import RepeatBiWeekly from "./RepeatBiWeekly";
 import RepeatMonthly from "./RepeatMonthly";
@@ -20,58 +20,48 @@ const repeatPatternMap: RepeatPatternMap = {
     'monthly-by-weekdays': 'Kiekvieną mėnesį (pagal savaitės dienas)'
 }
 
-const repeatPatternList = [
-    { id: 'weekly', title: 'Kiekvieną savaitę' },
-    { id: 'bi-weekly', title: 'Kas n-tąją savaitę' },
-    { id: 'monthly', title: 'Kiekvieną mėnesį (pagal mėnesio dienas)' },
-    { id: 'monthly-by-weekdays', title: 'Kiekvieną mėnesį (pagal savaitės dienas)' },
-];
-
 type Props = {
     setWeeklySchedule: (value: number[]) => void;
     setBiWeeklySchedule: (selectedWeekdays: number[], interval: number, startDate: Date) => void;
     setMonthlySchedule: (selectedDays: number[]) => void;
     setMonthlyScheduleByWeekday: (weekPattern: WeekPattern[]) => void;
-    repeatPattern: string;
     setRepeatPattern: (repeatPattern: RepeatPattern) => void;
-    initialWeekPattern: WeekPattern[];
-    initialMonthSetting: number[];
-    initialWeekdays: number[];
-    initialInterval: number;
-    initialDate: string;
+    initialSchedule: ScheduleItem;
 }
 
-export default function ScheduleRepeat({setWeeklySchedule, setBiWeeklySchedule, setMonthlySchedule, setMonthlyScheduleByWeekday, repeatPattern, setRepeatPattern, initialWeekPattern, initialMonthSetting, initialWeekdays, initialInterval, initialDate }: Props) {
+export default function ScheduleRepeat({
+    setWeeklySchedule,
+    setBiWeeklySchedule,
+    setMonthlySchedule,
+    setMonthlyScheduleByWeekday,
+    setRepeatPattern,
+    initialSchedule,
+}: Props) {
 
-    // const [repeatPattern, setRepeatPattern] = useState<string>('');
     const [selectListVisible, setSelectListVisible] = useState<boolean>(false);
-
     const { container: backgroundColor, text: color, border } = useThemeColor();
+    const { weekdays, interval, startDate, days, weekPattern, repeatPattern } = initialSchedule;
 
     const changeRepeatPattern = (id: RepeatPattern) => {
         setRepeatPattern(id);
         setSelectListVisible(false);
     }
 
-    // useEffect(() => {
-    //     console.log(repeatPattern);
-    // }, []);
-
-    const mappedRepeatPatterns = repeatPatternList.map((item, index) => {
+    const mappedRepeatPatterns = Object.keys(repeatPatternMap).map((item, index) => {
         return (
             <TouchableOpacity
-                key={`${item.id}-${index}`}
+                key={`${item}-${index}`}
                 style={styles.listItem}
-                onPress={() => changeRepeatPattern(item.id as RepeatPattern)}
+                onPress={() => changeRepeatPattern(item as RepeatPattern)}
             >
-                <Text style={[styles.listItemText, {color}]}>{item.title}</Text>
+                <Text style={[styles.listItemText, {color}]}>{repeatPatternMap[item]}</Text>
             </TouchableOpacity>
         );
-    })
+    });
 
     return (
         <>
-            <View style={styles.container}>
+            <View>
                 <Text style={[styles.containerLabel, {color}]}>Periodiškumas</Text>
                 <TouchableOpacity
                     style={[styles.selectContainer, {backgroundColor, borderColor: border}]}
@@ -97,25 +87,21 @@ export default function ScheduleRepeat({setWeeklySchedule, setBiWeeklySchedule, 
                     </TouchableOpacity>
                 }
             </View>
-            { repeatPattern === 'weekly' && <RepeatWeekly setWeeklySchedule={setWeeklySchedule} initialWeekdays={initialWeekdays} />}
-            { repeatPattern === 'bi-weekly' && <RepeatBiWeekly setBiWeeklySchedule={setBiWeeklySchedule} initialWeekdays={initialWeekdays} initialInterval={initialInterval} initialDate={initialDate} /> }
-            { repeatPattern === 'monthly' && <RepeatMonthly setMonthlySchedule={setMonthlySchedule} initialMonthSetting={initialMonthSetting} /> }
-            { repeatPattern === 'monthly-by-weekdays' && <RepeatMonthlyByWeekdays setMonthlyScheduleByWeekday={setMonthlyScheduleByWeekday} initialWeekPattern={initialWeekPattern} /> }
+            { repeatPattern === 'weekly' && <RepeatWeekly setWeeklySchedule={setWeeklySchedule} initialWeekdays={weekdays!} />}
+            { repeatPattern === 'bi-weekly' && <RepeatBiWeekly setBiWeeklySchedule={setBiWeeklySchedule} initialWeekdays={weekdays!} initialInterval={interval!} initialDate={startDate!} /> }
+            { repeatPattern === 'monthly' && <RepeatMonthly setMonthlySchedule={setMonthlySchedule} initialMonthSetting={days!} /> }
+            { repeatPattern === 'monthly-by-weekdays' && <RepeatMonthlyByWeekdays setMonthlyScheduleByWeekday={setMonthlyScheduleByWeekday} initialWeekPattern={weekPattern!} /> }
         </>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        // gap: 20
-    },
     containerLabel: {
         padding: 5,
     },
     selectContainer: {
         padding: 20,
         borderWidth: 1,
-        borderColor: '#ddd',
         borderRadius: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -127,7 +113,6 @@ const styles = StyleSheet.create({
         marginTop: 100,
         paddingVertical: 10,
         borderWidth: 1,
-        borderColor: '#ddd',
         borderRadius: 8,
         backgroundColor: 'white',
         width: '100%',

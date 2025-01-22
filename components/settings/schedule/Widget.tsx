@@ -73,11 +73,10 @@ export default function ScheduleWidget() {
                     <TouchableOpacity
                         activeOpacity={0.5}
                         onPress={toggleMenuVisibility}
-                        style={styles.menuButton}
                     >
                         <Ionicons name={'ellipsis-vertical'} size={24} color={color} />
                     </TouchableOpacity>
-                    <WidgetMenu visible={menuVisible} closeMenu={closeMenu} color={color} backgroundColor={backgroundColor} />
+                    <WidgetMenu visible={menuVisible} closeMenu={closeMenu} color={color} backgroundColor={backgroundColor} border={border} />
                 </View>
                 <Text style={[styles.countdownText, {color}]}>{schedule.daysUntil > -1 ? getText(schedule.daysUntil) : 'Nenustatyta'}</Text>
                 <View style={styles.scheduleDateContainer}>
@@ -91,7 +90,6 @@ export default function ScheduleWidget() {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        // boxShadow: '0 5 12 rgba(0,0,0,0.1)',
         borderWidth: 1,
 		borderColor: '#dadada',
         margin: 10,
@@ -120,8 +118,5 @@ const styles = StyleSheet.create({
     scheduleDate: {
         fontSize: 16,
         color: '#E4FFE6',
-    },
-    menuButton: {
-        // backgroundColor: 'gray',
     },
 });

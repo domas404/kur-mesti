@@ -4,6 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
 import DatePicker from "./DatePicker";
+import Weekdays from "./Weekdays";
+import WeekdayNames from "./WeekdayNames";
 
 type Props = {
     setBiWeeklySchedule: (selectedWeekdays: number[], interval: number, startDate: Date) => void;
@@ -32,17 +34,9 @@ export default function RepeatBiWeekly({ setBiWeeklySchedule, initialWeekdays, i
             setWeekInterval(decreasedValue);
     }
 
-    const {
-        container: backgroundColor,
-        text: color,
-        border,
-        tint,
-        tintLight,
-        tintText
-    } = useThemeColor();
+    const { container: backgroundColor, text: color, border } = useThemeColor();
 
     useEffect(() => {
-        console.log(weekSetting);
         if (initialWeekdays && initialInterval && initialDate) {
             const weekSettingCopy = [...weekSetting];
             initialWeekdays.forEach((item, i) => {
@@ -62,50 +56,21 @@ export default function RepeatBiWeekly({ setBiWeeklySchedule, initialWeekdays, i
         })
     }
 
-    const mappedWeekdays = weekSetting.map((item, index) => {
-        const week = ['P', 'A', 'T', 'K', 'P', 'Š', 'S'];
-        return (
-            <TouchableOpacity
-                style={[styles.weekdayButton, item && {backgroundColor: tintLight}, {borderColor: border}]}
-                key={`${week[index]}-${index}`}
-                activeOpacity={0.7}
-                onPress={() => updateWeekSetting(index)}
-            >
-                <Text style={[styles.weekdayButtonText, item ? {color: tintText} : {color}]}>{week[index]}</Text>
-            </TouchableOpacity>
-        );
-    });
-
     useEffect(() => {
         const weekdays: number[] = [];
         weekSetting.forEach((item, index) => {
             if (item)
                 weekdays.push(index);
         });
-        // console.log(weekdays);
         setBiWeeklySchedule(weekdays, weekInterval, date);
     }, [weekSetting, weekInterval, date]);
 
     return (
         <View>
             <Text style={[styles.containerLabel, {color}]}>Savaitės diena(-os)</Text>
-            <View style={styles.weekdayListContainer}>
-                {mappedWeekdays}
-            </View>
-            <View style={styles.weekdayList}>
-                {
-                    weekSetting.map((item, index) => {
-                        const weekdays = ['Pirmadienis', 'Antradienis', 'Trečiadienis', 'Ketvirtadienis', 'Penktadienis', 'Šeštadienis', 'Sekmadienis'];
-                        if (item) {
-                            return (
-                                <Text key={index} style={[styles.weekdayListItem, {backgroundColor: tint, color: tintText}]}>
-                                    {weekdays[index]}
-                                </Text>
-                            );
-                        }
-                    })
-                }
-            </View>
+            <Weekdays weekSetting={weekSetting} updateWeekSetting={updateWeekSetting} />
+            <WeekdayNames weekSetting={weekSetting} />
+
             <Text style={[styles.containerLabel, {color}]}>Kas kiek savaičių?</Text>
             <View style={[styles.selectContainer, {backgroundColor, borderColor: border}]}>
                 <Text style={[styles.selectedRepeatPatternText, {color, borderRightColor: border}]} numberOfLines={1}>
@@ -120,6 +85,7 @@ export default function RepeatBiWeekly({ setBiWeeklySchedule, initialWeekdays, i
                     </TouchableOpacity>
                 </View>
             </View>
+            
             <Text style={[styles.containerLabel, {color}]}>Pradedant nuo:</Text>
             <DatePicker date={date} setDate={setDate} />
         </View>
@@ -129,37 +95,6 @@ export default function RepeatBiWeekly({ setBiWeeklySchedule, initialWeekdays, i
 const styles = StyleSheet.create({
     containerLabel: {
         padding: 5,
-    },
-    weekdayListContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingVertical: 10,
-    },
-    weekdayButton: {
-        width: 36,
-        height: 36,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 18,
-        borderWidth: 1,
-        borderColor: '#ddd',
-    },
-    weekdayButtonText: {
-        fontSize: 18,
-        textAlign: 'center',
-    },
-    weekdayList: {
-        flexDirection: 'row',
-        paddingVertical: 10,
-        paddingHorizontal: 5,
-        flexWrap: 'wrap',
-    },
-    weekdayListItem: {
-        paddingHorizontal: 5,
-        paddingVertical: 2,
-        borderRadius: 4,
-        marginRight: 5,
-        marginBottom: 5
     },
     selectedRepeatPatternText: {
         fontSize: 16,

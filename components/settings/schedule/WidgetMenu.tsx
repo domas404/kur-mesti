@@ -8,12 +8,12 @@ type Props = {
     closeMenu: () => void;
     color: string;
     backgroundColor: string;
+    border: string;
 }
 
-export default function WidgetMenu({ visible, closeMenu, color, backgroundColor }: Props) {
+export default function WidgetMenu({ visible, closeMenu, color, backgroundColor, border }: Props) {
 
     const colorScheme = useColorScheme();
-
     NavigationBar.setBorderColorAsync(colorScheme === 'dark' ? 'black' : 'white');
 
     return (
@@ -24,7 +24,7 @@ export default function WidgetMenu({ visible, closeMenu, color, backgroundColor 
             animationType="fade"
         >
             <Pressable style={styles.overlay} onPress={closeMenu} />
-            <View style={[styles.container, {backgroundColor}]}>
+            <View style={[styles.container, { backgroundColor, borderColor: border }]}>
                 <TouchableOpacity style={styles.menuItem}>
                     <Ionicons name={'eye-off-outline'} size={24} color={color} />
                     <Text style={[styles.menuItemText, {color}]}>Nerodyti</Text>
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         boxShadow: '0 5 12 rgba(0,0,0,0.1)',
         borderWidth: 1,
-        borderColor: 'rgba(150,150,150,0.2)',
         paddingVertical: 10,
         borderRadius: 20,
         zIndex: 10,

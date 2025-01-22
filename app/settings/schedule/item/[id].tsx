@@ -49,13 +49,8 @@ export default function Item() {
                                     setBiWeeklySchedule={setBiWeeklySchedule}
                                     setMonthlySchedule={setMonthlySchedule}
                                     setMonthlyScheduleByWeekday={setMonthlyScheduleByWeekday}
-                                    repeatPattern={schedule.repeatPattern!}
                                     setRepeatPattern={setRepeatPattern}
-                                    initialWeekPattern={schedule.weekPattern!}
-                                    initialMonthSetting={schedule.days!}
-                                    initialWeekdays={schedule.weekdays!}
-                                    initialInterval={schedule.interval!}
-                                    initialDate={schedule.startDate!}
+                                    initialSchedule={schedule}
                                 />
                                 :
                                 <ScheduleOnce setOneTimeSchedule={setOneTimeSchedule} initialDate={schedule.closestDate!} />

@@ -13,7 +13,6 @@ export default function RepeatMonthlyByWeekdays({ setMonthlyScheduleByWeekday, i
     const [weekSetting, setWeekSetting] = useState<boolean[][]>(Array(4).fill(null).map(()=>Array(7).fill(false)));
 
     const {
-        container: backgroundColor,
         text: color,
         border,
         tint,
@@ -30,7 +29,6 @@ export default function RepeatMonthlyByWeekdays({ setMonthlyScheduleByWeekday, i
     }
 
     useEffect(() => {
-        console.log(weekSetting);
         if (initialWeekPattern) {
             const weekSettingCopy = [...weekSetting];
             initialWeekPattern.forEach((item, i) => {
@@ -55,7 +53,6 @@ export default function RepeatMonthlyByWeekdays({ setMonthlyScheduleByWeekday, i
                 weekPatterns.push(newPattern);
             }
         });
-        // console.log(weekPatterns);
         setMonthlyScheduleByWeekday(weekPatterns);
     }, [weekSetting]);
 
