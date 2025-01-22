@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import { useEffect, useState } from "react";
+
 import { useThemeColor } from "@/hooks/useThemeColor";
 import DatePicker from "./DatePicker";
-import { useEffect, useState } from "react";
 
 type Props = {
     setOneTimeSchedule: (date: Date) => void;
@@ -9,11 +10,10 @@ type Props = {
 }
 
 export default function ScheduleOneTime({ setOneTimeSchedule, initialDate }: Props) {
-    const [color] = useThemeColor(['text']);
+    const { text: color } = useThemeColor();
     const [date, setDate] = useState<Date>(new Date());
     
     useEffect(() => {
-        console.log(initialDate);
         if (initialDate) {
             const dateToSet: Date = new Date(initialDate);
             setDate(dateToSet);
@@ -33,18 +33,3 @@ export default function ScheduleOneTime({ setOneTimeSchedule, initialDate }: Pro
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    dateContainer: {
-        padding: 20,
-        borderRadius: 8,
-        borderWidth: 1,
-        alignSelf: 'flex-start',
-        flexDirection: 'row',
-        gap: 12,
-        alignItems: 'center'
-    },
-    dateText: {
-        fontSize: 16,
-    }
-});

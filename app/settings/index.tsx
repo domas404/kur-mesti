@@ -19,7 +19,7 @@ export default function Settings() {
         return <SettingsItem key={`${item.id}-${index}`} icon={item.icon} title={item.title} id={item.id} />
     });
 
-    const [backgroundColor] = useThemeColor(['container']);
+    const { container: backgroundColor, border } = useThemeColor();
 
     return (
         <>
@@ -28,7 +28,7 @@ export default function Settings() {
                     title: 'Nustatymai'
                 }}
             />
-            <View style={[styles.container, {backgroundColor}]}>
+            <View style={[styles.container, {backgroundColor, borderColor: border}]}>
                 {mappedSettings}
             </View>
         </>
@@ -37,11 +37,8 @@ export default function Settings() {
 
 const styles = StyleSheet.create({
     container: {
-        // padding: 10,
-        // backgroundColor: 'white',
         borderRadius: 20,
         margin: 10,
-        // height: '100%',
-        boxShadow: '0 5 12 rgba(0,0,0,0.1)'
+        borderWidth: 1,
     }
 });

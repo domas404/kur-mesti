@@ -6,17 +6,17 @@ import { Ionicons } from '@expo/vector-icons';
 import { Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import ScheduleWidget from '@/components/settings/schedule/ScheduleWidget';
+import Widget from '@/components/settings/schedule/Widget';
 
 export default function HomeScreen() {
 
-	const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
+	const { container: backgroundColor, text: color, border } = useThemeColor();
 
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView>
 				<ScrollView>
-					<ScheduleWidget />
+					<Widget />
 					<View style={styles.shortcutContainer}>
 						<Link href="./tips" style={[styles.shortcutLink, {backgroundColor, borderColor: border}]} asChild>
 							<Pressable style={styles.shortcut}>

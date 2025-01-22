@@ -8,18 +8,18 @@ type Props = {
     initialWeekPattern: WeekPattern[];
 }
 
-export default function MonthlyScheduleByWeekdays({ setMonthlyScheduleByWeekday, initialWeekPattern }: Props) {
+export default function RepeatMonthlyByWeekdays({ setMonthlyScheduleByWeekday, initialWeekPattern }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[][]>(Array(4).fill(null).map(()=>Array(7).fill(false)));
 
-    const [
-        backgroundColor,
-        color,
+    const {
+        container: backgroundColor,
+        text: color,
         border,
         tint,
         tintLight,
         tintText
-    ] = useThemeColor(['container', 'text', 'border', 'tint', 'tintLight', 'tintText']);
+    } = useThemeColor();
 
     const updateWeekSetting = (i: number, j: number) => {
         setWeekSetting(() => {

@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
-import { calculateDaysUntil, getSentenceBiWeekly, getSentenceMonthly, getSentenceMonthlyByWeekdays, getSentenceWeekly } from '@/utils/scheduleUtils';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { ScheduleItem } from "@/types/schedule";
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { calculateDaysUntil, getSentenceBiWeekly, getSentenceMonthly, getSentenceMonthlyByWeekdays, getSentenceWeekly } from '@/utils/scheduleUtils';
 
 type Props = {
     item: ScheduleItem;
@@ -13,9 +13,9 @@ type Props = {
     editSchedule: (id: string) => void;
 }
 
-export default function SchedulePreview({ item, id, deleteSchedule, editSchedule }: Props) {
+export default function Preview({ item, id, deleteSchedule, editSchedule }: Props) {
 
-    const [backgroundColor, color, border, tabActiveColor] = useThemeColor(['container', 'text', 'border', 'tabActive']);
+    const { container: backgroundColor, text: color, border, tabActive: tabActiveColor } = useThemeColor();
 
     const [viewMore, setViewMore] = useState(false);
 
@@ -64,7 +64,6 @@ export default function SchedulePreview({ item, id, deleteSchedule, editSchedule
     }
     return (
         <View style={[styles.scheduleItemContainer, {backgroundColor, borderColor: border}]}>
-            {/* <Text style={[{color}]}>Atliekų išvežimas{daysUntil > 1 && ' po'}:</Text> */}
             <View style={styles.headerContainer}>
                 <View style={{flexDirection: 'row', gap: 12, alignItems: 'center'}}>
                     <Text style={[styles.headerText, {color}]}>{text}</Text>

@@ -31,14 +31,14 @@ interface TipsContainerProps {
 
 export default function TipsContainer({ selectedWasteSite }: TipsContainerProps) {
     
-    const [
-        backgroundColor,
-        color,
-        tabColor,
+    const {
+        container: backgroundColor,
+        text: color,
+        tab: tabColor,
         tint,
         tintText,
         border,
-    ] = useThemeColor(['container', 'text', 'tab', 'tint', 'tintText', 'border']);
+    } = useThemeColor();
 
     const [tab, setTab] = useState<string>('do');
 

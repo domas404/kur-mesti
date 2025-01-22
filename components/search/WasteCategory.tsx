@@ -11,7 +11,7 @@ type WasteCategoryProps = {
 
 export default function WasteCategory({ name, icon, id }: WasteCategoryProps) {
 
-    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
+    const { container: backgroundColor, text: color, border } = useThemeColor();
 
     return (
         <Link style={[styles.container, {backgroundColor, borderColor: border}]} href={`./search/category/${id}`} asChild>

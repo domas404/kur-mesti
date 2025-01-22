@@ -1,16 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useRef, useEffect, useCallback } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { useState, useCallback } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import WidgetMenu from "./WidgetMenu";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScheduleItem } from "@/types/schedule";
 import { calculateDaysUntil, sortScheduleList } from "@/utils/scheduleUtils";
 import { useFocusEffect } from "@react-navigation/native";
-
-type Props = {
-
-}
 
 type ScheduleInfo = {
     daysUntil: number;
@@ -22,12 +18,9 @@ const weekdays = ['Sekmadienis', 'Pirmadienis', 'Antradienis', 'Trečiadienis', 
 
 export default function ScheduleWidget() {
 
-    const [color, backgroundColor, border] = useThemeColor(['text', 'container', 'border']);
-
+    const { text: color, container: backgroundColor, border } = useThemeColor();
     const [schedule, setSchedule] = useState<ScheduleInfo>({ daysUntil: -1, date: '', weekday: -1 });
-
     const [menuVisible, setMenuVisible] = useState<boolean>(false);
-    // const menuRef = useRef(null);
 
     const toggleMenuVisibility = () => {
         setMenuVisible(!menuVisible);
@@ -76,7 +69,7 @@ export default function ScheduleWidget() {
         <>
             <View style={[styles.container, {backgroundColor, borderColor: border}]}>
                 <View style={styles.header}>
-                    <Text style={[styles.headerText, {color}]}>Atliekų išvežimas{schedule.daysUntil !== 0 && ' po'}:</Text>
+                    <Text style={[styles.headerText, {color}]}>Atliekų išvežimas{schedule.daysUntil > 1 && ' po'}:</Text>
                     <TouchableOpacity
                         activeOpacity={0.5}
                         onPress={toggleMenuVisibility}

@@ -1,19 +1,20 @@
-import RepeatNav from "@/components/settings/schedule/RepeatNav";
-import ScheduleOneTime from "@/components/settings/schedule/ScheduleOneTime";
-import ScheduleRepeat from "@/components/settings/schedule/ScheduleRepeat";
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { useId } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { useId } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Stack, useLocalSearchParams } from "expo-router";
+
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { useSchedule } from "@/hooks/useSchedule";
+import RepeatNav from "@/components/settings/schedule/ToggleRepeat";
+import ScheduleOnce from "@/components/settings/schedule/ScheduleOnce";
+import ScheduleRepeat from "@/components/settings/schedule/ScheduleRepeat";
 
 export default function Item() {
 
     const { id } = useLocalSearchParams();
-    const [containerColor, color, tabActiveColor] = useThemeColor(['container', 'text', 'tabActive']);
-
     const newId = ('s'+useId().slice(1, -1));
+
+    const { container: containerColor, text: color, tabActive: tabActiveColor } = useThemeColor();
 
     const {
         schedule,
@@ -57,7 +58,7 @@ export default function Item() {
                                     initialDate={schedule.startDate!}
                                 />
                                 :
-                                <ScheduleOneTime setOneTimeSchedule={setOneTimeSchedule} initialDate={schedule.closestDate!} />
+                                <ScheduleOnce setOneTimeSchedule={setOneTimeSchedule} initialDate={schedule.closestDate!} />
                             }
                             <TouchableOpacity
                                 style={[styles.saveButton, {backgroundColor: tabActiveColor}]}

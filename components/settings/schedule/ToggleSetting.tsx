@@ -9,7 +9,7 @@ type Props = {
 
 export default function ToogleSetting({ name, setting, setSetting }: Props) {
 
-    const [color, tintLight, tabColor, tabActiveColor] = useThemeColor(['text', 'tintLight', 'tab', 'tabActive']);
+    const { text: color, tintLight, tab: tabColor, tabActive: tabActiveColor } = useThemeColor();
 
     return (
         <View style={styles.setting}>

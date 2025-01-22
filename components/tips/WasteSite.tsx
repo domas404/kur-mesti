@@ -24,7 +24,7 @@ type WasteSiteProps = {
 
 export default function WasteSite({ title, changeWasteSite, selected, id }: WasteSiteProps) {
 
-    const [backgroundColor, color] = useThemeColor(['tabActive', 'text']);
+    const { tabActive: backgroundColor, text: color } = useThemeColor();
 
     return (
         <TouchableOpacity

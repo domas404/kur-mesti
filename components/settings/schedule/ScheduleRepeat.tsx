@@ -1,12 +1,13 @@
-import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import WeeklySchedule from "./WeeklySchedule";
+import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+
 import { useThemeColor } from "@/hooks/useThemeColor";
-import BiWeeklySchedule from "./BiWeeklySchedule";
-import MonthlySchedule from "./MonthlySchedule";
-import MonthlyScheduleByWeekdays from "./MonthlyScheduleByWeekdays";
 import { RepeatPattern, WeekPattern } from "@/types/schedule";
+import RepeatWeekly from "./RepeatWeekly";
+import RepeatBiWeekly from "./RepeatBiWeekly";
+import RepeatMonthly from "./RepeatMonthly";
+import RepeatMonthlyByWeekdays from "./RepeatMonthlyByWeekdays";
 
 type RepeatPatternMap = {
     [key: string]: string
@@ -45,7 +46,7 @@ export default function ScheduleRepeat({setWeeklySchedule, setBiWeeklySchedule, 
     // const [repeatPattern, setRepeatPattern] = useState<string>('');
     const [selectListVisible, setSelectListVisible] = useState<boolean>(false);
 
-    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
+    const { container: backgroundColor, text: color, border } = useThemeColor();
 
     const changeRepeatPattern = (id: RepeatPattern) => {
         setRepeatPattern(id);
@@ -96,10 +97,10 @@ export default function ScheduleRepeat({setWeeklySchedule, setBiWeeklySchedule, 
                     </TouchableOpacity>
                 }
             </View>
-            { repeatPattern === 'weekly' && <WeeklySchedule setWeeklySchedule={setWeeklySchedule} initialWeekdays={initialWeekdays} />}
-            { repeatPattern === 'bi-weekly' && <BiWeeklySchedule setBiWeeklySchedule={setBiWeeklySchedule} initialWeekdays={initialWeekdays} initialInterval={initialInterval} initialDate={initialDate} /> }
-            { repeatPattern === 'monthly' && <MonthlySchedule setMonthlySchedule={setMonthlySchedule} initialMonthSetting={initialMonthSetting} /> }
-            { repeatPattern === 'monthly-by-weekdays' && <MonthlyScheduleByWeekdays setMonthlyScheduleByWeekday={setMonthlyScheduleByWeekday} initialWeekPattern={initialWeekPattern} /> }
+            { repeatPattern === 'weekly' && <RepeatWeekly setWeeklySchedule={setWeeklySchedule} initialWeekdays={initialWeekdays} />}
+            { repeatPattern === 'bi-weekly' && <RepeatBiWeekly setBiWeeklySchedule={setBiWeeklySchedule} initialWeekdays={initialWeekdays} initialInterval={initialInterval} initialDate={initialDate} /> }
+            { repeatPattern === 'monthly' && <RepeatMonthly setMonthlySchedule={setMonthlySchedule} initialMonthSetting={initialMonthSetting} /> }
+            { repeatPattern === 'monthly-by-weekdays' && <RepeatMonthlyByWeekdays setMonthlyScheduleByWeekday={setMonthlyScheduleByWeekday} initialWeekPattern={initialWeekPattern} /> }
         </>
     );
 }

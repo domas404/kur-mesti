@@ -1,30 +1,56 @@
-import { useThemeColor } from "@/hooks/useThemeColor";
-import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
+
+import { useThemeColor } from "@/hooks/useThemeColor";
+import DatePicker from "./DatePicker";
 
 type Props = {
-    setWeeklySchedule: (value: number[]) => void;
+    setBiWeeklySchedule: (selectedWeekdays: number[], interval: number, startDate: Date) => void;
     initialWeekdays: number[];
+    initialInterval: number;
+    initialDate: string;
 }
 
-const initialWeekSetting: boolean[] = [false, false, false, false, false, false, false];
+const initialWeekSetting: boolean[] = Array(7).fill(false);
 
-export default function WeeklySchedule({ setWeeklySchedule, initialWeekdays }: Props) {
+export default function RepeatBiWeekly({ setBiWeeklySchedule, initialWeekdays, initialInterval, initialDate }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
+    const [weekInterval, setWeekInterval] = useState<number>(2);
+    const [date, setDate] = useState<Date>(new Date());
 
-    const [color, border, tint, tintLight, tintText] = useThemeColor(['text', 'border', 'tint', 'tintLight', 'tintText']);
+    const increaseWeekInterval = () => {
+        const increasedValue = weekInterval+1;
+        if (increasedValue < 10)
+            setWeekInterval(increasedValue);
+    }
 
-    // const [mappedWeekdays, setMappedWeekdays] = useState();
+    const decreaseWeekInterval = () => {
+        const decreasedValue = weekInterval-1;
+        if (decreasedValue > 0)
+            setWeekInterval(decreasedValue);
+    }
+
+    const {
+        container: backgroundColor,
+        text: color,
+        border,
+        tint,
+        tintLight,
+        tintText
+    } = useThemeColor();
 
     useEffect(() => {
         console.log(weekSetting);
-        if (initialWeekdays) {
+        if (initialWeekdays && initialInterval && initialDate) {
             const weekSettingCopy = [...weekSetting];
             initialWeekdays.forEach((item, i) => {
                 weekSettingCopy[item] = true;
             })
             setWeekSetting([...weekSettingCopy]);
+            setWeekInterval(initialInterval);
+            setDate(new Date(initialDate));
         }
     }, []);
 
@@ -57,9 +83,8 @@ export default function WeeklySchedule({ setWeeklySchedule, initialWeekdays }: P
                 weekdays.push(index);
         });
         // console.log(weekdays);
-        setWeeklySchedule(weekdays);
-
-    }, [weekSetting]);
+        setBiWeeklySchedule(weekdays, weekInterval, date);
+    }, [weekSetting, weekInterval, date]);
 
     return (
         <View>
@@ -81,6 +106,22 @@ export default function WeeklySchedule({ setWeeklySchedule, initialWeekdays }: P
                     })
                 }
             </View>
+            <Text style={[styles.containerLabel, {color}]}>Kas kiek savaičių?</Text>
+            <View style={[styles.selectContainer, {backgroundColor, borderColor: border}]}>
+                <Text style={[styles.selectedRepeatPatternText, {color, borderRightColor: border}]} numberOfLines={1}>
+                    {weekInterval}
+                </Text>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={[styles.toggleNumberButton, {borderColor: border}]} onPress={increaseWeekInterval}>
+                        <Ionicons name={'add'} size={24} color={color} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.toggleNumberButton, {borderColor: border}]} onPress={decreaseWeekInterval}>
+                        <Ionicons name={'remove'} size={24} color={color} />
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <Text style={[styles.containerLabel, {color}]}>Pradedant nuo:</Text>
+            <DatePicker date={date} setDate={setDate} />
         </View>
     );
 }
@@ -93,26 +134,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingVertical: 10,
-        // gap: 10
     },
     weekdayButton: {
         width: 36,
         height: 36,
-        // flexDirection: 'row',
-        // backgroundColor: '#158abb',
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 18,
         borderWidth: 1,
         borderColor: '#ddd',
     },
-    weekdayButtonSelected: {
-        backgroundColor: '#92a8fc',
-    },
     weekdayButtonText: {
         fontSize: 18,
         textAlign: 'center',
-        // color: 'white'
     },
     weekdayList: {
         flexDirection: 'row',
@@ -123,9 +157,34 @@ const styles = StyleSheet.create({
     weekdayListItem: {
         paddingHorizontal: 5,
         paddingVertical: 2,
-        // backgroundColor: '#eee',
         borderRadius: 4,
         marginRight: 5,
         marginBottom: 5
+    },
+    selectedRepeatPatternText: {
+        fontSize: 16,
+        textAlign: 'center',
+        width: 60,
+        borderRightWidth: 1,
+    },
+    selectContainer: {
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 8,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 16,
+        alignSelf: 'flex-start',
+    },
+    toggleNumberButton: {
+        padding: 8,
+        borderRadius: 8,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        paddingHorizontal: 10,
+        gap: 4,
     }
 });

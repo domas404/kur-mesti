@@ -11,7 +11,7 @@ export default function RepeatNav({ repeat, setRepeat }: Props) {
 
     // const [repeat, setRepeat] = useState<boolean>(false);
 
-    const [color, tabColor, tabActiveColor] = useThemeColor(['text', 'tab', 'tabActive']);
+    const { text: color, tab: tabColor, tabActive: tabActiveColor } = useThemeColor();
 
     return (
         <View style={[styles.typeContainer]}>

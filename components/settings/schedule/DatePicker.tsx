@@ -1,9 +1,9 @@
 import { Text, StyleSheet } from "react-native";
 import { DateTimePickerAndroid, DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import { useState } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useThemeColor } from "@/hooks/useThemeColor";
 import { Ionicons } from "@expo/vector-icons";
+
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type Props = {
     date: Date;
@@ -12,7 +12,7 @@ type Props = {
 
 export default function DatePicker({ date, setDate }: Props) {
 
-    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
+    const { container: backgroundColor, text: color, border } = useThemeColor();
 
     const onChange = (event: DateTimePickerEvent, selectedDate: Date) => {
         const currentDate = selectedDate;

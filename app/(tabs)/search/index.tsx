@@ -23,7 +23,7 @@ export default function Search() {
 		setSearchInput('');
 	}
 
-	const [backgroundColor, color, background, border] = useThemeColor(['container', 'text', 'background', 'border']);
+	const { container: backgroundColor, text: color, background, border } = useThemeColor();
 
 	const mappedCategories = wasteCategoryList.map((item, index) => {
 		return (

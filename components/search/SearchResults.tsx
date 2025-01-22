@@ -1,12 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
+import { wasteItemList } from "@/data/waste-items";
+import WasteItem from "./WasteItem";
 
 type Props = {
     searchInput: string;
     color: string
 }
-
-import { wasteItemList } from "@/data/waste-items";
-import WasteItem from "./WasteItem";
 
 export default function SearchResults({ searchInput, color }: Props) {
     

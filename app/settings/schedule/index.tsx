@@ -1,21 +1,21 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { useCallback, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useThemeColor } from "@/hooks/useThemeColor";
 import { Link } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import SchedulePreview from "@/components/settings/schedule/SchedulePreview";
+
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { ScheduleItem } from "@/types/schedule";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { sortScheduleList } from "@/utils/scheduleUtils";
+import SchedulePreview from "@/components/settings/schedule/Preview";
 import ToogleSetting from "@/components/settings/schedule/ToggleSetting";
-import { calculateDaysUntil, sortScheduleList } from "@/utils/scheduleUtils";
-import { useFocusEffect } from "@react-navigation/native";
 
 export default function Schedule() {
 
-    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
-
+    const { container: backgroundColor, text: color, border } = useThemeColor();
     const [scheduleList, setScheduleList] = useState<ScheduleItem[]>([]);
 
     const [visible, setVisible] = useState(true);
@@ -43,7 +43,6 @@ export default function Schedule() {
         newScheduleList.splice(index, 1);
         await AsyncStorage.setItem('schedule', JSON.stringify(newScheduleList));
         setScheduleList(newScheduleList);
-        // console.log(id, index);
     }
     
     const editSchedule = (id: string) => {
@@ -54,8 +53,6 @@ export default function Schedule() {
         return <SchedulePreview key={index} item={item} id={item.id} deleteSchedule={deleteSchedule} editSchedule={editSchedule} />
     });
 
-
-
     return (
         <>
             <Stack.Screen
@@ -65,22 +62,20 @@ export default function Schedule() {
             />
             <GestureHandlerRootView>
                 <ScrollView contentContainerStyle={{paddingBottom: 100}}>
-                    <View style={styles.container}>
+                    <View>
                         <View style={[styles.settingsContainer, {backgroundColor, borderColor: border}]}>
                             <ToogleSetting name={'Rodyti pagrindiniame ekrane'} setting={visible} setSetting={setVisible} />
                             <ToogleSetting name={'Priminimas'} setting={reminderOn} setSetting={setReminderOn} />
                         </View>
-                        {/* <View style={[styles.scheduleListContainer, {backgroundColor}]}> */}
-                            <Link style={[styles.addNew]} href={`./schedule/item/new`} asChild>
-                                <TouchableOpacity activeOpacity={0.7} >
-                                    <Ionicons name={'add-circle-outline'} size={24} color={color} />
-                                    <Text style={[styles.addNewText, {color}]}>Pridėti naują grafiką</Text>
-                                </TouchableOpacity>
-                            </Link>
-                            <View style={[styles.scheduleList]}>
-                                {mappedScheduleList}
-                            </View>
-                        {/* </View> */}
+                        <Link style={[styles.addNew]} href={`./schedule/item/new`} asChild>
+                            <TouchableOpacity activeOpacity={0.7} >
+                                <Ionicons name={'add-circle-outline'} size={24} color={color} />
+                                <Text style={[styles.addNewText, {color}]}>Pridėti naują grafiką</Text>
+                            </TouchableOpacity>
+                        </Link>
+                        <View style={[styles.scheduleList]}>
+                            {mappedScheduleList}
+                        </View>
                     </View>
                 </ScrollView>
             </GestureHandlerRootView>
@@ -89,15 +84,6 @@ export default function Schedule() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        
-    },
-    scheduleListContainer: {
-        // margin: 10,
-        borderWidth: 1,
-        borderRadius: 20,
-        // padding: 10,
-    },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -117,7 +103,6 @@ const styles = StyleSheet.create({
         margin: 10,
         gap: 16,
         borderRadius: 20,
-        // borderWidth: 1
     },
     addNewText: {
         fontSize: 16
@@ -131,6 +116,5 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 1,
         gap: 24,
-        // marginBottom: 30,
     },
 });

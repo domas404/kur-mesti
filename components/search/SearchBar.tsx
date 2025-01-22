@@ -15,7 +15,7 @@ type Props = {
 
 export default function SearchBar({ searchInput, updateSearchInput, clearSearchInput }: Props) {
 
-    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
+    const { container: backgroundColor, text: color, border } = useThemeColor();
     
     return (
         <View style={[styles.container, {backgroundColor, borderColor: border}]}>

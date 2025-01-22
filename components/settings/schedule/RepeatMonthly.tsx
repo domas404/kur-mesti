@@ -1,5 +1,4 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
@@ -10,16 +9,16 @@ type Props = {
 
 const initialWeekSetting: boolean[] = Array(31).fill(false);
 
-export default function MonthlySchedule({ setMonthlySchedule, initialMonthSetting }: Props) {
+export default function RepeatMonthly({ setMonthlySchedule, initialMonthSetting }: Props) {
 
     const [weekSetting, setWeekSetting] = useState<boolean[]>(initialWeekSetting);
 
-    const [
-        color,
+    const {
+        text: color,
         border,
         tintLight,
         tintText
-    ] = useThemeColor(['text', 'border', 'tintLight', 'tintText']);
+    } = useThemeColor();
 
     const updateWeekSetting = (index: number) => {
         setWeekSetting(() => {

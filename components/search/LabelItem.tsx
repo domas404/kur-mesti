@@ -25,7 +25,7 @@ export default function LabelItem({ item, image }: LabelItemProps) {
         setShowMoreInfo(!showMoreInfo);
     }
 
-    const [backgroundColor, color, border] = useThemeColor(['container', 'text', 'border']);
+    const { container: backgroundColor, text: color, border } = useThemeColor();
 
     return (
         // <Link style={styles.container} href={`./category/${name}`} asChild>
