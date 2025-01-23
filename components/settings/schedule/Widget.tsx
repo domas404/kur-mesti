@@ -5,7 +5,7 @@ import WidgetMenu from "./WidgetMenu";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScheduleItem } from "@/types/schedule";
-import { calculateDaysUntil, sortScheduleList } from "@/utils/scheduleUtils";
+import { calculateDaysUntil, sortScheduleList } from "@/utils/schedule/scheduleUtils";
 import { useFocusEffect } from "@react-navigation/native";
 
 type ScheduleInfo = {

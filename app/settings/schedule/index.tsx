@@ -9,7 +9,7 @@ import { Link } from "expo-router";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ScheduleItem } from "@/types/schedule";
-import { sortScheduleList } from "@/utils/scheduleUtils";
+import { sortScheduleList } from "@/utils/schedule/scheduleUtils";
 import SchedulePreview from "@/components/settings/schedule/Preview";
 import ToogleSetting from "@/components/settings/schedule/ToggleSetting";
 

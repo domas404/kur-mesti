@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
 import { RepeatPattern, ScheduleItem, WeekPattern } from "@/types/schedule";
-import { calculateClosestDate, findClosestDay, findClosestMonthDay } from "@/utils/scheduleUtils";
+import { findClosestWeekdayDate, findClosestMonthDay } from "@/utils/schedule/scheduleUtils";
 
 export function useSchedule(initialSchedule: ScheduleItem) {
     const [schedule, setSchedule] = useState<ScheduleItem>(initialSchedule);
@@ -33,8 +33,7 @@ export function useSchedule(initialSchedule: ScheduleItem) {
     
         if (selectedWeekdays.length > 0) {
             const today = new Date();
-            const closestDay = findClosestDay(selectedWeekdays, today);
-            const closestDate = calculateClosestDate(today, closestDay);
+            const closestDate = findClosestWeekdayDate(selectedWeekdays, today);
     
             setSchedule(prevSchedule => ({
                 ...prevSchedule,
@@ -47,8 +46,7 @@ export function useSchedule(initialSchedule: ScheduleItem) {
 
     const setBiWeeklySchedule = useCallback((selectedWeekdays: number[], interval: number, startDate: Date) => {
         if (selectedWeekdays.length > 0) {
-            const closestDay = findClosestDay(selectedWeekdays, startDate);
-            const closestDate = calculateClosestDate(startDate, closestDay);
+            const closestDate = findClosestWeekdayDate(selectedWeekdays, startDate);
     
             setSchedule(prevSchedule => ({
                 ...prevSchedule,

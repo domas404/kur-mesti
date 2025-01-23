@@ -4,7 +4,8 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { ScheduleItem } from "@/types/schedule";
-import { calculateDaysUntil, getSentenceBiWeekly, getSentenceMonthly, getSentenceMonthlyByWeekdays, getSentenceWeekly } from '@/utils/scheduleUtils';
+import { calculateDaysUntil } from '@/utils/schedule/scheduleUtils';
+import { getSentenceBiWeekly, getSentenceMonthly, getSentenceMonthlyByWeekdays, getSentenceWeekly } from '@/utils/schedule/scheduleWording';
 
 type Props = {
     item: ScheduleItem;
