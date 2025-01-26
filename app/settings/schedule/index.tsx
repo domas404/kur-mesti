@@ -25,6 +25,7 @@ export default function Schedule() {
         useCallback(() => {
             const setupScheduleList = async () => {
                 const storage = await AsyncStorage.getItem('schedule');
+                // console.log(storage);
                 if (storage) {
                     const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
                     sortScheduleList(scheduleObjectList);
@@ -50,6 +51,7 @@ export default function Schedule() {
     }
 
     const mappedScheduleList = scheduleList.map((item, index) => {
+        // console.log(item, index);
         return <SchedulePreview key={index} item={item} id={item.id} deleteSchedule={deleteSchedule} editSchedule={editSchedule} />
     });
 

@@ -9,14 +9,17 @@ type Props = {
     initialDate: string;
 }
 
-export default function ScheduleOneTime({ setOneTimeSchedule, initialDate }: Props) {
+export default function ScheduleOnce({ setOneTimeSchedule, initialDate }: Props) {
     const { text: color } = useThemeColor();
     const [date, setDate] = useState<Date>(new Date());
+    // const [dateInitialized, setDateInitialized] = useState(false);
     
     useEffect(() => {
+        // console.log(initialDate);
         if (initialDate) {
             const dateToSet: Date = new Date(initialDate);
             setDate(dateToSet);
+            // setDateInitialized(true);
         }
     }, []);
 

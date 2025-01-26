@@ -29,7 +29,7 @@ export const updateClosestDates = async (storage: string, today: Date) => {
     if (storage && storage !== '[]') {
         const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
 
-        const mappedScheduleObjectList = scheduleObjectList.map((item) => {
+        const mappedScheduleObjectList = scheduleObjectList.map((item, index) => {
             if (item.repeat) {
                 switch(item.repeatPattern) {
                     case 'weekly':

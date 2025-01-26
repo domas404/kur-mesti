@@ -1,4 +1,6 @@
-import { findClosestWeekdayDate, findClosestMonthDay, calculateDaysUntil } from "./scheduleUtils";
+import { ScheduleItem } from "@/types/schedule";
+import { findClosestWeekdayDate, findClosestMonthDay, calculateDaysUntil, updateClosestDates, sortScheduleList, storageUpToDate } from "./scheduleUtils";
+import AsyncStorage from "@react-native-async-storage/async-storage/jest/async-storage-mock";
 
 describe('calculateDaysUntil', () => {
 
@@ -33,7 +35,7 @@ describe('calculateDaysUntil', () => {
     });
 });
 
-describe('findClosestWeekDay', () => {
+describe('findClosestWeekdayDate', () => {
 
     const startDate = new Date('2025-01-01');
 
@@ -83,3 +85,102 @@ describe('findClosestMonthDay', () => {
         expect(result).toEqual(expectedDate);
     });
 });
+
+describe('updateClosestDates', () => {
+    const mockDate = (isoDate: string) => {
+        jest.useFakeTimers();
+        jest.setSystemTime(new Date(isoDate));
+    };
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    const setupLocalStorage = async () => {
+        // mockDate('2025-01-24');
+        const date = new Date('2025-01-29');
+        const schedule = [{
+            id: '1',
+            repeat: true,
+            repeatPattern: 'weekly',
+            weekdays: [2],
+            closestDate: date.toString()
+        }];
+        await AsyncStorage.setItem("schedule", JSON.stringify(schedule));
+    }
+
+    const updateSchedules = async () => {
+        const today = new Date();
+        console.log(today);
+        const storage = await AsyncStorage.getItem('schedule');
+        console.log("storage:", storage);
+        const updatedDates = await updateClosestDates(storage!, today);
+        console.log("updated storage", JSON.stringify(updatedDates));
+        await AsyncStorage.setItem('schedule', JSON.stringify(updatedDates));
+    }
+
+    const getScheduleFromLocalStorage = async () => {
+        const storage = await AsyncStorage.getItem('schedule');
+        if (storage && storage !== '[]') {
+            const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
+            sortScheduleList(scheduleObjectList);
+            return scheduleObjectList[0];
+        } else {
+            return undefined;
+        }
+    }
+
+    const getClosestScheduleDaysUntil = async () => {
+        const closestSchedule = await getScheduleFromLocalStorage();
+        const daysUntil = calculateDaysUntil(new Date(closestSchedule!.closestDate!));
+        return daysUntil;
+    }
+
+    test('returns the correct number of days for a future date', async () => {
+
+        await setupLocalStorage();
+        
+        mockDate('2025-01-24');
+        const daysUntilA = await getClosestScheduleDaysUntil();
+        console.log("today:", new Date());
+
+        mockDate('2025-01-30');
+        console.log("today:", new Date());
+        await updateSchedules();
+
+        const daysUntilB = await getClosestScheduleDaysUntil();
+
+        expect([daysUntilA, daysUntilB]).toEqual([5, 6]);
+    });
+});
+
+describe('', () => {
+    const mockDate = (isoDate: string) => {
+        jest.useFakeTimers();
+        jest.setSystemTime(new Date(isoDate));
+    };
+
+    afterEach(() => {
+        jest.useRealTimers();
+    });
+
+    test('returns the correct number of days for a future date', async () => {
+        
+        mockDate('2025-01-01');
+        await AsyncStorage.setItem('scheduleLastUpdate', (new Date()).toString());
+        const storedDateStringA = await AsyncStorage.getItem('scheduleLastUpdate');
+        const upToDateA = storageUpToDate(storedDateStringA!);
+
+        mockDate('2025-01-02');
+        // await AsyncStorage.setItem('scheduleLastUpdate', (new Date()).toString());
+        const storedDateStringB = await AsyncStorage.getItem('scheduleLastUpdate');
+        const upToDateB = storageUpToDate(storedDateStringB!);
+
+        // mockDate('2025-01-02');
+        // const targetDate = new Date('2025-01-10');
+        // const result = calculateDaysUntil(targetDate);
+        expect([upToDateA, upToDateB]).toEqual([true, false]);
+    });
+
+});
+

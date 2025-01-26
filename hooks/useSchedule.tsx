@@ -6,25 +6,45 @@ import { router } from "expo-router";
 import { RepeatPattern, ScheduleItem, WeekPattern } from "@/types/schedule";
 import { findClosestWeekdayDate, findClosestMonthDay, findClosestMonthDayByWeekdays } from "@/utils/schedule/scheduleUtils";
 
-export function useSchedule(initialSchedule: ScheduleItem) {
-    const [schedule, setSchedule] = useState<ScheduleItem>(initialSchedule);
+export function useSchedule(id: string) {
+    const [schedule, setSchedule] = useState<ScheduleItem | undefined>(undefined);
     const [loaded, setLoaded] = useState(false);
 
     const changeRepeat = useCallback((repeat: boolean) => {
-        setSchedule(prevSchedule => ({
-            ...prevSchedule,
-            weekdays: undefined,
-            repeat: repeat
-        }));
+        setSchedule(prevSchedule => {
+            if (prevSchedule) {
+                return {
+                    ...prevSchedule,
+                    repeat: repeat
+                }
+            } else {
+                return {
+                    id: id,
+                    closestDate: undefined,
+                    repeat: repeat
+                }
+            }
+        });
     }, []);
 
     const setOneTimeSchedule = useCallback((date: Date) => {
-        const newSchedule: ScheduleItem = {
-            id: schedule.id,
-            repeat: false,
-            closestDate: date.toString()
-        }
-        setSchedule(newSchedule);
+        // console.log('schedule', schedule);
+        // console.log(date);
+        setSchedule(prevScheudle => {
+            if (prevScheudle) {
+                return {
+                    ...prevScheudle,
+                    repeat: false,
+                    closestDate: date.toString()
+                }
+            } else {
+                return {
+                    id: id,
+                    repeat: false,
+                    closestDate: date.toString()
+                }
+            }
+        });
     }, []);
 
     const setWeeklySchedule = useCallback((selectedWeekdays: number[]) => {
@@ -35,12 +55,24 @@ export function useSchedule(initialSchedule: ScheduleItem) {
             const today = new Date();
             const closestDate = findClosestWeekdayDate(selectedWeekdays, today);
     
-            setSchedule(prevSchedule => ({
-                ...prevSchedule,
-                repeatPattern: 'weekly',
-                weekdays: selectedWeekdays,
-                closestDate: closestDate.toString()
-            }));
+            setSchedule(prevSchedule => {
+                if (prevSchedule) {
+                    return {
+                        ...prevSchedule,
+                        repeatPattern: 'weekly',
+                        weekdays: selectedWeekdays,
+                        closestDate: closestDate.toString()
+                    }
+                } else {
+                    return {
+                        id: id,
+                        repeat: true,
+                        repeatPattern: 'weekly',
+                        weekdays: selectedWeekdays,
+                        closestDate: closestDate.toString()
+                    }
+                }
+            });
         }
     }, []);
 
@@ -48,14 +80,28 @@ export function useSchedule(initialSchedule: ScheduleItem) {
         if (selectedWeekdays.length > 0) {
             const closestDate = findClosestWeekdayDate(selectedWeekdays, startDate);
     
-            setSchedule(prevSchedule => ({
-                ...prevSchedule,
-                interval: interval,
-                repeatPattern: 'bi-weekly',
-                weekdays: selectedWeekdays,
-                closestDate: closestDate.toString(),
-                startDate: startDate.toString()
-            }));
+            setSchedule(prevSchedule => {
+                if (prevSchedule) {
+                    return {
+                        ...prevSchedule,
+                        interval: interval,
+                        repeatPattern: 'bi-weekly',
+                        weekdays: selectedWeekdays,
+                        closestDate: closestDate.toString(),
+                        startDate: startDate.toString()
+                    }
+                } else {
+                    return {
+                        id: id,
+                        repeat: true,
+                        interval: interval,
+                        repeatPattern: 'bi-weekly',
+                        weekdays: selectedWeekdays,
+                        closestDate: closestDate.toString(),
+                        startDate: startDate.toString()
+                    }
+                }
+            });
         }
     }, []);
 
@@ -70,12 +116,24 @@ export function useSchedule(initialSchedule: ScheduleItem) {
 
             const closestDate = findClosestMonthDay(selectedDaysAdjusted, today);
 
-            setSchedule(prevSchedule => ({
-                ...prevSchedule,
-                repeatPattern: 'monthly',
-                days: selectedDaysAdjusted,
-                closestDate: closestDate.toString(),
-            }));
+            setSchedule(prevSchedule => {
+                if (prevSchedule) {
+                    return {
+                        ...prevSchedule,
+                        repeatPattern: 'monthly',
+                        days: selectedDaysAdjusted,
+                        closestDate: closestDate.toString(),
+                    }    
+                } else {
+                    return {
+                        id: id,
+                        repeat: true,
+                        repeatPattern: 'monthly',
+                        days: selectedDaysAdjusted,
+                        closestDate: closestDate.toString(),
+                    }
+                }
+            });
         }
     }, []);
 
@@ -87,34 +145,60 @@ export function useSchedule(initialSchedule: ScheduleItem) {
 
             const closestDate = findClosestMonthDayByWeekdays(weekPattern, today);
 
-            setSchedule(prevSchedule => ({
-                ...prevSchedule,
-                repeatPattern: 'monthly-by-weekdays',
-                closestDate: closestDate.toString(),
-                weekPattern: weekPattern
-            }));
+            setSchedule(prevSchedule => {
+                if (prevSchedule) {
+                    return {
+                        ...prevSchedule,
+                        repeatPattern: 'monthly-by-weekdays',
+                        closestDate: closestDate.toString(),
+                        weekPattern: weekPattern
+                    }
+                } else {
+                    return {
+                        id: id,
+                        repeat: true,
+                        repeatPattern: 'monthly-by-weekdays',
+                        closestDate: closestDate.toString(),
+                        weekPattern: weekPattern
+                    }
+                }
+            });
         }
     }, []);
 
     const setRepeatPattern = useCallback((repeatPattern: RepeatPattern) => {
-        setSchedule(prevSchedule => ({
-            ...prevSchedule,
-            repeatPattern: repeatPattern
-        }));
+        setSchedule(prevSchedule => {
+            if (prevSchedule) {
+                return {
+                    ...prevSchedule,
+                    repeatPattern: repeatPattern
+                }
+            } else {
+                return {
+                    id: id,
+                    repeat: true,
+                    repeatPattern: repeatPattern,
+                    closestDate: undefined
+                }
+            }
+        });
     }, []);
 
     useEffect(() => {
         // console.log('useEffect called');
+        // console.log('id:', id);
         setLoaded(false);
         const setScheduleData = async () => {
             const storage = await AsyncStorage.getItem('schedule');
             if (storage) {
                 const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
-                const scheduleToEdit: ScheduleItem = scheduleObjectList.find((item) => item.id === schedule.id)!;
+                const scheduleToEdit: ScheduleItem | undefined = scheduleObjectList.find((item) => item.id === id);
                 // console.log('schedule to edit', schedule.id, scheduleToEdit);
                 if (scheduleToEdit) {
                     // console.log("closestDate: ", scheduleToEdit.closestDate);
                     setSchedule(scheduleToEdit);
+                } else {
+                    setSchedule({ id: id, closestDate: undefined, repeat: undefined });
                 }
             }
         }
@@ -123,18 +207,22 @@ export function useSchedule(initialSchedule: ScheduleItem) {
     }, []);
 
     useEffect(() => {
-        setLoaded(true);
+        if (schedule) {
+            // console.log("schedule loaded");
+            // console.log(schedule);
+            setLoaded(true);
+        }
     }, [schedule]);
 
     const saveSchedule = async () => {
         const scheduleList = await AsyncStorage.getItem('schedule');
         if (scheduleList) {
             const updatedSchedules: ScheduleItem[] = JSON.parse(scheduleList);
-            const scheduleToChange = updatedSchedules.findIndex((item) => item.id === schedule.id);
+            const scheduleToChange = updatedSchedules.findIndex((item) => item.id === schedule?.id);
             if (scheduleToChange > -1) {
-                updatedSchedules[scheduleToChange] = schedule;
+                updatedSchedules[scheduleToChange] = schedule!;
             } else {
-                updatedSchedules.push(schedule);
+                updatedSchedules.push(schedule!);
             }
             await AsyncStorage.setItem('schedule', JSON.stringify(updatedSchedules));
         } else {

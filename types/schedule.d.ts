@@ -7,7 +7,7 @@ export type WeekPattern = {
 
 export type ScheduleItem = {
     id: string;
-    repeat: boolean;
+    repeat: boolean | undefined;
     closestDate: string | undefined;
     // lastUpdate: string | undefined;
 

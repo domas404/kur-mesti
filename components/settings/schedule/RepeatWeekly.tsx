@@ -18,7 +18,7 @@ export default function RepeatWeekly({ setWeeklySchedule, initialWeekdays }: Pro
     const { text: color } = useThemeColor();
 
     useEffect(() => {
-        console.log(weekSetting);
+        console.log(initialWeekdays);
         if (initialWeekdays) {
             const weekSettingCopy = [...weekSetting];
             initialWeekdays.forEach((item, i) => {

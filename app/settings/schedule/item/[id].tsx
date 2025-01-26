@@ -27,7 +27,7 @@ export default function Item() {
         loaded,
         setRepeatPattern,
         saveSchedule
-    } = useSchedule({ id: id === 'new' ? newId : id as string, repeat: false, closestDate: undefined });
+    } = useSchedule(id === 'new' ? newId : id as string);
 
     return (
         <>
@@ -41,9 +41,9 @@ export default function Item() {
                     <View style={[styles.container, {backgroundColor: containerColor}]}>
                         {loaded &&
                         <>
-                            <RepeatNav repeat={schedule.repeat} setRepeat={changeRepeat} />
+                            <RepeatNav repeat={schedule?.repeat!} setRepeat={changeRepeat} />
                             {
-                                schedule.repeat ?
+                                schedule?.repeat ?
                                 <ScheduleRepeat
                                     setWeeklySchedule={setWeeklySchedule}
                                     setBiWeeklySchedule={setBiWeeklySchedule}
@@ -53,7 +53,7 @@ export default function Item() {
                                     initialSchedule={schedule}
                                 />
                                 :
-                                <ScheduleOnce setOneTimeSchedule={setOneTimeSchedule} initialDate={schedule.closestDate!} />
+                                <ScheduleOnce setOneTimeSchedule={setOneTimeSchedule} initialDate={schedule?.closestDate!} />
                             }
                             <TouchableOpacity
                                 style={[styles.saveButton, {backgroundColor: tabActiveColor}]}
