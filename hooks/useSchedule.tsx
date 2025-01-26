@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 
 import { RepeatPattern, ScheduleItem, WeekPattern } from "@/types/schedule";
-import { findClosestWeekdayDate, findClosestMonthDay } from "@/utils/schedule/scheduleUtils";
+import { findClosestWeekdayDate, findClosestMonthDay, findClosestMonthDayByWeekdays } from "@/utils/schedule/scheduleUtils";
 
 export function useSchedule(initialSchedule: ScheduleItem) {
     const [schedule, setSchedule] = useState<ScheduleItem>(initialSchedule);
@@ -29,7 +29,7 @@ export function useSchedule(initialSchedule: ScheduleItem) {
 
     const setWeeklySchedule = useCallback((selectedWeekdays: number[]) => {
 
-        console.log('setWeeklySchedule called');
+        // console.log('setWeeklySchedule called');
     
         if (selectedWeekdays.length > 0) {
             const today = new Date();
@@ -85,34 +85,7 @@ export function useSchedule(initialSchedule: ScheduleItem) {
 
             const today = new Date();
 
-            let closestDate = new Date();
-            let dateFound = false;
-
-            let i=0;
-            let k=0;
-            while (!dateFound) {
-                const { week, weekdays } = weekPattern[i];
-                const initialDate = new Date(Date.UTC(today.getFullYear(), today.getMonth()+k, (week*7)+1));
-                
-                for (let j=0; j<weekdays.length; j++) {
-                    while (initialDate.getDay() !== weekdays[j]) {
-                        initialDate.setDate(initialDate.getDate()+1);
-                    }
-                    if (initialDate.getTime() > today.getTime()) {
-                        closestDate = initialDate;
-                        dateFound = true;
-                        break;
-                    }
-                }
-                if (dateFound) {
-                    break;
-                } else if (i+1 === weekPattern.length) {
-                    k=1;
-                    i=0;
-                } else {
-                    i++;
-                }
-            }
+            const closestDate = findClosestMonthDayByWeekdays(weekPattern, today);
 
             setSchedule(prevSchedule => ({
                 ...prevSchedule,
@@ -131,21 +104,21 @@ export function useSchedule(initialSchedule: ScheduleItem) {
     }, []);
 
     useEffect(() => {
-        console.log('useEffect called');
+        // console.log('useEffect called');
         setLoaded(false);
         const setScheduleData = async () => {
             const storage = await AsyncStorage.getItem('schedule');
             if (storage) {
                 const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
                 const scheduleToEdit: ScheduleItem = scheduleObjectList.find((item) => item.id === schedule.id)!;
-                console.log('schedule to edit', schedule.id, scheduleToEdit);
+                // console.log('schedule to edit', schedule.id, scheduleToEdit);
                 if (scheduleToEdit) {
-                    console.log("closestDate: ", scheduleToEdit.closestDate);
+                    // console.log("closestDate: ", scheduleToEdit.closestDate);
                     setSchedule(scheduleToEdit);
                 }
             }
         }
-        console.log('initiate new schedule:', schedule);
+        // console.log('initiate new schedule:', schedule);
         setScheduleData();
     }, []);
 

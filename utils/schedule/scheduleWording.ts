@@ -76,3 +76,39 @@ export const getSentenceMonthlyByWeekdays = (weekPatterns: WeekPattern[]) => {
 
     return sentence;
 }
+
+export const getWidgetHeaderText = (daysUntil: number) => {
+    let text = 'Atliekų išvežimas';
+
+    if (daysUntil > 1)
+        text += ' po';
+
+    return text + ':';
+}
+
+export const getWidgetDaysUntilText = (daysUntil: number) => {
+    let text = daysUntil + ' dienų';
+
+    if (daysUntil < 0) {
+        text = 'Nenustatyta';
+    } else if (daysUntil === 0) {
+        text = 'Šiandien';
+    } else if (daysUntil === 1) {
+        text = 'Rytoj';
+    } else if (daysUntil % 10 === 1 && daysUntil !== 11) {
+        text = daysUntil + ' dienos';
+    }
+    return text;
+}
+
+export const getWidgetDateText = (date: string, weekday: number) => {
+    const weekdays = ['Sekmadienis', 'Pirmadienis', 'Antradienis', 'Trečiadienis', 'Ketvirtadienis', 'Penktadienis', 'Šeštadienis'];
+    let text = '';
+    
+    if (date !== '') {
+        text = date + ' ' + weekdays[weekday];
+    } else {
+        text = '--/--';
+    }
+    return text;
+}

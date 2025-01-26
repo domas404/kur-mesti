@@ -1,12 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Pressable } from "react-native";
 import WidgetMenu from "./WidgetMenu";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ScheduleItem } from "@/types/schedule";
-import { calculateDaysUntil, sortScheduleList } from "@/utils/schedule/scheduleUtils";
+import { calculateDaysUntil, getScheduleFromLocalStorage, sortScheduleList, storageUpToDate, updateClosestDates } from "@/utils/schedule/scheduleUtils";
 import { useFocusEffect } from "@react-navigation/native";
+import { getWidgetDateText, getWidgetDaysUntilText, getWidgetHeaderText } from "@/utils/schedule/scheduleWording";
+import { Link } from "expo-router";
 
 type ScheduleInfo = {
     daysUntil: number;
@@ -14,11 +16,9 @@ type ScheduleInfo = {
     weekday: number;
 }
 
-const weekdays = ['Sekmadienis', 'Pirmadienis', 'Antradienis', 'Trečiadienis', 'Ketvirtadienis', 'Penktadienis', 'Šeštadienis'];
-
 export default function ScheduleWidget() {
 
-    const { text: color, container: backgroundColor, border } = useThemeColor();
+    const { text: color, container: backgroundColor, border, tintText, tint } = useThemeColor();
     const [schedule, setSchedule] = useState<ScheduleInfo>({ daysUntil: -1, date: '', weekday: -1 });
     const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
@@ -30,34 +30,31 @@ export default function ScheduleWidget() {
         setMenuVisible(false);
     }
 
-    const getText = (daysUntil: number) => {
-        let text = daysUntil + ' dienų';
-
-        if (daysUntil === 0) {
-            text = 'Šiandien';
-        } else if (daysUntil === 1) {
-            text = 'Rytoj';
-        } else if (daysUntil % 10 === 1 && daysUntil !== 11) {
-            text = daysUntil + ' dienos';
-        }
-
-        return text;
-    }
-
     useFocusEffect(
         useCallback(() => {
             const setupScheduleList = async () => {
                 const storage = await AsyncStorage.getItem('schedule');
-                if (storage) {
-                    const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
-                    sortScheduleList(scheduleObjectList);
-                    const closestDate = new Date(scheduleObjectList[0].closestDate!);
-                    setSchedule({
-                        ...schedule,
+                const storedDateString = await AsyncStorage.getItem('scheduleLastUpdate');
+                
+                if (!storedDateString || !storageUpToDate(storedDateString!)) {
+                    const today = new Date();
+                    const updatedStorage = await updateClosestDates(storage!, new Date());
+                    await AsyncStorage.setItem('schedule', JSON.stringify(updatedStorage));
+                    await AsyncStorage.setItem('scheduleLastUpdate', (new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()))).toString());
+                }
+
+                const closestSchedule = await getScheduleFromLocalStorage();
+
+                if (closestSchedule) {
+                    const closestDate = new Date(closestSchedule!.closestDate!);
+                    setSchedule((prevSchedule) => ({
+                        ...prevSchedule,
                         daysUntil: calculateDaysUntil(closestDate),
                         date: closestDate.toISOString().slice(5, 10),
                         weekday: closestDate.getDay()
-                    })
+                    }));
+                } else {
+                    setSchedule({ daysUntil: -1, date: '', weekday: -1 });
                 }
                 // await AsyncStorage.clear();
             }
@@ -69,7 +66,9 @@ export default function ScheduleWidget() {
         <>
             <View style={[styles.container, {backgroundColor, borderColor: border}]}>
                 <View style={styles.header}>
-                    <Text style={[styles.headerText, {color}]}>Atliekų išvežimas{schedule.daysUntil > 1 && ' po'}:</Text>
+                    <Text style={[styles.headerText, {color}]}>
+                        {getWidgetHeaderText(schedule.daysUntil)}
+                    </Text>
                     <TouchableOpacity
                         activeOpacity={0.5}
                         onPress={toggleMenuVisibility}
@@ -78,10 +77,26 @@ export default function ScheduleWidget() {
                     </TouchableOpacity>
                     <WidgetMenu visible={menuVisible} closeMenu={closeMenu} color={color} backgroundColor={backgroundColor} border={border} />
                 </View>
-                <Text style={[styles.countdownText, {color}]}>{schedule.daysUntil > -1 ? getText(schedule.daysUntil) : 'Nenustatyta'}</Text>
-                <View style={styles.scheduleDateContainer}>
-                    <Text style={[styles.scheduleDate]}>{schedule.date !== '' ? schedule.date : '--/--'} {schedule.weekday > -1 ? weekdays[schedule.weekday] : ''}</Text>
-                </View>
+                <Text style={[styles.countdownText, {color}]}>
+                    {getWidgetDaysUntilText(schedule.daysUntil)}
+                </Text>
+                {
+                    schedule.daysUntil < 0 ?
+                    <Link style={[styles.newScheduleContainer, { backgroundColor: tint }]} href={'../settings/schedule/item/new'} asChild>
+                        <TouchableOpacity activeOpacity={0.7}>
+                            <Ionicons name={'add-circle-outline'} size={18} color={tintText} />
+                            <Text style={[styles.scheduleDate, { color: tintText }]}>
+                                Pridėti naują grafiką
+                            </Text>
+                        </TouchableOpacity>
+                    </Link>
+                    :
+                    <View style={[styles.scheduleDateContainer, { backgroundColor: tint }]}>
+                        <Text style={[styles.scheduleDate, { color: tintText }]}>
+                            {getWidgetDateText(schedule.date, schedule.weekday)}
+                        </Text>
+                    </View>
+                }
             </View>
         </>
     )
@@ -109,7 +124,6 @@ const styles = StyleSheet.create({
         fontWeight: 500
     },
     scheduleDateContainer: {
-        backgroundColor: '#3B5E47',
         alignSelf: 'flex-start',
         paddingHorizontal: 10,
         paddingVertical: 4,
@@ -117,6 +131,15 @@ const styles = StyleSheet.create({
     },
     scheduleDate: {
         fontSize: 16,
-        color: '#E4FFE6',
     },
+    newScheduleContainer: {
+        alignSelf: 'flex-start',
+        paddingLeft: 6,
+        paddingRight: 10,
+        paddingVertical: 4,
+        borderRadius: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
+    }
 });

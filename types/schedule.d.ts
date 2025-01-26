@@ -9,6 +9,7 @@ export type ScheduleItem = {
     id: string;
     repeat: boolean;
     closestDate: string | undefined;
+    // lastUpdate: string | undefined;
 
     repeatPattern?: RepeatPattern;
     weekdays?: number[];
