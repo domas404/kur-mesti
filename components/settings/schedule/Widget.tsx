@@ -46,7 +46,7 @@ export default function ScheduleWidget() {
                 const closestSchedule = await getScheduleFromLocalStorage();
 
                 if (closestSchedule) {
-                    const closestDate = new Date(closestSchedule!.closestDate!);
+                    const closestDate = new Date(closestSchedule.closestDate!);
                     setSchedule((prevSchedule) => ({
                         ...prevSchedule,
                         daysUntil: calculateDaysUntil(closestDate),

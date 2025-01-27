@@ -1,4 +1,3 @@
-import { useSchedule } from "@/hooks/useSchedule";
 import { ScheduleItem, WeekPattern } from "@/types/schedule";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -18,7 +17,11 @@ export const getScheduleFromLocalStorage = async () => {
     if (storage && storage !== '[]') {
         const scheduleObjectList: ScheduleItem[] = await JSON.parse(storage) as ScheduleItem[];
         sortScheduleList(scheduleObjectList);
-        return scheduleObjectList[0];
+        const closestSchedule = scheduleObjectList.find((item) => calculateDaysUntil(new Date(item.closestDate!)) > -1);
+        if (closestSchedule)
+            return closestSchedule;
+        else
+            return scheduleObjectList[0];
     } else {
         return undefined;
     }
@@ -122,6 +125,8 @@ export const findClosestMonthDay = (selectedDays: number[], startDate: Date) => 
             closestDates.push(newDate);
         }
     });
+
+    console.log("closestDays:", closestDates);
 
     const closestDateTimes = closestDates.map((date) => date.getTime());
     const closestDate = closestDates[closestDateTimes.indexOf(Math.min(...closestDateTimes))];

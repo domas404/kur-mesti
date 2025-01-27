@@ -37,7 +37,7 @@ export default function Preview({ item, id, deleteSchedule, editSchedule }: Prop
         else if (daysUntil > -10)
             text = 'Prieš ' + Math.abs(daysUntil) + ' dienas';
         else
-            text = 'Prieš ' + daysUntil + ' dienų';
+            text = 'Prieš ' + Math.abs(daysUntil) + ' dienų';
     }
 
     let sentence = '';
