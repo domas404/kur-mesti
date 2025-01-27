@@ -1,11 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import WidgetMenu from "./WidgetMenu";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ScheduleItem } from "@/types/schedule";
-import { calculateDaysUntil, getScheduleFromLocalStorage, sortScheduleList, storageUpToDate, updateClosestDates } from "@/utils/schedule/scheduleUtils";
+import { calculateDaysUntil, getScheduleFromLocalStorage, storageUpToDate, updateClosestDates } from "@/utils/schedule/scheduleUtils";
 import { useFocusEffect } from "@react-navigation/native";
 import { getWidgetDateText, getWidgetDaysUntilText, getWidgetHeaderText } from "@/utils/schedule/scheduleWording";
 import { Link } from "expo-router";
@@ -16,7 +15,12 @@ type ScheduleInfo = {
     weekday: number;
 }
 
-export default function ScheduleWidget() {
+type Props = {
+    widgetVisibility: boolean;
+    updateWidgetVisibility: (visibility: boolean) => void;
+}
+
+export default function ScheduleWidget({ widgetVisibility, updateWidgetVisibility }: Props) {
 
     const { text: color, container: backgroundColor, border, tintText, tint } = useThemeColor();
     const [schedule, setSchedule] = useState<ScheduleInfo>({ daysUntil: -1, date: '', weekday: -1 });
@@ -75,7 +79,12 @@ export default function ScheduleWidget() {
                     >
                         <Ionicons name={'ellipsis-vertical'} size={24} color={color} />
                     </TouchableOpacity>
-                    <WidgetMenu visible={menuVisible} closeMenu={closeMenu} color={color} backgroundColor={backgroundColor} border={border} />
+                    <WidgetMenu
+                        visible={menuVisible}
+                        closeMenu={closeMenu}
+                        widgetVisibility={widgetVisibility}
+                        updateWidgetVisibility={updateWidgetVisibility}
+                    />
                 </View>
                 <Text style={[styles.countdownText, {color}]}>
                     {getWidgetDaysUntilText(schedule.daysUntil)}

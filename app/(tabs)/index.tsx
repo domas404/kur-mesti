@@ -7,16 +7,21 @@ import { Pressable } from 'react-native';
 import { Link } from 'expo-router';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import Widget from '@/components/settings/schedule/Widget';
+import { useWidget } from '@/hooks/useWidget';
 
 export default function HomeScreen() {
 
 	const { container: backgroundColor, text: color, border } = useThemeColor();
+	const { widgetVisibility, updateWidgetVisibility } = useWidget();
 
 	return (
 		<SafeAreaProvider>
 			<SafeAreaView>
 				<ScrollView>
-					<Widget />
+					{
+						widgetVisibility &&
+						<Widget widgetVisibility={widgetVisibility} updateWidgetVisibility={updateWidgetVisibility} />
+					}
 					<View style={styles.shortcutContainer}>
 						<Link href="./tips" style={[styles.shortcutLink, {backgroundColor, borderColor: border}]} asChild>
 							<Pressable style={styles.shortcut}>

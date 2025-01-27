@@ -12,14 +12,17 @@ import { ScheduleItem } from "@/types/schedule";
 import { sortScheduleList } from "@/utils/schedule/scheduleUtils";
 import SchedulePreview from "@/components/settings/schedule/Preview";
 import ToogleSetting from "@/components/settings/schedule/ToggleSetting";
+import { useWidget } from "@/hooks/useWidget";
 
 export default function Schedule() {
 
     const { container: backgroundColor, text: color, border } = useThemeColor();
     const [scheduleList, setScheduleList] = useState<ScheduleItem[]>([]);
 
-    const [visible, setVisible] = useState(true);
-    const [reminderOn, setReminderOn] = useState(false);
+    // const [visible, setVisible] = useState(true);
+    // const [reminderOn, setReminderOn] = useState(false);
+
+    const { widgetVisibility, updateWidgetVisibility } = useWidget();
 
     useFocusEffect(
         useCallback(() => {
@@ -51,7 +54,6 @@ export default function Schedule() {
     }
 
     const mappedScheduleList = scheduleList.map((item, index) => {
-        // console.log(item, index);
         return <SchedulePreview key={index} item={item} id={item.id} deleteSchedule={deleteSchedule} editSchedule={editSchedule} />
     });
 
@@ -66,8 +68,8 @@ export default function Schedule() {
                 <ScrollView contentContainerStyle={{paddingBottom: 100}}>
                     <View>
                         <View style={[styles.settingsContainer, {backgroundColor, borderColor: border}]}>
-                            <ToogleSetting name={'Rodyti pagrindiniame ekrane'} setting={visible} setSetting={setVisible} />
-                            <ToogleSetting name={'Priminimas'} setting={reminderOn} setSetting={setReminderOn} />
+                            <ToogleSetting name={'Rodyti pagrindiniame ekrane'} setting={widgetVisibility ?? true} setSetting={updateWidgetVisibility} />
+                            {/* <ToogleSetting name={'Priminimas'} setting={reminderOn} setSetting={setReminderOn} /> */}
                         </View>
                         <Link style={[styles.addNew]} href={`./schedule/item/new`} asChild>
                             <TouchableOpacity activeOpacity={0.7} >

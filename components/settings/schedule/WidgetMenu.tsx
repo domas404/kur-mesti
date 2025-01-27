@@ -2,18 +2,19 @@ import { Ionicons } from "@expo/vector-icons";
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Pressable, useColorScheme } from "react-native";
 import * as NavigationBar from 'expo-navigation-bar';
 import { Link } from "expo-router";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 type Props = {
     visible: boolean;
     closeMenu: () => void;
-    color: string;
-    backgroundColor: string;
-    border: string;
+    widgetVisibility: boolean;
+    updateWidgetVisibility: (visibility: boolean) => void;
 }
 
-export default function WidgetMenu({ visible, closeMenu, color, backgroundColor, border }: Props) {
+export default function WidgetMenu({ visible, closeMenu, updateWidgetVisibility }: Props) {
 
     const colorScheme = useColorScheme();
+    const { text: color, container: backgroundColor, border } = useThemeColor();
     NavigationBar.setBorderColorAsync(colorScheme === 'dark' ? 'black' : 'white');
 
     return (
@@ -25,7 +26,7 @@ export default function WidgetMenu({ visible, closeMenu, color, backgroundColor,
         >
             <Pressable style={styles.overlay} onPress={closeMenu} />
             <View style={[styles.container, { backgroundColor, borderColor: border }]}>
-                <TouchableOpacity style={styles.menuItem}>
+                <TouchableOpacity style={styles.menuItem} onPress={() => updateWidgetVisibility(false)}>
                     <Ionicons name={'eye-off-outline'} size={24} color={color} />
                     <Text style={[styles.menuItemText, {color}]}>Nerodyti</Text>
                 </TouchableOpacity>
