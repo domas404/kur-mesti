@@ -21,7 +21,7 @@ export function useDatabase() {
 
     const getItemsByKeyword = async (keyword: string) => {        
         const statement = await db.prepareAsync(
-            "SELECT name FROM waste_items WHERE name LIKE ? OR name LIKE ? COLLATE NOCASE;"
+            "SELECT * FROM waste_items WHERE name LIKE ? OR name LIKE ? COLLATE NOCASE;"
         );
         try {
             let result = await statement.executeAsync(`${keyword}%`, `% ${keyword}%`);
