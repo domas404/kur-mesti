@@ -13,7 +13,12 @@ const wasteSiteColorMap: WasteSiteColorMap = {
     glass: '#46995a',
     plastic: '#cca516',
     paper: '#214fc2',
-    compost: '#523a20'
+    compost: '#523a20',
+    donate: '#000',
+    electronics: '#000',
+    farmacy: '#000',
+    mixed: '#000',
+    tare: '#000'
 }
 
 type Props = {
