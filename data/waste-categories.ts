@@ -3,17 +3,17 @@ interface WasteCategoryMap {
 }
 
 export const wasteDisposalSiteNameMap: WasteCategoryMap = {
-    hazardous: 'Didelių gabaritų atliekų aikštelė',
-    fabric: 'Tekstilės priėmimo punktai',
-    glass: 'Stiklo konteineris',
-    plastic: 'Plastiko ir metalo konteineris',
     paper: 'Popieriaus ir kartono konteineris',
+    plastic: 'Plastiko ir metalo konteineris',
+    glass: 'Stiklo konteineris',
+    mixed: 'Mišrių atliekų konteineris',
     compost: 'Kompostas',
-    donate: '...',
+    fabric: 'Tekstilės konteineris',
+    tare: 'Taros priėmimo punktai',
+    hazardous: 'Didelių gabaritų atliekų aikštelė',
     electronics: 'Elektronikos priėmimo punktai',
     farmacy: 'Vaistinė',
-    mixed: 'Mišrių atliekų konteineris',
-    tare: 'Taros priėmimo punktai'
+    donate: '...',
 }
 
 export const wasteCategoryMap: WasteCategoryMap = {

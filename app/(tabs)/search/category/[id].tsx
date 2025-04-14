@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useDatabase } from '@/hooks/useDatabase';
 import { SQLiteProvider, useSQLiteContext } from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
+import InfoButton from '@/components/search/InfoButton';
 
 async function clearCache() {
 	await FileSystem.deleteAsync(
@@ -69,6 +70,8 @@ export default function Page() {
 			<Stack.Screen
 				options={{
 					title: wasteCategoryMap[id as string],
+					// headerShown: true,
+					headerRight: () => <InfoButton />,
 				}}
 			/>
 			<SafeAreaProvider>
