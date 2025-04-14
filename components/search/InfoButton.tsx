@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function InfoButton() {
 

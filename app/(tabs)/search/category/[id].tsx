@@ -1,14 +1,14 @@
+import { useEffect, useState } from 'react';
 import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useLocalSearchParams, Stack } from 'expo-router';
+import { SQLiteProvider } from 'expo-sqlite';
+import * as FileSystem from 'expo-file-system';
 
+import { useDatabase } from '@/hooks/useDatabase';
 import { wasteDisposalSiteMap } from '@/data/disposal-sites';
 import { wasteCategoryMap } from '@/data/waste-categories';
 import WasteItem from '@/components/search/WasteItem';
-import { useEffect, useState } from 'react';
-import { useDatabase } from '@/hooks/useDatabase';
-import { SQLiteProvider } from 'expo-sqlite';
-import * as FileSystem from 'expo-file-system';
 import InfoButton from '@/components/search/InfoButton';
 
 async function clearCache() {
@@ -69,7 +69,6 @@ export default function Page() {
 			<Stack.Screen
 				options={{
 					title: wasteCategoryMap[id as string],
-					// headerShown: true,
 					headerRight: () => <InfoButton />,
 				}}
 			/>

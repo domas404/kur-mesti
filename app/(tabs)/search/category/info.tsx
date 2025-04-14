@@ -1,49 +1,14 @@
-import { wasteDisposalSiteMap } from '@/data/disposal-sites';
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { Stack } from 'expo-router';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Stack } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
-type WasteSiteColorMap = {
-    [id: string]: string
-}
-
-const wasteSiteColorMap: WasteSiteColorMap = {
-    hazardous: '#db3030',
-    fabric: '#4d5473',
-    glass: '#46995a',
-    plastic: '#cca516',
-    paper: '#214fc2',
-    compost: '#523a20',
-    donate: '#555',
-    electronics: '#752CC4',
-    farmacy: '#37B6BD',
-    mixed: '#555',
-    tare: '#FF751A',
-}
-
-type WasteSiteBorderRadiusMap = {
-    [id: string]: number
-}
-
-const wasteSiteBorderRadiusMap: WasteSiteBorderRadiusMap = {
-    hazardous: 4,
-    fabric: 4,
-    glass: 14,
-    plastic: 14,
-    paper: 14,
-    compost: 4,
-    donate: 4,
-    electronics: 4,
-    farmacy: 4,
-    mixed: 14,
-    tare: 4,
-}
+import { useThemeColor } from '@/hooks/useThemeColor';
+import { wasteDisposalSiteMap } from '@/data/disposal-sites';
 
 export default function Page() {
 
-    const { container, text: color, border, tintLight, tintText } = useThemeColor();
+    const { container, text: color, border } = useThemeColor();
 
     const mappedDisposalMethodList = Object.keys(wasteDisposalSiteMap).map((item, index) => {
         const { name, color: siteColor, borderRadius } = wasteDisposalSiteMap[item];
@@ -51,7 +16,6 @@ export default function Page() {
             <View key={index} style={styles.sourceItem}>
                 <View style={styles.header}>
                     <View style={[styles.iconContainer, { backgroundColor: siteColor, borderRadius: borderRadius }]}>
-                        {/* <MaterialIcons name={'recycling'} size={24} color={tintText} /> */}
                         <Ionicons name={'trash'} size={20} color={'white'} />
                     </View>
                     <Text style={[styles.headerText, {color}]}>{name}</Text>
@@ -60,7 +24,6 @@ export default function Page() {
             </View>
         )
     });
-
 
     return (
         <>

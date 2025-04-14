@@ -1,43 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+
 import { useThemeColor } from '@/hooks/useThemeColor';
-
-type WasteSiteColorMap = {
-    [id: string]: string
-}
-
-const wasteSiteColorMap: WasteSiteColorMap = {
-    hazardous: '#db3030',
-    fabric: '#4d5473',
-    glass: '#46995a',
-    plastic: '#cca516',
-    paper: '#214fc2',
-    compost: '#523a20',
-    donate: '#555',
-    electronics: '#752CC4',
-    farmacy: '#37B6BD',
-    mixed: '#555',
-    tare: '#FF751A',
-}
-
-type WasteSiteBorderRadiusMap = {
-    [id: string]: number
-}
-
-const wasteSiteBorderRadiusMap: WasteSiteBorderRadiusMap = {
-    hazardous: 4,
-    fabric: 4,
-    glass: 14,
-    plastic: 14,
-    paper: 14,
-    compost: 4,
-    donate: 4,
-    electronics: 4,
-    farmacy: 4,
-    mixed: 14,
-    tare: 4,
-}
+import { wasteDisposalSiteMap } from '@/data/disposal-sites';
 
 type Props = {
     item: {
@@ -54,6 +20,7 @@ export default function WasteItem({ item }: Props) {
 
     const [showMoreInfo, setShowMoreInfo] = useState<boolean>(false);
     const { categoryId, name, icon, wasteDisposalSiteName, info, source } = item;
+    const { color: siteColor, borderRadius } = wasteDisposalSiteMap[categoryId];
 
     const toggleShowMoreButton = () => {
         setShowMoreInfo(!showMoreInfo);
@@ -65,10 +32,7 @@ export default function WasteItem({ item }: Props) {
         <Pressable style={[styles.container, {backgroundColor, borderColor: border}]}>
             <Text style={[styles.nameContainer, {color}]}>{name}</Text>
             <View style={styles.wasteDisposalContainer}>
-                {
-                    
-                }
-                <View style={[styles.iconContainer, { backgroundColor: wasteSiteColorMap[categoryId], borderRadius: wasteSiteBorderRadiusMap[categoryId] }]}>
+                <View style={[styles.iconContainer, { backgroundColor: siteColor, borderRadius: borderRadius }]}>
                     <Ionicons name={'trash'} size={20} color={'white'} />
                 </View>
                 <Text style={[styles.wasteDisposalText, {color}]}>{wasteDisposalSiteName}</Text>
@@ -102,7 +66,6 @@ const styles = StyleSheet.create({
     },
     iconContainer: {
         padding: 4,
-        // borderRadius: 14,
     },
     nameContainer: {
         fontSize: 18,
