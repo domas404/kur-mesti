@@ -14,11 +14,29 @@ const wasteSiteColorMap: WasteSiteColorMap = {
     plastic: '#cca516',
     paper: '#214fc2',
     compost: '#523a20',
-    donate: '#000',
-    electronics: '#000',
-    farmacy: '#000',
-    mixed: '#000',
-    tare: '#000'
+    donate: '#555',
+    electronics: '#752CC4',
+    farmacy: '#37B6BD',
+    mixed: '#555',
+    tare: '#FF751A',
+}
+
+type WasteSiteBorderRadiusMap = {
+    [id: string]: number
+}
+
+const wasteSiteBorderRadiusMap: WasteSiteBorderRadiusMap = {
+    hazardous: 4,
+    fabric: 4,
+    glass: 14,
+    plastic: 14,
+    paper: 14,
+    compost: 4,
+    donate: 4,
+    electronics: 4,
+    farmacy: 4,
+    mixed: 14,
+    tare: 4,
 }
 
 type Props = {
@@ -47,7 +65,10 @@ export default function WasteItem({ item }: Props) {
         <Pressable style={[styles.container, {backgroundColor, borderColor: border}]}>
             <Text style={[styles.nameContainer, {color}]}>{name}</Text>
             <View style={styles.wasteDisposalContainer}>
-                <View style={[styles.iconContainer, { backgroundColor: wasteSiteColorMap[categoryId] }]}>
+                {
+                    
+                }
+                <View style={[styles.iconContainer, { backgroundColor: wasteSiteColorMap[categoryId], borderRadius: wasteSiteBorderRadiusMap[categoryId] }]}>
                     <Ionicons name={'trash'} size={20} color={'white'} />
                 </View>
                 <Text style={[styles.wasteDisposalText, {color}]}>{wasteDisposalSiteName}</Text>
@@ -81,7 +102,7 @@ const styles = StyleSheet.create({
     },
     iconContainer: {
         padding: 4,
-        borderRadius: 14,
+        // borderRadius: 14,
     },
     nameContainer: {
         fontSize: 18,

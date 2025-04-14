@@ -11,12 +11,12 @@ import { useDatabase } from '@/hooks/useDatabase';
 import { SQLiteProvider, useSQLiteContext } from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
 
-// async function clearCache() {
-// 	await FileSystem.deleteAsync(
-// 		FileSystem.documentDirectory + 'SQLite/waste.db',
-// 		{ idempotent: true }
-// 	);
-// }
+async function clearCache() {
+	await FileSystem.deleteAsync(
+		FileSystem.documentDirectory + 'SQLite/waste.db',
+		{ idempotent: true }
+	);
+}
 
 type WasteItemDb = {
 	id: string,
@@ -28,7 +28,7 @@ type WasteItemDb = {
 }
 
 const DbItems = ({ category_id }: { category_id: string }) => {
-	// const db = useSQLiteContext();
+	// clearCache();
 	const [data, setData] = useState<WasteItemDb[] | undefined>(undefined);
 
 	const { getItemsByCategory } = useDatabase();
@@ -55,44 +55,15 @@ const DbItems = ({ category_id }: { category_id: string }) => {
 	useEffect(() => {
 		if (data === undefined)
 			getData();
-			// getItemsByKeyword('pop');
 	}, [data]);
 
 	return (
-		// <View></View>
 		<>{mappedItems}</>
 	);
 }
 
 export default function Page() {
 	const { id } = useLocalSearchParams();
-
-	// clearCache();
-
-	// const { getItemsByCategory, getItemsByKeyword } = useDatabase();
-
-	// const [filteredItems, setFilteredItems] = useState();
-
-	// const filteredItems = wasteItemList.filter((item) => {
-	// 	if (item.categoryId === id)
-	// 		return item;
-	// })
-
-	// useEffect(() => {
-	// 	const abc = async () => {
-	// 		// await getItemsByCategory(id as string);
-	// 		// setFilteredItems(items);
-	// 		await getItemsByKeyword('aero');
-	// 	}
-	// 	abc();
-	// }, []);
-
-	// const mappedItems = filteredItems.map((item, index) => {
-	// 	return (
-	// 		<WasteItem key={`${index}-${item.name}`} item={item} />
-	// 	);
-	// });
-
 	return (
 		<>
 			<Stack.Screen
@@ -105,7 +76,6 @@ export default function Page() {
 					<ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
 						<SQLiteProvider databaseName='waste.db' assetSource={{ assetId: require('@/assets/waste.db') }}>
 							<View style={styles.itemsContainer}>
-								{/* {mappedItems} */}
 								<DbItems category_id={id as string} />
 							</View>
 						</SQLiteProvider>

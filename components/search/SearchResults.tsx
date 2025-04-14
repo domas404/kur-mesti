@@ -48,10 +48,7 @@ const ResultList = ({ keyword, color }: { keyword: string, color: string }) => {
     });
 
     useEffect(() => {
-        console.log(keyword);
-        // if (data === undefined)
-            getData();
-            // getItemsByKeyword('pop');
+        getData();
     }, [keyword]);
 
     return (
@@ -69,31 +66,11 @@ const ResultList = ({ keyword, color }: { keyword: string, color: string }) => {
 export default function SearchResults({ searchInput, color }: Props) {
     
     const escapedInput = searchInput.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`^${escapedInput}`, "i");
-
-    const filteredItems = wasteItemList.filter((item) => {
-        let words = item.name.split(" ");
-        let filteredWords = words.filter((word) => regex.test(word));
-        if (filteredWords.length > 0)
-            return true;
-    });
-
-    const mappedItems = filteredItems.map((item, index) => {
-        return (
-            <WasteItem key={`${index}-${item.name}`} item={item} />
-        );
-    })
     
     return (
         <SQLiteProvider databaseName='waste.db' assetSource={{ assetId: require('@/assets/waste.db') }}>
             <View style={{ paddingHorizontal: 10, paddingVertical: 20 }}>
-                <ResultList keyword={searchInput} color={color} />
-                {/* {
-                    mappedItems.length > 0 ? mappedItems :
-                    <View style={{}}>
-                        <Text style={{color, textAlign: 'center', marginVertical: 10}}>Nieko nerasta</Text>
-                    </View>
-                } */}
+                <ResultList keyword={escapedInput.toLowerCase()} color={color} />
             </View>
         </SQLiteProvider>
     );
