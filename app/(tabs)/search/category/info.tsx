@@ -1,4 +1,4 @@
-import { wasteDisposalSiteNameMap } from '@/data/waste-categories';
+import { wasteDisposalSiteMap } from '@/data/disposal-sites';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
@@ -45,15 +45,16 @@ export default function Page() {
 
     const { container, text: color, border, tintLight, tintText } = useThemeColor();
 
-    const mappedDisposalMethodList = Object.keys(wasteDisposalSiteNameMap).map((item, index) => {
+    const mappedDisposalMethodList = Object.keys(wasteDisposalSiteMap).map((item, index) => {
+        const { name, color: siteColor, borderRadius } = wasteDisposalSiteMap[item];
         return (
             <View key={index} style={styles.sourceItem}>
                 <View style={styles.header}>
-                    <View style={[styles.iconContainer, { backgroundColor: wasteSiteColorMap[item], borderRadius: wasteSiteBorderRadiusMap[item] }]}>
+                    <View style={[styles.iconContainer, { backgroundColor: siteColor, borderRadius: borderRadius }]}>
                         {/* <MaterialIcons name={'recycling'} size={24} color={tintText} /> */}
                         <Ionicons name={'trash'} size={20} color={'white'} />
                     </View>
-                    <Text style={[styles.headerText, {color}]}>{wasteDisposalSiteNameMap[item]}</Text>
+                    <Text style={[styles.headerText, {color}]}>{name}</Text>
                 </View>
                 <Ionicons name={'chevron-down'} size={20} color={color} />
             </View>

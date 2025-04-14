@@ -1,14 +1,13 @@
-import { View, StyleSheet, SafeAreaView, ScrollView, Text } from 'react-native';
+import { View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useLocalSearchParams, Stack } from 'expo-router';
 
-import { wasteItemList } from '@/data/waste-items';
-import { wasteDisposalSiteNameMap } from '@/data/waste-categories';
+import { wasteDisposalSiteMap } from '@/data/disposal-sites';
 import { wasteCategoryMap } from '@/data/waste-categories';
 import WasteItem from '@/components/search/WasteItem';
 import { useEffect, useState } from 'react';
 import { useDatabase } from '@/hooks/useDatabase';
-import { SQLiteProvider, useSQLiteContext } from 'expo-sqlite';
+import { SQLiteProvider } from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
 import InfoButton from '@/components/search/InfoButton';
 
@@ -44,7 +43,7 @@ const DbItems = ({ category_id }: { category_id: string }) => {
 			categoryId: item.disposal_method,
 			name: item.name,
 			icon: 'book',
-			wasteDisposalSiteName: wasteDisposalSiteNameMap[item.disposal_method],
+			wasteDisposalSiteName: wasteDisposalSiteMap[item.disposal_method].name,
 			info: item.instructions,
 			source: item.source
 		}

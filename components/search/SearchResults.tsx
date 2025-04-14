@@ -1,10 +1,9 @@
 import { View, Text } from "react-native";
-import { wasteItemList } from "@/data/waste-items";
 import WasteItem from "./WasteItem";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect, useState } from "react";
 import { useDatabase } from "@/hooks/useDatabase";
-import { wasteDisposalSiteNameMap } from "@/data/waste-categories";
+import { wasteDisposalSiteMap } from "@/data/disposal-sites";
 
 type Props = {
     searchInput: string;
@@ -37,7 +36,7 @@ const ResultList = ({ keyword, color }: { keyword: string, color: string }) => {
             categoryId: item.disposal_method,
             name: item.name,
             icon: 'book',
-            wasteDisposalSiteName: wasteDisposalSiteNameMap[item.disposal_method],
+            wasteDisposalSiteName: wasteDisposalSiteMap[item.disposal_method].name,
             info: item.instructions,
             source: item.source
         }
