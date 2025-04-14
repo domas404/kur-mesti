@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, Stack } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { ToastAndroid } from "react-native";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ScheduleItem } from "@/types/schedule";
@@ -47,6 +48,7 @@ export default function Schedule() {
         newScheduleList.splice(index, 1);
         await AsyncStorage.setItem('schedule', JSON.stringify(newScheduleList));
         setScheduleList(newScheduleList);
+        ToastAndroid.show('Grafikas ištrintas', ToastAndroid.SHORT);
     }
     
     const editSchedule = (id: string) => {

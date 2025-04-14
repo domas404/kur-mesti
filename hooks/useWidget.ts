@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "expo-router";
 import { useState, useCallback } from "react";
+import { ToastAndroid } from "react-native";
 
 export function useWidget() {
     
@@ -9,6 +10,7 @@ export function useWidget() {
     const updateWidgetVisibility = useCallback(async (visibility: boolean) => {
         setWidgetVisibility(visibility);
         await AsyncStorage.setItem('scheduleWidgetVisibility', JSON.stringify(visibility));
+        ToastAndroid.show(visibility ? 'Grafikas rodomas' : 'Grafikas paslėptas', ToastAndroid.SHORT);
     }, []);
 
     useFocusEffect(

@@ -133,7 +133,7 @@ export function useSchedule(id: string) {
             const newScheduleList = [schedule];
             await AsyncStorage.setItem('schedule', JSON.stringify(newScheduleList));
         }
-        ToastAndroid.show('Schedule created', ToastAndroid.SHORT);
+        ToastAndroid.show('Grafikas išsaugotas', ToastAndroid.SHORT);
         router.replace('../');
     }
 
