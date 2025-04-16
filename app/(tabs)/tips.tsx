@@ -15,7 +15,7 @@ const wasteSiteList = [
 
 export default function Tips() {
 
-	const [wasteSite, setWasteSite] = useState<string>('plastic');
+	const [wasteSite, setWasteSite] = useState<string>('paper');
 
 	const changeWasteSite = (item: string) => {
 		setWasteSite(item);

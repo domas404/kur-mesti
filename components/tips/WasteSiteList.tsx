@@ -39,5 +39,6 @@ export default function WasteSiteList({ selectedWasteSite, changeWasteSite, wast
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+        paddingHorizontal: 6,
     }
 });

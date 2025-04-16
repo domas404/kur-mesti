@@ -34,7 +34,7 @@ export const tipList: TipList = {
         'tips': [
             'Butelius užsukite',
             'Pašalinkite maisto likučius bei išpilkite skysčius',
-            'Pakuočių plauti nereikia, svarbu, kad juose nebūtų maisto likučių',
+            'Pakuočių plauti nereikia, svarbu, kad jose nebūtų maisto likučių',
             'Plastikinės pakuotės dažnai pažymimos ženklais PET, HDPE, LDPE, PP',
             'Elektroninę įrangą galite priduoti surinkimo punktuose',
             'Dėl medicininių atliekų priėmimo galite pasiteirauti savo regiono stambiagabaričių atliekų aikštelėje'
@@ -100,7 +100,7 @@ export const tipList: TipList = {
             'Mėsa, žuvis, kaulai, pieno produktai, riebalai',
             'Stiklas, plastikas, sintetika',
             'Sergantys augalai, augalai apdoroti cheminėmis priemonėmis',
-            'Žurnalai, dažytas ar kitaips chemiškai apdorotas popierius ir kartonas'
+            'Žurnalai, dažytas ar kitaip chemiškai apdorotas popierius ir kartonas'
         ],
         'tips': [
             'Komposto dėžės dugne paklokite medžio skiedrų, smulkių šakelių ar durpių, tai užtikrina oro pateikimą į kompostą',
