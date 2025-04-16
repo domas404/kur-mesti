@@ -10,7 +10,7 @@ const settings = [
     // { title: 'Pranešti apie klaidą', icon: 'flag-outline', id: 'report' },
     { title: 'Informacijos šaltiniai', icon: 'book-outline', id: 'sources' },
     // { title: 'Paremti', icon: 'cafe-outline', id: 'donate' },
-    // { title: 'Apie programą', icon: 'information-circle-outline', id: 'about' }
+    { title: 'Apie programą', icon: 'information-circle-outline', id: 'about' }
 ]
 
 export default function Settings() {
