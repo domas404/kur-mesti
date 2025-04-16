@@ -107,6 +107,8 @@ export function useSchedule(id: string) {
                 } else {
                     setSchedule({ id: id, closestDate: undefined, repeat: undefined });
                 }
+            } else {
+                setSchedule({ id: id, closestDate: undefined, repeat: undefined });
             }
         }
         setScheduleData();
